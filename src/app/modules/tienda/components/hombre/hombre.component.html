@@ -1,0 +1,96 @@
+<div class="content column">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul
+        class="navbar-nav mr-auto"
+        *ngFor="let item of submenu"
+      >
+        <li class="nav-item active">
+          <a class="nav-link" href="#">{{ item.titulo }} <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <img
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBKl2k2yp_T9pSZA9wiTcISdj7YRkTwW7kxDXUNMjXYlvWahQG"
+    alt="none"
+    style="
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 200px;
+      width: 100%;
+    "
+  >
+  <div class="row p">
+    <div class="col col-lg-2 column border  rounded">
+      <br>
+      <h6>Filtrar Catalago</h6>
+      <h6>Categoria</h6>
+      <div
+        class="column"
+        *ngFor="let item of submenu"
+      >
+        <div class="checkbox">
+          <label><input type="checkbox" value="">{{ item.titulo }}</label>
+        </div>
+      </div>
+      <h6>Color</h6>
+      <div
+        class="column"
+        *ngFor="let item of color"
+      >
+        <div class="checkbox">
+          <label><input type="checkbox" value="">{{ item.titulo }}</label>
+        </div>
+      </div>
+      <h6>Talla</h6>
+      <div
+        class="column"
+        *ngFor="let item of tallas"
+      >
+        <div class="checkbox">
+          <label><input type="checkbox" value="">{{ item.titulo }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="col border rounded">
+      <mat-grid-list
+        cols="4"
+        rowHeight="100px"
+        rowwidth="2:0.5"
+        gutterSize="5px"
+      >
+        <mat-grid-tile
+            *ngFor="let tile of articulos"
+            [colspan]="1.2"
+            [rowspan]="4"
+        >
+          <img
+            src="{{ tile.foto || 'https://ae01.alicdn.com/kf/HTB1x0bJPVXXXXbpXXXXq6xXFXXXo/2017-Nuevo-Oto-o-de-Los-Hombres-Camisas-Para-Hombre-de-Manga-Larga-Hit-Cuello-Camisa.jpg_640x640.jpg'}}"
+            style="
+              background-repeat: no-repeat;
+              background-size: cover;
+              height: 100%;
+              width: 100%;
+            "
+            alt="none"
+          >
+          <mat-grid-tile-footer
+            class="row"
+          >
+            <span class="col">
+              {{ tile.titulo }}
+            </span>
+            <span class="col">
+              {{ tile.costo || '$2000'}}
+            </span>
+          </mat-grid-tile-footer>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>

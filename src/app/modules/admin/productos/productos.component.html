@@ -1,0 +1,358 @@
+<div class="main-content">
+  <div class="container-fluid card">
+      <!-- <div class="row">
+        hello
+      </div> -->
+      <nav
+        class="navbar navbar-light bg-light row card-header card-header-danger"
+      >
+        <span
+          class="p"
+        >
+            Productos
+        </span>
+        <div>
+          <button
+            mat-mini-fab
+            placeholder="guardar"
+            *ngIf="disable && !data.id"
+            (click)="saved()"
+          >
+            <i class="material-icons">save</i>
+          </button>
+          <button
+            mat-mini-fab
+            (click)="add()"
+            placeholder="agregar"
+          >
+            <i
+              class="material-icons"
+              *ngIf="!disable"
+            >
+              add_circle_outline
+            </i>
+            <i
+              class="material-icons"
+              *ngIf="disable"
+            >
+              close
+            </i>
+          </button>
+        </div>
+      </nav>
+      <br>
+      <div
+        fxLayout="row"
+      >
+        <div
+          class="card-body"
+          *ngIf="!disable"
+        >
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class=" text-primary">
+                        <th>
+                            Foto
+                        </th>
+                        <th>
+                            Codigo
+                        </th>
+                        <th>
+                            Producto
+                        </th>
+                        <th>
+                            Tipo
+                        </th>
+                        <th>
+                            Costo de Compra
+                        </th>
+                        <th>
+                            Cantidad
+                        </th>
+                        <th>
+                            Megusta
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr
+                          *ngFor="let item of list"
+                          (click)="add(item)"
+                        >
+                            <td>
+                              <img
+                                class="md-avatar"
+                                height="40px"
+                                width="50px"
+                                src="{{ item.foto }}"
+                                alt="None"
+                              >
+                            </td>
+                            <td>
+                              {{ item.codigo }}
+                            </td>
+                            <td>
+                                {{ item.titulo }}
+                            </td>
+                            <td>
+                                {{ item.tipo}}
+                            </td>
+                            <td class="text-primary">
+                                {{ item.costocompra}}
+                            </td>
+                            <td class="text-primary">
+                                {{ item.cantidad}}
+                            </td>
+                            <td class="text-primary">
+                                {{ item.megusta }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div
+          *ngIf="disable"
+          class="column"
+        >
+          <div
+            class="column"
+          >
+            <div class="container" *ngIf="data.id">
+              <div class="row">
+                <div class="col align-self-start">
+
+                </div>
+                <div class="col align-self-center">
+                  <p>
+                    <img
+                        [src]="data.foto"
+                        alt="none"
+                        width="100px"
+                        height="120px"
+                    >
+                 </p>
+                    <div
+                      class="image-upload"
+                      style="overflow: hidden;"
+                    >
+                        <input
+                          type="file"
+                          [(ngModel)]="img"
+                          (blur)="datafiles($event)"
+                          accept="image/x-png,image/jpeg"
+                        />
+                        <button
+                          (click)="file()"
+                          mat-mini-fab color="primary"
+                        >
+                          <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col align-self-end">
+                </div>
+              </div>
+            </div>
+            <div
+              class="row"
+            >
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Codigo"
+                  [(ngModel)]="data.codigo"
+                  (blur)="edit('codigo')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Producto"
+                  [(ngModel)]="data.titulo"
+                  (blur)="edit('titulo')"
+                >
+              </mat-form-field>
+            </div>
+            <div
+              class="row"
+            >
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="tipo"
+                  [(ngModel)]="data.tipo"
+                  (blur)="edit('tipo')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Cantidad de Producto"
+                  [(ngModel)]="data.cantidad"
+                  (blur)="edit('cantidad')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Cantidad Stock"
+                  [(ngModel)]="data.cantidadstock"
+                  (blur)="edit('cantidadstock')"
+                >
+              </mat-form-field>
+            </div>
+            <div
+              class="row"
+            >
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Estado"
+                  [(ngModel)]="data.estado"
+                  (blur)="edit('estado')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Costo de Compra"
+                  [(ngModel)]="data.costocompra"
+                  (blur)="edit('costocompra')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Costo de Venta"
+                  [(ngModel)]="data.costoventa"
+                  (blur)="edit('costoventa')"
+                >
+              </mat-form-field>
+            </div>
+            <div
+              class="row"
+            >
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Talla"
+                  [(ngModel)]="data.talla"
+                  (blur)="edit('talla')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Color"
+                  [(ngModel)]="data.color"
+                  (blur)="edit('color')"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Fecha de Vencimiento"
+                  [(ngModel)]="data.fechavencimiento"
+                  (blur)="edit('fechavencimiento')"
+                >
+              </mat-form-field>
+            </div>
+            <div
+              class="row"
+            >
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Megustas"
+                  disabled
+                  [(ngModel)]="data.megustas"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="No Megustas"
+                  disabled
+                  [(ngModel)]="data.nomegusta"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Vistos"
+                  disabled
+                  [(ngModel)]="data.vistos"
+                >
+              </mat-form-field>
+              <mat-form-field
+                class="col"
+              >
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Compartidos"
+                  disabled
+                  [(ngModel)]="data.compartidos"
+                >
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field
+                class="col"
+              >
+                <textarea
+                  matInput
+                  placeholder="Descripcion"
+                  [(ngModel)]="data.descripcion"
+                  (blur)="edit('descripcion')"
+                >
+                </textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
