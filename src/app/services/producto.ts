@@ -12,7 +12,7 @@ export class ProductoService {
     this.cuerpo = this._model;
   }
   get(query: any){
-    return this._model.get('articulo', query);
+    return this._model.query('articulo', query);
   }
   saved (query: any){
     return this._model.create('articulo', query);

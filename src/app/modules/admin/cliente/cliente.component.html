@@ -3,275 +3,170 @@
       <div class="row">
           <div class="col-md-12">
               <div class="card">
-                  <div class="card-header card-header-danger">
-                      <h4 class="card-title ">Simple Table</h4>
-                      <p class="card-category"> Here is a subtitle for this table</p>
+                  <div class="card-header card-header-danger row">
+                      <div class="col">
+                        <h4 class="card-title ">Clientes</h4>
+                        <p class="card-category" *ngIf="!disable"> Listado de Clientes</p>
+                        <p class="card-category" *ngIf="disable"> Agregar Cliente</p>
+                      </div>
+                      <div class="">
+                        <button
+                          mat-mini-fab
+                          placeholder="guardar"
+                          *ngIf="disable && !data.id"
+                          (click)="saved()"
+                        >
+                          <i class="material-icons">save</i>
+                        </button>
+                        <button
+                          mat-mini-fab
+                          (click)="ope()"
+                          placeholder="agregar"
+                        >
+                          <i
+                            class="material-icons"
+                            *ngIf="!disable"
+                          >
+                            add_circle_outline
+                          </i>
+                          <i
+                            class="material-icons"
+                            *ngIf="disable"
+                          >
+                            close
+                          </i>
+                        </button>
+                      </div>
                   </div>
-                  <div class="card-body">
+                  <div class="card-body" *ngIf="!disable">
                       <div class="table-responsive">
                           <table class="table">
                               <thead class=" text-primary">
                                   <th>
-                                      ID
+                                     Index
                                   </th>
                                   <th>
-                                      Name
+                                     Opciones
                                   </th>
                                   <th>
-                                      Country
+                                      Cliente
                                   </th>
                                   <th>
-                                      City
+                                      Email
                                   </th>
                                   <th>
-                                      Salary
+                                      Creado
                                   </th>
                               </thead>
                               <tbody>
-                                  <tr>
+                                  <tr
+                                    *ngFor="let item of list"
+                                  >
+                                    <td>
+                                      {{ item.id }}
+                                    </td>
                                       <td>
-                                          1
-                                      </td>
-                                      <td>
-                                          Dakota Rice
-                                      </td>
-                                      <td>
-                                          Niger
-                                      </td>
-                                      <td>
-                                          Oud-Turnhout
-                                      </td>
-                                      <td class="text-primary">
-                                          $36,738
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          2
+                                        <button
+                                          mat-mini-fab
+                                          (click)="ope(item)"
+                                          placeholder="Ver"
+                                        >
+                                          <i
+                                            class="material-icons"
+                                          >
+                                            remove_red_eye
+                                          </i>
+                                        </button>
                                       </td>
                                       <td>
-                                          Minerva Hooper
+                                        {{ item.cliente }}
                                       </td>
                                       <td>
-                                          Curaçao
+                                        {{ item.email }}
                                       </td>
                                       <td>
-                                          Sinaai-Waas
-                                      </td>
-                                      <td class="text-primary">
-                                          $23,789
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          3
-                                      </td>
-                                      <td>
-                                          Sage Rodriguez
-                                      </td>
-                                      <td>
-                                          Netherlands
-                                      </td>
-                                      <td>
-                                          Baileux
-                                      </td>
-                                      <td class="text-primary">
-                                          $56,142
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          4
-                                      </td>
-                                      <td>
-                                          Philip Chaney
-                                      </td>
-                                      <td>
-                                          Korea, South
-                                      </td>
-                                      <td>
-                                          Overland Park
-                                      </td>
-                                      <td class="text-primary">
-                                          $38,735
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          5
-                                      </td>
-                                      <td>
-                                          Doris Greene
-                                      </td>
-                                      <td>
-                                          Malawi
-                                      </td>
-                                      <td>
-                                          Feldkirchen in Kärnten
-                                      </td>
-                                      <td class="text-primary">
-                                          $63,542
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          6
-                                      </td>
-                                      <td>
-                                          Mason Porter
-                                      </td>
-                                      <td>
-                                          Chile
-                                      </td>
-                                      <td>
-                                          Gloucester
-                                      </td>
-                                      <td class="text-primary">
-                                          $78,615
+                                        {{ item.createdAt}}
                                       </td>
                                   </tr>
                               </tbody>
                           </table>
                       </div>
                   </div>
-              </div>
-          </div>
-          <div class="col-md-12">
-              <div class="card card-plain">
-                  <div class="card-header card-header-danger">
-                      <h4 class="card-title mt-0"> Table on Plain Background</h4>
-                      <p class="card-category"> Here is a subtitle for this table</p>
-                  </div>
-                  <div class="card-body">
-                      <div class="table-responsive">
-                          <table class="table table-hover">
-                              <thead class="">
-                                  <th>
-                                      ID
-                                  </th>
-                                  <th>
-                                      Name
-                                  </th>
-                                  <th>
-                                      Country
-                                  </th>
-                                  <th>
-                                      City
-                                  </th>
-                                  <th>
-                                      Salary
-                                  </th>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>
-                                          1
-                                      </td>
-                                      <td>
-                                          Dakota Rice
-                                      </td>
-                                      <td>
-                                          Niger
-                                      </td>
-                                      <td>
-                                          Oud-Turnhout
-                                      </td>
-                                      <td>
-                                          $36,738
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          2
-                                      </td>
-                                      <td>
-                                          Minerva Hooper
-                                      </td>
-                                      <td>
-                                          Curaçao
-                                      </td>
-                                      <td>
-                                          Sinaai-Waas
-                                      </td>
-                                      <td>
-                                          $23,789
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          3
-                                      </td>
-                                      <td>
-                                          Sage Rodriguez
-                                      </td>
-                                      <td>
-                                          Netherlands
-                                      </td>
-                                      <td>
-                                          Baileux
-                                      </td>
-                                      <td>
-                                          $56,142
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          4
-                                      </td>
-                                      <td>
-                                          Philip Chaney
-                                      </td>
-                                      <td>
-                                          Korea, South
-                                      </td>
-                                      <td>
-                                          Overland Park
-                                      </td>
-                                      <td>
-                                          $38,735
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          5
-                                      </td>
-                                      <td>
-                                          Doris Greene
-                                      </td>
-                                      <td>
-                                          Malawi
-                                      </td>
-                                      <td>
-                                          Feldkirchen in Kärnten
-                                      </td>
-                                      <td>
-                                          $63,542
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          6
-                                      </td>
-                                      <td>
-                                          Mason Porter
-                                      </td>
-                                      <td>
-                                          Chile
-                                      </td>
-                                      <td>
-                                          Gloucester
-                                      </td>
-                                      <td>
-                                          $78,615
-                                      </td>
-                                  </tr>
-                              </tbody>
-                          </table>
+                  <div class="card-body" *ngIf="disable">
+                    <div class="form-column">
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Nombre del Cliente</label>
+                          <input type="text"
+                            (blur)="blur('name')"
+                            class="form-control" placeholder="Nombre" [(ngModel)]="data.name">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Apellido del Cliente</label>
+                          <input type="text"
+                            (blur)="blur('lastname')"
+                            class="form-control" placeholder="Apellido" [(ngModel)]="data.lastname">
+                        </div>
                       </div>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Nombre de Usuario/avatar</label>
+                          <input type="text"
+                            (blur)="blur('username')"
+                            class="form-control" placeholder="Nombre" [(ngModel)]="data.username">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Celular</label>
+                          <input type="text"
+                            (blur)="blur('celular')"
+                            class="form-control" placeholder="Celular" [(ngModel)]="data.celular">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Sexo</label>
+                          <select class="custom-select"  (blur)="blur('sexo')" [(ngModel)]="data.sexo">
+                            <option value="none">none</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="sinespecificar">Sin Especificar</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Tipo de Documento</label>
+                          <select class="custom-select"  (blur)="blur('tipdoc')" [(ngModel)]="data.tipdoc">
+                            <option value="none">none</option>
+                            <option value="cc">CC</option>
+                            <option value="ce">CE</option>
+                            <option value="doc">DOC</option>
+                            <option value="sinespecificar">Sin Especificar</option>
+                          </select>
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Documento</label>
+                          <input type="text"
+                            (blur)="blur('documento')"
+                            class="form-control" placeholder="clave" [(ngModel)]="data.documento">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Email</label>
+                          <input type="text"
+                            (blur)="blur('email')"
+                            class="form-control" placeholder="Email" [(ngModel)]="data.email">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Password</label>
+                          <input type="text"
+                            (blur)="blur('password')"
+                            class="form-control" placeholder="clave" [(ngModel)]="data.password">
+                        </div>
+                      </div>
+                    </div>
                   </div>
               </div>
           </div>
       </div>
   </div>
 </div>
-

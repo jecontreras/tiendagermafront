@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from './../../../services/producto';
 import { ToolsService } from './../../../services/tools.service';
+import { CategoriasService } from './../../../services/categorias';
+import { TallaService } from './../../../services/talla.service';
+import { ColoresService } from './../../../services/colores.service';
 import * as _ from 'lodash';
+import swal from 'sweetalert';
 import { GLOBAL } from './../../../services/global';
 
 @Component({
@@ -11,15 +15,22 @@ import { GLOBAL } from './../../../services/global';
 })
 export class ProductosComponent implements OnInit {
 
-  disable:any = false;
+  public disable:boolean = false;
   data:any = {};
   img: any = {};
-  list:any = {};
+  list:any = [];
   datafile: any = {};
   public global  =  GLOBAL;
+  public listcategoria: any = [];
+  public listmarca: any = [];
+  public listcolor: any = [];
+  public listtalla: any = [];
   cuerpo: any = {};
   constructor(
     private _producto: ProductoService,
+    private _categoria: CategoriasService,
+    private _talla: TallaService,
+    private _color: ColoresService,
     private _tools: ToolsService
   ) {
     this.cuerpo = _producto;
@@ -27,37 +38,135 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit() {
     const
-      data:any = {}
+      data:any = {
+        where:{
+          // empresa:
+        }
+      }
     ;
     this._producto.get(data)
     .subscribe(
-      (res) =>{
-        console.log(res);
-        this.list = res;
+      (res: any) =>{
+        // console.log(res.data);
+        this.list = _.unionBy(this.list || [], res.data, 'id');
       }
     )
   }
   add(opt){
+    // console.log(opt);
       this.disable = !this.disable;
       if(opt){
         this.data = opt;
       }else{
-        this.data = {};
+        this.data = {
+          codigo: this.codigo(),
+          empresa: 1
+        }
+        ;
       }
+      this.categorias();
+  }
+  codigo() {
+    return (Date.now().toString(36).substr(2, 3) + Math.random().toString(36).substr(2, 2)).toUpperCase();
+  }
+  categorias(){
+    return this._categoria.get({
+      where:{
+        categoriaDe: ['etiqueta', 'articulo'],
+        // empresa:
+      },
+      limit: -1
+     })
+     .subscribe(
+       (res: any)=>{
+         // console.log(res);
+         this.listcategoria = res.data;
+         this.marcas();
+       }
+     )
+     ;
+  }
+  marcas(){
+    return this._categoria.get({
+      where:{
+        categoriaDe: 'marca'
+        // empresa:
+      },
+      limit: -1
+     })
+     .subscribe(
+       (res: any)=>{
+         // console.log(res);
+         this.listmarca = res.data;
+         this.talla();
+       }
+     )
+     ;
+  }
+  talla(){
+    // console.log(this._talla);
+    return this._talla.get({
+      where:{
+        // categoriaDe: 'marca'
+        empresa: 1
+      },
+      limit: -1
+     })
+     .subscribe(
+       (res: any)=>{
+         // console.log(res);
+         this.listtalla = res.data;
+         this.color();
+       }
+     )
+     ;
+  }
+  color(){
+    // console.log(this._color);
+    return this._color.get({
+      where:{
+        // categoriaDe: 'marca'
+        empresa: 1
+      },
+      limit: -1
+     })
+     .subscribe(
+       (res: any)=>{
+         // console.log(res);
+         this.listcolor = res.data;
+       }
+     )
+     ;
   }
   saved(){
     const
       data: any = this.data
     ;
-    this._producto.saved(data)
-    .subscribe(
-      (res: any) => {
-        // console.log(res);
-      }
-    )
-    ;
+    if(data.titulo){
+      data.slug = _.kebabCase(data.titulo)
+      this._producto.saved(data)
+      .subscribe(
+        (res: any) => {
+          // console.log(res);
+          if(res){
+            this.data = {
+              codigo: this.codigo(),
+              empresa: 1
+            };
+            data.id = res.id;
+            this.list.push(data);
+            this.disable = false;
+            swal("Completado!", "Agregado Correctamente!", "success");
+          }else{
+            swal("Fallo!", "Error al Agregar!", "error");
+          }
+        }
+      )
+      ;
+    }
   }
-  edit(obj){
+  blur(obj){
+    // console.log(this.data);
     if(this.data.id){
       var
         data: any = {
@@ -65,11 +174,15 @@ export class ProductosComponent implements OnInit {
         }
       ;
       data[obj]=this.data[obj];
+      // console.log(data);
       this._producto.edit(data)
       .subscribe(
         (res: any)=> {
           // console.log(res);
-          this._tools.openSnack('Actualizado '+obj, '', false);
+          if(res){
+            this.list.push(res);
+            this._tools.openSnack('Actualizado '+obj, '', false);
+          }
         }
       );
     }
@@ -96,7 +209,7 @@ export class ProductosComponent implements OnInit {
               // deletefile(cuerpo, _perfil);
               this.data.foto = GLOBAL.url + 'images' + urllogo[1];
               // console.log(cuerpo.data.foto);
-              this.edit('foto');
+              this.blur('foto');
               this.deletefile();
             }
         },

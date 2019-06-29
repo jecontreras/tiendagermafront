@@ -5,6 +5,7 @@ import { GLOBAL } from './global';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { handleError } from './errores';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -23,57 +24,57 @@ export class FactoryModelService {
       this.global = GLOBAL;
       this.handleError = handleError;
   }
-  loadUser() {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user);
-    if (this.user) {
-      this.query('usernivel', {user: this.user.id})
-      .subscribe(
-        (response: any) => {
-          if (response.data.length) {
-            console.log('tiene nivel asignado');
-            console.log(response.data[0]);
-            this.user.titleNivel = response.data[0].nivel.title;
-            this.user.nivel = response.data[0];
-          } else {
-            this.cargarNiveles();
-          }
-        },
-        (error: any) => {
-          return false;
-        }
-       );
-    }
-  }
-  private cargarNiveles(): any {
-    this.get('nivel', {})
-    .subscribe(
-      (response: any) => {
-        console.log('niveles');
-        console.log(response);
-        this.niveles = response;
-        this.asignarNivel();
-      },
-      (error: any) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
-  private asignarNivel(): any {
-    this.create('usernivel', {user: this.user.id, nivel: this.niveles[0].id}).subscribe(
-      (response: any) => {
-        console.log('nivel asignado ');
-        console.log(response);
-        this.user.titleNivel = this.niveles[0].title;
-        return this.user.nivel = response;
-      },
-      (error: any) => {
-        console.log(error);
-        return false;
-      }
-    );
-  }
+  // loadUser() {
+  //   this.user = JSON.parse(localStorage.getItem('user'));
+  //   console.log(this.user);
+  //   if (this.user) {
+  //     this.query('usernivel', {user: this.user.id})
+  //     .subscribe(
+  //       (response: any) => {
+  //         if (response.data.length) {
+  //           console.log('tiene nivel asignado');
+  //           console.log(response.data[0]);
+  //           this.user.titleNivel = response.data[0].nivel.title;
+  //           this.user.nivel = response.data[0];
+  //         } else {
+  //           this.cargarNiveles();
+  //         }
+  //       },
+  //       (error: any) => {
+  //         return false;
+  //       }
+  //      );
+  //   }
+  // }
+  // private cargarNiveles(): any {
+  //   this.get('nivel', {})
+  //   .subscribe(
+  //     (response: any) => {
+  //       console.log('niveles');
+  //       console.log(response);
+  //       this.niveles = response;
+  //       this.asignarNivel();
+  //     },
+  //     (error: any) => {
+  //       console.log(error);
+  //       return false;
+  //     }
+  //   );
+  // }
+  // private asignarNivel(): any {
+  //   this.create('usernivel', {user: this.user.id, nivel: this.niveles[0].id}).subscribe(
+  //     (response: any) => {
+  //       console.log('nivel asignado ');
+  //       console.log(response);
+  //       this.user.titleNivel = this.niveles[0].title;
+  //       return this.user.nivel = response;
+  //     },
+  //     (error: any) => {
+  //       console.log(error);
+  //       return false;
+  //     }
+  //   );
+  // }
 
   create(modelo: string, query: any): Observable<Config> {
     return this._http.post<Config>(this.url + modelo, query).pipe(
@@ -110,20 +111,26 @@ export class FactoryModelService {
     }
   }
   query(modelo: string, query: any) {
-    if (query) {
-      const options = {
-        params: query
-      };
-      return this._http.post(this.url + modelo + '/query', options).pipe(
-        // retry(3),
-        catchError(this.handleError)
-      );
-    } else {
-      return this._http.get(this.url + modelo).pipe(
-        // retry(3),
-        catchError(this.handleError)
-      );
+    if (!query) {
+      query = {};
     }
+    if (!query.where) {
+      query = {
+        where: query
+      }
+        ;
+    }
+    const ruta = _.split(modelo, '/', 2);
+    if (ruta[1]) {
+      modelo = modelo;
+    } else {
+      modelo = modelo + '/query';
+    }
+
+    // query.app = this.adsSecuryty();
+    return this._http.post(this.url + modelo, query).pipe(
+      catchError(this.handleError)
+    );
   }
   getFechaServidor() {
     return this._http.get(this.url + 'user/fecha').pipe(

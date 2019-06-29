@@ -15,9 +15,14 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/admin/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
     // { path: '/admin/maps', title: 'Maps',  icon:'location_on', class: '' },
     // { path: '/admin/notifications', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/admin/clientes', title: 'Clientes',  icon:'person', class: '' },
-    { path: '/admin/productos', title: 'Productos',  icon:'business_center', class: '' },
-    { path: '/admin/factura', title: 'Factura',  icon:'business_center', class: '' },
+    { path: '/admin/clientes', title: 'Clientes',  icon:'group', class: '' },
+    { path: '/admin/productos', title: 'Productos',  icon:'local_mall', class: '' },
+    { path: '/admin/categorias', title: 'Categorias',  icon:'style', class: '' },
+    { path: '/admin/marcas', title: 'Marcas',  icon:'class', class: '' },
+    { path: '/admin/color', title: 'Color',  icon:'invert_colors', class: '' },
+    { path: '/admin/tallas', title: 'Tallas',  icon:'pregnant_woman', class: '' },
+    { path: '/admin/factura', title: 'Factura',  icon:'local_grocery_store', class: '' },
+    { path: '/admin/empresa', title: 'Empresa',  icon:'store', class: '' },
     // { path: '/admin/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
 ];
 

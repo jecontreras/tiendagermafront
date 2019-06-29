@@ -1,8 +1,5 @@
 <div class="main-content">
   <div class="container-fluid card">
-      <!-- <div class="row">
-        hello
-      </div> -->
       <nav
         class="navbar navbar-light bg-light row card-header card-header-danger"
       >
@@ -51,6 +48,9 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead class=" text-primary">
+                      <th>
+                        Opciones
+                      </th>
                         <th>
                             Foto
                         </th>
@@ -76,8 +76,20 @@
                     <tbody>
                         <tr
                           *ngFor="let item of list"
-                          (click)="add(item)"
                         >
+                        <td>
+                          <button
+                            mat-mini-fab
+                            (click)="add(item)"
+                            placeholder="Ver"
+                          >
+                            <i
+                              class="material-icons"
+                            >
+                              remove_red_eye
+                            </i>
+                          </button>
+                        </td>
                             <td>
                               <img
                                 class="md-avatar"
@@ -94,7 +106,7 @@
                                 {{ item.titulo }}
                             </td>
                             <td>
-                                {{ item.tipo}}
+                                {{ item.tipo }}
                             </td>
                             <td class="text-primary">
                                 {{ item.costocompra}}
@@ -110,13 +122,8 @@
                 </table>
             </div>
         </div>
-        <div
-          *ngIf="disable"
-          class="column"
-        >
-          <div
-            class="column"
-          >
+        <div class="card-body" *ngIf="disable">
+          <div class="form-column">
             <div class="container" *ngIf="data.id">
               <div class="row">
                 <div class="col align-self-start">
@@ -131,7 +138,7 @@
                         height="120px"
                     >
                  </p>
-                    <div
+                    <!-- <div
                       class="image-upload"
                       style="overflow: hidden;"
                     >
@@ -147,17 +154,145 @@
                         >
                           <i class="fas fa-cloud-upload-alt fa-1x"></i>
                         </button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col align-self-end">
                 </div>
               </div>
             </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="formGroupExampleInput">Codigo del Producto</label>
+                <input type="text"
+                  (blur)="blur('codigo')"
+                  class="form-control" placeholder="Codigo del Producto" [(ngModel)]="data.codigo">
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Nombre del Producto</label>
+                <input type="text"
+                  (blur)="blur('titulo')"
+                  class="form-control" placeholder="Nombre" [(ngModel)]="data.titulo">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Categoria</label>
+                <select class="custom-select"  (blur)="blur('categorias')" [(ngModel)]="data.categorias">
+                  <option value="none">none</option>
+                  <option
+                    value="{{item.id}}"
+                    *ngFor="let item of listcategoria"
+                  >
+                    {{ item.categoria }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Marca</label>
+                <select class="custom-select"  (blur)="blur('marca')" [(ngModel)]="data.marca">
+                  <option value="none">none</option>
+                  <option
+                    value="{{item.id}}"
+                    *ngFor="let item of listmarca"
+                  >
+                    {{ item.categoria }}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Cantidad</label>
+                <input type="number"
+                  (blur)="blur('cantidad')"
+                  class="form-control" placeholder="Cantidad de Producto" [(ngModel)]="data.cantidad">
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Stock</label>
+                <input type="text"
+                  (blur)="blur('stock')"
+                  class="form-control" placeholder="Stock de Producto" [(ngModel)]="data.stock">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Estado del Producto</label>
+                <select class="custom-select"  (blur)="blur('estado')" [(ngModel)]="data.estado">
+                  <option value="none">none</option>
+                  <option value="nuevo">Nuevo</option>
+                  <option value="usado">Usado</option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Opcion</label>
+                <select class="custom-select"  (blur)="blur('opcion')" [(ngModel)]="data.opcion">
+                  <option value="none">none</option>
+                  <option value="activo">Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Costo de la Compra</label>
+                <input type="number"
+                  (blur)="blur('costocompra')"
+                  class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="data.costocompra">
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Costo de la Venta</label>
+                <input type="number"
+                  (blur)="blur('costoventa')"
+                  class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costoventa">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Talla del Producto</label>
+                <select class="custom-select"  (blur)="blur('talla')" [(ngModel)]="data.talla">
+                  <option value="none">none</option>
+                    <option
+                      value="{{item.id}}"
+                      *ngFor="let item of listtalla"
+                    >
+                      {{ item.talla }}
+                    </option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Color del Producto</label>
+                <select class="custom-select"  (blur)="blur('color')" [(ngModel)]="data.color">
+                  <option value="none">none</option>
+                    <option
+                      value="{{item.id}}"
+                      *ngFor="let item of listcolor"
+                    >
+                      {{ item.color }}
+                    </option>
+                </select>
+              </div>
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Fecha de Vencimiento</label>
+                <input type="date"  placeholder="Fecha de Vencimiento" [(ngModel)]="data.fechavencimiento"
+                (blur)="edit('fechavencimiento')">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Descripcin</label>
+                <textarea class="form-control" (blur)="blur('descripcion')" rows="3" [(ngModel)]="data.descripcion"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div
+          *ngIf="disable"
+          class="column"
+        >
+          <div
+            class="column"
+          >
             <div
               class="row"
             >
               <mat-form-field
-                class="col"
+                class=""
               >
                 <input
                   matInput
@@ -173,12 +308,13 @@
                 <input
                   matInput
                   type="text"
-                  placeholder="Producto"
+                  placeholder="Nombre del Producto"
                   [(ngModel)]="data.titulo"
                   (blur)="edit('titulo')"
                 >
               </mat-form-field>
             </div>
+
             <div
               class="row"
             >
@@ -352,7 +488,7 @@
               </mat-form-field>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
   </div>
 </div>

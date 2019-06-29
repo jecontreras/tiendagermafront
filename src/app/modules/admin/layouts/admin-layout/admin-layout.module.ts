@@ -14,6 +14,11 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { ClienteComponent } from '../../cliente/cliente.component';
 import { ProductosComponent } from '../../productos/productos.component';
 import { FacturaComponent } from '../../factura/factura.component';
+import { CategoriasComponent } from '../../categorias/categorias.component';
+import { MarcasComponent } from '../../marcas/marcas.component';
+import { ColorComponent } from '../../color/color.component';
+import { TallasComponent } from '../../tallas/tallas.component';
+import { EmpresaComponent } from '../../empresa/empresa.component';
 
 import {
   MatButtonModule,
@@ -46,7 +51,12 @@ import {
     UpgradeComponent,
     ClienteComponent,
     ProductosComponent,
-    FacturaComponent
+    FacturaComponent,
+    CategoriasComponent,
+    MarcasComponent,
+    ColorComponent,
+    TallasComponent,
+    EmpresaComponent
   ]
 })
 

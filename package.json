@@ -59,6 +59,7 @@
     "reflect-metadata": "~0.1.8",
     "rxjs": "6.3.3",
     "rxjs-compat": "6.3.3",
+    "sweetalert": "^2.1.2",
     "tns-core-modules": "~5.1.1",
     "tslib": "^1.9.0",
     "web-animations-js": "2.3.1",

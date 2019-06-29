@@ -1,0 +1,151 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger row">
+                      <div class="col">
+                        <h4 class="card-title ">Empresa</h4>
+                        <p class="card-category" *ngIf="!disable"> Listado de Empresa</p>
+                        <p class="card-category" *ngIf="disable"> Agregar Empresa</p>
+                      </div>
+                      <div class="">
+                        <button
+                          mat-mini-fab
+                          placeholder="guardar"
+                          *ngIf="disable && !data.id"
+                          (click)="saved()"
+                        >
+                          <i class="material-icons">save</i>
+                        </button>
+                        <button
+                          mat-mini-fab
+                          (click)="add()"
+                          placeholder="agregar"
+                        >
+                          <i
+                            class="material-icons"
+                            *ngIf="!disable"
+                          >
+                            add_circle_outline
+                          </i>
+                          <i
+                            class="material-icons"
+                            *ngIf="disable"
+                          >
+                            close
+                          </i>
+                        </button>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="!disable">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                  <th>
+                                     Opciones
+                                  </th>
+                                  <th>
+                                      Codigo
+                                  </th>
+                                  <th>
+                                      Empresa
+                                  </th>
+                                  <th>
+                                      Url
+                                  </th>
+                                  <th>
+                                      Ofrece
+                                  </th>
+                                  <th>
+                                      Estado
+                                  </th>
+                                  <th>
+                                      Creado
+                                  </th>
+                              </thead>
+                              <tbody>
+                                  <tr
+                                    *ngFor="let item of list"
+                                  >
+                                      <td>
+                                        <button
+                                          mat-mini-fab
+                                          (click)="add(item)"
+                                          placeholder="Ver"
+                                        >
+                                          <i
+                                            class="material-icons"
+                                          >
+                                            remove_red_eye
+                                          </i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        {{ item.codigo }}
+                                      </td>
+                                      <td>
+                                        {{ item.empresa }}
+                                      </td>
+                                      <td>
+                                        {{ item.url }}
+                                      </td>
+                                      <td>
+                                        {{ item.ofrece }}
+                                      </td>
+                                      <td>
+                                        {{ item.estado }}
+                                      </td>
+                                      <td>
+                                        {{ item.createdAt}}
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="disable">
+                    <div class="form-column">
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">Codigo</label>
+                          <input type="text"
+                            (blur)="blur('codigo')"
+                            class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="data.codigo">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Empresa</label>
+                          <input type="text"
+                            (blur)="blur('empresa')"
+                            class="form-control" placeholder="Nombre de la Empresa" [(ngModel)]="data.empresa">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Ofrece</label>
+                          <select class="custom-select"  (blur)="blur('ofrece')" [(ngModel)]="data.ofrece">
+                            <option value="servicio">Servicio</option>
+                            <option value="producto">Producto</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Url de La Empresa</label>
+                          <input type="text"
+                            (blur)="blur('url')"
+                            class="form-control" placeholder="Url de la Empresa o Dominio de la empresa" [(ngModel)]="data.url">
+                        </div>
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Estado</label>
+                          <select class="custom-select"  (blur)="blur('estado')" [(ngModel)]="data.estado">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
