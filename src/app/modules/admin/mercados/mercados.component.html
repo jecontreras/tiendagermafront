@@ -1,0 +1,99 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger row">
+                      <div class="col">
+                        <h4 class="card-title ">Mercados</h4>
+                        <p class="card-category" *ngIf="!disable"> Mercados de Colores</p>
+                        <p class="card-category" *ngIf="disable"> Agregar Mercados</p>
+                      </div>
+                      <div class="">
+                        <button
+                          mat-mini-fab
+                          placeholder="guardar"
+                          *ngIf="disable && !data.id"
+                          (click)="saved()"
+                        >
+                          <i class="material-icons">save</i>
+                        </button>
+                        <button
+                          mat-mini-fab
+                          (click)="add()"
+                          placeholder="agregar"
+                        >
+                          <i
+                            class="material-icons"
+                            *ngIf="!disable"
+                          >
+                            add_circle_outline
+                          </i>
+                          <i
+                            class="material-icons"
+                            *ngIf="disable"
+                          >
+                            close
+                          </i>
+                        </button>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="!disable">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                  <th>
+                                     Opciones
+                                  </th>
+                                  <th>
+                                      Mercados
+                                  </th>
+                                  <th>
+                                      Creado
+                                  </th>
+                              </thead>
+                              <tbody>
+                                  <tr
+                                    *ngFor="let item of list"
+                                  >
+                                      <td>
+                                        <button
+                                          mat-mini-fab
+                                          (click)="add(item)"
+                                          placeholder="Ver"
+                                        >
+                                          <i
+                                            class="material-icons"
+                                          >
+                                            remove_red_eye
+                                          </i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        {{ item.titulo }}
+                                      </td>
+                                      <td>
+                                        {{ item.createdAt}}
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <div class="card-body" *ngIf="disable">
+                    <div class="form-column">
+                      <div class="form-row">
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Mercado</label>
+                          <input type="text"
+                            (blur)="blur('titulo')"
+                            class="form-control" placeholder="Nombre del mercado" [(ngModel)]="data.titulo">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

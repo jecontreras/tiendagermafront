@@ -16,6 +16,7 @@ import { ShopComponent } from './components/shop/shop.component';
 import { SingleblogComponent } from './components/singleblog/singleblog.component';
 import { SingleproductdetailsComponent } from './components/singleproductdetails/singleproductdetails.component';
 import { TiendasComponent } from './components/tiendas/tiendas.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { TiendasComponent } from './components/tiendas/tiendas.component';
   imports: [
     CommonModule,
     MainRoutingModule,
+    FormsModule,
     MyOwnCustomMaterialModule
   ]
 })

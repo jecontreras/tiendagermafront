@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TiendasService } from './../../../services/tiendas.service';
+import { MercadoService } from './../../../services/mercados.service';
+import { UsuariosService } from './../../../services/usuarios.service';
 import { ToolsService } from './../../../services/tools.service';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
@@ -17,8 +19,13 @@ export class EmpresaComponent implements OnInit {
   public data: any = {};
   public list: any = [];
   public clone: any = [];
+  public listmercados: any = [];
+  public user: any = {};
+
   constructor(
     private _tiendas: TiendasService,
+    private _mercados: MercadoService,
+    private _user: UsuariosService,
     private _tools: ToolsService
   ) { }
 
@@ -45,6 +52,7 @@ export class EmpresaComponent implements OnInit {
     if(data){
       this.clone = _.clone(data);
       this.data = data;
+      this.getmercados();
     }else{
       this.clone = {};
       this.data = {
@@ -54,6 +62,62 @@ export class EmpresaComponent implements OnInit {
   }
   codigo() {
     return (Date.now().toString(36).substr(2, 3) + Math.random().toString(36).substr(2, 2)).toUpperCase();
+  }
+  getmercados(){
+    return this._mercados.get({
+      where:{},
+      limit: -1
+    })
+    .subscribe(
+      (res: any)=>{
+        // console.log(res);
+        res = res.data;
+        const
+          _mercados: any = this._mercados,
+          data: any = this.data
+        ;
+        _.forEach(res, function(item){
+          return _mercados.getMercado({
+            empresa: data.id,
+            mercados: item.id
+          })
+          .subscribe(
+            (rta: any)=>{
+              // console.log(rta);
+              rta = rta.data[0];
+              if(rta){
+                item.check = true;
+              }
+            }
+          )
+          ;
+        })
+        ;
+        // console.log(res);
+        this.listmercados = res;
+      }
+    )
+    ;
+  }
+  savedmercado(obj: any){
+    if(obj && !obj.check){
+      return this._mercados.savedMercado({
+        empresa: this.data.id,
+        mercados: obj.id
+      })
+      .subscribe(
+        (res: any)=>{
+          // console.log(res);
+          if(res){
+            obj.check = true;
+            this._tools.openSnack('Agregado '+obj.titulo, '', false);
+          }
+        }
+      )
+      ;
+    }else{
+      this._tools.openSnack('Ya esta Agregado '+obj.titulo, '', false);
+    }
   }
   saved(){
     const
@@ -102,6 +166,24 @@ export class EmpresaComponent implements OnInit {
           )
           ;
         }
+    }
+  }
+
+  usersaved(){
+    var
+      user: any = this.user;
+    ;
+    if(user.email && user.username && user.password){
+      user.name = user.lastname;
+      user.empresa = user.empresa;
+
+      return this._user.saved(user)
+      .subscribe(
+        (res: any)=>{
+          // console.log(res);
+          this._tools.openSnack('Registrado '+res.username, 'Ok', false);
+        }
+      )
     }
   }
 

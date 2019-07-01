@@ -122,8 +122,9 @@
                         <div class="form-group col">
                           <label for="formGroupExampleInput">Ofrece</label>
                           <select class="custom-select"  (blur)="blur('ofrece')" [(ngModel)]="data.ofrece">
-                            <option value="servicio">Servicio</option>
                             <option value="producto">Producto</option>
+                            <option value="servicio">Servicio</option>
+                            <option value="productoservicio">Producto y Servicio</option>
                           </select>
                         </div>
                       </div>
@@ -140,6 +141,78 @@
                             <option value="activo">Activo</option>
                             <option value="inactivo">Inactivo</option>
                           </select>
+                        </div>
+                      </div>
+                      <div class="form-row" *ngIf="data.id">
+                        <div
+                          class="page-title text-center"
+                        >
+                            <h5>Tipos de Mercado</h5>
+                        </div>
+                        <div class="row">
+                          <div class="col-6 col-sm-4 col-lg-3" *ngFor="let pro of listmercados">
+                              <div class="single-product-wrapper">
+                                  <div class="product-img">
+                                      <img src="{{ pro.logo || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                                      <img class="hover-img" src="{{ pro.logo2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                                  </div>
+                                  <div class="product-description">
+                                      <a href="single-product-details.html">
+                                          <h6>{{ pro.titulo }}</h6>
+                                      </a>
+                                      <div class="hover-content" *ngIf="pro.check">
+                                          <div class="">
+                                              <a (click)="savedmercado(pro)" class="mouse">Seleccionado</a>
+                                          </div>
+                                      </div>
+                                      <div class="hover-content" *ngIf="!pro.check">
+                                          <div class="add-to-cart-btn">
+                                              <a (click)="savedmercado(pro)" class="mouse">Seleccionar</a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-column" *ngIf="data.id">
+                        <div
+                          class="page-title text-center"
+                        >
+                            <h5>Usuario principal</h5>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group">
+                            <label for="formGroupExampleInput">Username</label>
+                            <input type="text"
+                              (blur)="blur('username')"
+                              class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="user.username">
+                          </div>
+                          <div class="form-group col">
+                            <label for="formGroupExampleInput">Nombre</label>
+                            <input type="text"
+                              (blur)="blur('lastname')"
+                              class="form-control" placeholder="Nombre del Usuario" [(ngModel)]="user.lastname">
+                          </div>
+                          <div class="form-group col">
+                            <label for="formGroupExampleInput">Password</label>
+                            <input type="password"
+                              (blur)="blur('password')"
+                              class="form-control" placeholder="Password de Usuario" [(ngModel)]="user.password">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col">
+                            <label for="formGroupExampleInput">Email</label>
+                            <input type="email"
+                              (blur)="blur('email')"
+                              class="form-control" placeholder="Email del Usuario" [(ngModel)]="user.email">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="page-title text-center">
+                            <button type="button" (click)="usersaved()" class="btn btn-primary">Registrar</button>
+                          </div>
                         </div>
                       </div>
                     </div>

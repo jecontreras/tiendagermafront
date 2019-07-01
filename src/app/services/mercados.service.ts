@@ -4,7 +4,7 @@ import { FactoryModelService } from './factory-model.service'
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService {
+export class MercadoService {
   cuerpo: any = {};
   constructor(
     private _model: FactoryModelService
@@ -12,13 +12,19 @@ export class UsuariosService {
     this.cuerpo = this._model;
   }
   get(query: any){
-    return this._model.query('user', query);
+    return this._model.query('mercados', query);
+  }
+  getMercado(query: any){
+    return this._model.query('empresamercado', query);
+  }
+  savedMercado (query: any){
+    return this._model.create('empresamercado', query);
   }
   saved (query: any){
-    return this._model.create('user/register', query);
+    return this._model.create('mercados', query);
   }
   edit(query:any){
-    return this._model.update('user', query.id, query);
+    return this._model.update('mercados', query.id, query);
   }
   pushfile(obj: any) {
     console.log(this._model);

@@ -17,24 +17,34 @@ import { MarcasComponent } from '../../marcas/marcas.component';
 import { ColorComponent } from '../../color/color.component';
 import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
+import { MercadosComponent } from '../../mercados/mercados.component';
+import { AuthService } from './../../../../services/auth.service';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'table-list',     component: TableListComponent },
-    { path: 'typography',     component: TypographyComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent },
-    { path: 'clientes',        component: ClienteComponent},
-    { path: 'productos',        component: ProductosComponent},
-    { path: 'factura',        component: FacturaComponent},
-    { path: 'categorias',        component: CategoriasComponent},
-    { path: 'marcas',        component: MarcasComponent},
-    { path: 'tallas',        component: TallasComponent},
-    { path: 'empresa',        component: EmpresaComponent},
-    { path: 'color',        component: ColorComponent},
-    { path: '',  redirectTo: 'dashboard'},
-    { path: '**', component: DashboardComponent }
+  {
+    path: '',
+    // component: 'admin2',
+    canActivate: [AuthService],
+    children: [
+      { path: 'dashboard',      component: DashboardComponent },
+      { path: 'user-profile',   component: UserProfileComponent },
+      { path: 'table-list',     component: TableListComponent },
+      { path: 'typography',     component: TypographyComponent },
+      { path: 'icons',          component: IconsComponent },
+      { path: 'maps',           component: MapsComponent },
+      { path: 'notifications',  component: NotificationsComponent },
+      { path: 'upgrade',        component: UpgradeComponent },
+      { path: 'clientes',        component: ClienteComponent},
+      { path: 'productos',        component: ProductosComponent},
+      { path: 'factura',        component: FacturaComponent},
+      { path: 'categorias',        component: CategoriasComponent},
+      { path: 'marcas',        component: MarcasComponent},
+      { path: 'tallas',        component: TallasComponent},
+      { path: 'empresa',        component: EmpresaComponent},
+      { path: 'mercados',        component: MercadosComponent},
+      { path: 'color',        component: ColorComponent},
+      { path: '',  redirectTo: 'dashboard'},
+      { path: '**', component: DashboardComponent }
+    ]
+  }
 ];

@@ -23,6 +23,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/admin/tallas', title: 'Tallas',  icon:'pregnant_woman', class: '' },
     { path: '/admin/factura', title: 'Factura',  icon:'local_grocery_store', class: '' },
     { path: '/admin/empresa', title: 'Empresa',  icon:'store', class: '' },
+    { path: '/admin/mercados', title: 'Mercados',  icon:'pageview', class: '' },
     // { path: '/admin/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
 ];
 

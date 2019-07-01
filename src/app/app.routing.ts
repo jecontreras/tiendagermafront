@@ -4,6 +4,7 @@ import { BrowserModule  } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MainComponent } from './components/main/main.component';
+import { LoginComponent } from './components/login/login.component';
 
 import { AdminLayoutComponent } from './modules/admin/layouts/admin-layout/admin-layout.component';
 
@@ -24,12 +25,22 @@ const routes: Routes =[
     path: 'tienda',
     loadChildren: './modules/tienda/tienda.module#TiendaModule'
   },
-  { path: 'home', component: MainComponent },
+  {
+    path: 'home', component: MainComponent
+  },
+  {
+    path: 'login', component: LoginComponent
+  },
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  }
+  },
+  // {
+  //   path: '**',
+  //   redirectTo: 'tienda',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({

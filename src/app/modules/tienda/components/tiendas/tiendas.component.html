@@ -33,53 +33,23 @@
                           <ul id="menu-content2" class="menu-content collapse show">
                               <!-- Single Item -->
                               <li data-toggle="collapse" data-target="#clothing">
-                                  <a href="#">clothing</a>
-                                  <ul class="sub-menu collapse show" id="clothing">
-                                      <li><a href="#">All</a></li>
-                                      <li><a href="#">Bodysuits</a></li>
-                                      <li><a href="#">Dresses</a></li>
-                                      <li><a href="#">Hoodies &amp; Sweats</a></li>
-                                      <li><a href="#">Jackets &amp; Coats</a></li>
-                                      <li><a href="#">Jeans</a></li>
-                                      <li><a href="#">Pants &amp; Leggings</a></li>
-                                      <li><a href="#">Rompers &amp; Jumpsuits</a></li>
-                                      <li><a href="#">Shirts &amp; Blouses</a></li>
-                                      <li><a href="#">Shirts</a></li>
-                                      <li><a href="#">Sweaters &amp; Knits</a></li>
+                                  <a href="#">Tecnologia</a>
+                                  <ul class="sub-menu collapse show" id="clothing" *ngFor="let cat of listcategorias.tecnologia">
+                                      <li><a href="#">{{ cat.categoria }}</a></li>
                                   </ul>
                               </li>
                               <!-- Single Item -->
                               <li data-toggle="collapse" data-target="#shoes" class="collapsed">
-                                  <a class="mouse">shoes</a>
-                                  <ul class="sub-menu collapse" id="shoes">
-                                      <li><a href="#">All</a></li>
-                                      <li><a href="#">Bodysuits</a></li>
-                                      <li><a href="#">Dresses</a></li>
-                                      <li><a href="#">Hoodies &amp; Sweats</a></li>
-                                      <li><a href="#">Jackets &amp; Coats</a></li>
-                                      <li><a href="#">Jeans</a></li>
-                                      <li><a href="#">Pants &amp; Leggings</a></li>
-                                      <li><a href="#">Rompers &amp; Jumpsuits</a></li>
-                                      <li><a href="#">Shirts &amp; Blouses</a></li>
-                                      <li><a href="#">Shirts</a></li>
-                                      <li><a href="#">Sweaters &amp; Knits</a></li>
+                                  <a class="mouse">Ropa</a>
+                                  <ul class="sub-menu collapse" id="shoes" *ngFor="let cat of listcategorias.ropa">
+                                      <li><a href="#">{{ cat.categoria }}</a></li>
                                   </ul>
                               </li>
                               <!-- Single Item -->
                               <li data-toggle="collapse" data-target="#accessories" class="collapsed">
-                                  <a class="mouse">accessories</a>
-                                  <ul class="sub-menu collapse" id="accessories">
-                                      <li><a href="#">All</a></li>
-                                      <li><a href="#">Bodysuits</a></li>
-                                      <li><a href="#">Dresses</a></li>
-                                      <li><a href="#">Hoodies &amp; Sweats</a></li>
-                                      <li><a href="#">Jackets &amp; Coats</a></li>
-                                      <li><a href="#">Jeans</a></li>
-                                      <li><a href="#">Pants &amp; Leggings</a></li>
-                                      <li><a href="#">Rompers &amp; Jumpsuits</a></li>
-                                      <li><a href="#">Shirts &amp; Blouses</a></li>
-                                      <li><a href="#">Shirts</a></li>
-                                      <li><a href="#">Sweaters &amp; Knits</a></li>
+                                  <a class="mouse">Belleza</a>
+                                  <ul class="sub-menu collapse" id="accessories" *ngFor="let cat of listcategorias.belleza">
+                                      <li><a href="#">{{ cate.categoria }}</a></li>
                                   </ul>
                               </li>
                           </ul>
@@ -97,14 +67,14 @@
                             <div class="single-product-wrapper">
                                 <!-- Product Image -->
                                 <div class="product-img">
-                                    <img src="/assets/img/product-img/product-1.jpg" alt="">
+                                    <img src="{{item.logo || '/assets/img/product-img/product-1.jpg'}}" alt="">
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="/assets/img/product-img/product-2.jpg" alt="">
+                                    <img class="hover-img" src="{{ item.logo2 || '/assets/img/product-img/product-2.jpg'}}" alt="">
 
                                     <!-- Product Badge -->
-                                    <div class="product-badge offer-badge">
+                                    <!-- <div class="product-badge offer-badge">
                                         <span>-30%</span>
-                                    </div>
+                                    </div> -->
                                     <!-- Favourite -->
                                     <div class="product-favourite">
                                         <a href="#" class="favme fa fa-heart"></a>
@@ -113,17 +83,17 @@
 
                                 <!-- Product Description -->
                                 <div class="product-description">
-                                    <span>topshop</span>
+                                    <span>{{ item.empresa }}</span>
                                     <a href="single-product-details.html">
-                                        <h6>Knot Front Mini Dress</h6>
+                                        <h6>{{ item.categorias || 'Categorias'}}</h6>
                                     </a>
-                                    <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
+                                    <!-- <p class="product-price"><span class="old-price">$75.00</span> $55.00</p> -->
 
                                     <!-- Hover Content -->
                                     <div class="hover-content">
                                         <!-- Add to Cart -->
                                         <div class="add-to-cart-btn">
-                                            <a href="#" class="btn essence-btn">Add to Cart</a>
+                                            <a [routerLink]="['../shop', item.url]" class="btn essence-btn">Ver Tienda</a>
                                         </div>
                                     </div>
                                 </div>

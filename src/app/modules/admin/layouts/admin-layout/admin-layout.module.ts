@@ -19,6 +19,7 @@ import { MarcasComponent } from '../../marcas/marcas.component';
 import { ColorComponent } from '../../color/color.component';
 import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
+import { MercadosComponent } from '../../mercados/mercados.component';
 
 import {
   MatButtonModule,
@@ -56,7 +57,8 @@ import {
     MarcasComponent,
     ColorComponent,
     TallasComponent,
-    EmpresaComponent
+    EmpresaComponent,
+    MercadosComponent
   ]
 })
 
