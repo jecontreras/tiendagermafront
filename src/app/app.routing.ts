@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MainComponent } from './components/main/main.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegistryComponent } from './components/registry/registry.component';
 
 import { AdminLayoutComponent } from './modules/admin/layouts/admin-layout/admin-layout.component';
 
@@ -30,6 +31,9 @@ const routes: Routes =[
   },
   {
     path: 'login', component: LoginComponent
+  },
+  {
+    path: 'registro', component: RegistryComponent
   },
   {
     path: '',

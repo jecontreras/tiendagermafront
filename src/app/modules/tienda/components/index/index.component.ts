@@ -33,7 +33,7 @@ export class IndexComponent implements OnInit {
   getlist(){
     this._categoria.get({
       where:{
-        categoriaDe: 'Articulo'
+        categoriaDe: 'categoria'
       }
     })
     .subscribe(

@@ -14,7 +14,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.router.navigate(['tienda']);
+    // this.router.navigate(['tienda']);
   }
 
 }

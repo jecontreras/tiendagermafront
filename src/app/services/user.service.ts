@@ -4,6 +4,7 @@ import { GLOBAL } from './global';
 import { retryWhen, delayWhen, catchError, tap } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import { handleError } from './errores';
+import { FactoryModelService } from './factory-model.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ import { handleError } from './errores';
 export class UserService {
   private url: string;
   private handleError: any;
-  constructor(private _http: HttpClient) {
+  constructor(
+    private _http: HttpClient,
+    private _model: FactoryModelService
+  ) {
     this.url = GLOBAL.url;
  }
   login(user: Object) {
@@ -19,5 +23,10 @@ export class UserService {
   }
   register(user: Object) {
     return this._http.post(this.url + 'user/register', user);
+  }
+  cabeza(query: any) {
+    return this._model.query('user', {
+      username: query
+    });
   }
 }
