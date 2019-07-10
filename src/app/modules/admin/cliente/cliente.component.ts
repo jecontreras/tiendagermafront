@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UsuariosService } from './../../../services/usuarios.service';
 import { RolService } from './../../../services/rol.service';
 import { ToolsService } from './../../../services/tools.service';
+import { FactoryModelService } from './../../../services/factory-model.service';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 
@@ -16,16 +18,36 @@ export class ClienteComponent implements OnInit {
   public disable: boolean = false;
   public data: any = {};
   public list: any = [];
+  public user: any = {};
   constructor(
     private _usuarios: UsuariosService,
     private _tools: ToolsService,
-    private _rol: RolService
+    private _rol: RolService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private _model: FactoryModelService,
   ) { }
 
   ngOnInit() {
-    this._usuarios.get({
-
-    })
+    this.user = this._model.user;
+    if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
+      this.router.navigate(['admin/dashboard']);
+    }
+    this.getlist();
+  }
+  getlist(){
+    const
+      query:any = {
+        where:{
+          empresa: this.user.empresa
+        },
+        limit: 10
+      }
+    ;
+    if(this.user.rol.nombre === "super admin"){
+      delete query.where.empresa;
+    }
+    this._usuarios.get({})
     .subscribe(
       (res: any)=>{
         console.log(res);
@@ -34,14 +56,13 @@ export class ClienteComponent implements OnInit {
     )
     ;
   }
-
   open(obj: any){
     this.disable =!this.disable;
     if(obj){
       this.data = obj;
     }else{
       this.data = {
-        empresa: 1
+        empresa: this.user.empresa
       }
       ;
       this.rol();

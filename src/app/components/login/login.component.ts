@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit {
       this._userService.login(this.loginForm.value).subscribe(
         (response: any) => {
           if (response.success) {
-            // console.log(response);
+            console.log(response);
             localStorage.setItem('user', JSON.stringify(response.data));
             this.router.navigate(['admin/dashboard']);
           } else {

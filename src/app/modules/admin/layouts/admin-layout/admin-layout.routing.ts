@@ -41,6 +41,7 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'marcas',        component: MarcasComponent},
       { path: 'tallas',        component: TallasComponent},
       { path: 'empresa',        component: EmpresaComponent},
+      { path: 'empresa/:id',        component: EmpresaComponent},
       { path: 'mercados',        component: MercadosComponent},
       { path: 'color',        component: ColorComponent},
       { path: '',  redirectTo: 'dashboard'},

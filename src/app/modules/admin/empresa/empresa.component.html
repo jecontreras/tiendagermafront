@@ -71,9 +71,10 @@
                                       <td>
                                         <button
                                           mat-mini-fab
-                                          (click)="add(item)"
                                           placeholder="Ver"
+                                          [routerLink]="['../empresa', item.id]"
                                         >
+                                        <!-- (click)="add(item)" -->
                                           <i
                                             class="material-icons"
                                           >
@@ -106,6 +107,29 @@
                   </div>
                   <div class="card-body" *ngIf="disable">
                     <div class="form-column">
+                      <div class="column" *ngIf="data.id">
+                        <div class="row justify-content-md-center">
+                          <img *ngIf="data.id" [src]="data.foto" alt="none" width="200px"
+                            height="180px">
+                        </div>
+                        <div class="row justify-content-md-center p-1">
+                          <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                        </div>
+                        <div class="row justify-content-md-center">
+                          <button
+                            (click)="file(cuerpo)"
+                            *ngIf="carga"
+                            class="btn btn-primary"
+                          >
+                            <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                            Guardar Imagen
+                          </button>
+                        </div>
+                        <div  *ngIf="!carga" class="d-flex align-items-center">
+                          <strong>Loading...</strong>
+                          <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                        </div>
+                      </div>
                       <div class="form-row">
                         <div class="form-group">
                           <label for="formGroupExampleInput">Codigo</label>
@@ -150,7 +174,12 @@
                             <h5>Tipos de Mercado</h5>
                         </div>
                         <div class="row">
-                          <div class="col-6 col-sm-4 col-lg-3" *ngFor="let pro of listmercados">
+                          <div
+                            class="col-6 col-sm-4 col-lg-3" *ngFor="let pro of listmercados"
+                            [ngClass]="{
+                                'disable':pro.check
+                             }"
+                          >
                               <div class="single-product-wrapper">
                                   <div class="product-img">
                                       <img src="{{ pro.logo || '/assets/img/product-img/product-4.jpg'}}" alt="none">
@@ -186,7 +215,7 @@
                             <label for="formGroupExampleInput">Username</label>
                             <input type="text"
                               (blur)="blur('username')"
-                              class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="user.username">
+                              class="form-control" placeholder="nombre unico / avatar" [(ngModel)]="user.username">
                           </div>
                           <div class="form-group col">
                             <label for="formGroupExampleInput">Nombre</label>
@@ -209,7 +238,7 @@
                               class="form-control" placeholder="Email del Usuario" [(ngModel)]="user.email">
                           </div>
                         </div>
-                        <div class="form-row">
+                        <div class="form-row" *ngIf="!user.id">
                           <div class="page-title text-center">
                             <button type="button" (click)="usersaved()" class="btn btn-primary">Registrar</button>
                           </div>

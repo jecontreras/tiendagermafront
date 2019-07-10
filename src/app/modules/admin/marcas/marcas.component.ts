@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriasService } from './../../../services/categorias';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToolsService } from './../../../services/tools.service';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 import { GLOBAL } from './../../../services/global';
+import { FactoryModelService } from './../../../services/factory-model.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -17,20 +19,34 @@ export class MarcasComponent implements OnInit {
   public data: any = {};
   public list: any = [];
   public clone: any = [];
+  public user: any = {};
   constructor(
     private _categoria: CategoriasService,
-    private _tools: ToolsService
+    private _tools: ToolsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private _model: FactoryModelService,
   ) { }
 
   ngOnInit() {
+    this.user = this._model.user;
+    if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
+      this.router.navigate(['admin/dashboard']);
+    }
+    this.getlist();
+  }
+  getlist(){
     const
       query: any ={
         where:{
           categoriaDe: 'marca',
-          empresa: 1
+          empresa: this.user.empresa
         }
       }
     ;
+    if(this.user.rol.nombre === "super admin"){
+      delete query.where.empresa;
+    }
     this._categoria.get(query)
     .subscribe(
       (res: any)=>{
@@ -49,7 +65,7 @@ export class MarcasComponent implements OnInit {
     }else{
       this.clone = {};
       this.data = {
-        empresa: 1
+        empresa: this.user.empresa
       };
     }
   }

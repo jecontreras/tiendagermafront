@@ -154,14 +154,13 @@ export class RegistryComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
-
   onSubmit() {
     // console.log(this.registerForm.value);
     if (this.disabledemail && this.disabledusername && this.registerForm.value.departamento && this.registerForm.value.pais
       && this.registerForm.value.ciudad && this.registerForm.value.password === this.registerForm.value.confirpassword) {
       this.userService.register(this.registerForm.value).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           if (response.status === 200) {
             this.verificacion = true;
             swal('Ok!',

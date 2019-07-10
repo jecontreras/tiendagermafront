@@ -1,81 +1,65 @@
 import { Injectable } from '@angular/core';
 import { Config } from './Config';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GLOBAL } from './global';
 import { Observable } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { handleError } from './errores';
+import { AuthService } from './auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FactoryModelService {
-  private url: string;
+  public url: string;
   private handleError: any;
   public user: any;
   public niveles: any;
   public global: any;
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(
-    private _http: HttpClient
+    private _http: HttpClient,
+    private router: Router,
+    private _auth: AuthService,
   ) {
       this.url = GLOBAL.url;
       this.global = GLOBAL;
       this.handleError = handleError;
   }
-  // loadUser() {
-  //   this.user = JSON.parse(localStorage.getItem('user'));
-  //   console.log(this.user);
-  //   if (this.user) {
-  //     this.query('usernivel', {user: this.user.id})
-  //     .subscribe(
-  //       (response: any) => {
-  //         if (response.data.length) {
-  //           console.log('tiene nivel asignado');
-  //           console.log(response.data[0]);
-  //           this.user.titleNivel = response.data[0].nivel.title;
-  //           this.user.nivel = response.data[0];
-  //         } else {
-  //           this.cargarNiveles();
-  //         }
-  //       },
-  //       (error: any) => {
-  //         return false;
-  //       }
-  //      );
-  //   }
-  // }
-  // private cargarNiveles(): any {
-  //   this.get('nivel', {})
-  //   .subscribe(
-  //     (response: any) => {
-  //       console.log('niveles');
-  //       console.log(response);
-  //       this.niveles = response;
-  //       this.asignarNivel();
-  //     },
-  //     (error: any) => {
-  //       console.log(error);
-  //       return false;
-  //     }
-  //   );
-  // }
-  // private asignarNivel(): any {
-  //   this.create('usernivel', {user: this.user.id, nivel: this.niveles[0].id}).subscribe(
-  //     (response: any) => {
-  //       console.log('nivel asignado ');
-  //       console.log(response);
-  //       this.user.titleNivel = this.niveles[0].title;
-  //       return this.user.nivel = response;
-  //     },
-  //     (error: any) => {
-  //       console.log(error);
-  //       return false;
-  //     }
-  //   );
-  // }
-
+  loadUser() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    // console.log(this.user);
+    if (this._auth.canActivate()) {
+      this.query('user', {
+          where:{
+            id: this.user.id
+          }
+      })
+        .subscribe(
+          (response: any) => {
+            // console.log(response);
+            response = response.data[0];
+            if (response) {
+              localStorage.clear();
+              localStorage.setItem('user', JSON.stringify(response));
+              this.user = JSON.parse(localStorage.getItem('user'));
+            } else {
+              localStorage.clear();
+              this.router.navigate(['login']);
+            }
+          },
+          (error: any) => {
+            console.log(error);
+            this._auth.canActivate();
+            localStorage.clear();
+            this.router.navigate(['login']);
+          }
+        );
+    }
+  }
   create(modelo: string, query: any): Observable<Config> {
     return this._http.post<Config>(this.url + modelo, query).pipe(
       // retry(3),

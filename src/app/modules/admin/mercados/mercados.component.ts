@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MercadoService } from './../../../services/mercados.service';
 import { ToolsService } from './../../../services/tools.service';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 import { GLOBAL } from './../../../services/global';
+import { FactoryModelService } from './../../../services/factory-model.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -18,11 +20,20 @@ export class MercadosComponent implements OnInit {
   public list: any = [];
   public clone: any = [];
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private _model: FactoryModelService,
     private _mercados: MercadoService,
     private _tools: ToolsService
   ) { }
 
   ngOnInit() {
+    if(this._model.user.rol.nombre !== "super admin"){
+      this.router.navigate(['admin/dashboard']);
+    }
+    this.getlist();
+  }
+  getlist(){
     const
       query: any ={
         where:{

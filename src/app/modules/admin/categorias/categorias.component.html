@@ -104,7 +104,8 @@
                         <div class="form-group col">
                           <label for="formGroupExampleInput">Categora de</label>
                           <select class="custom-select"  (blur)="blur('categoriaDe')" [(ngModel)]="data.categoriaDe">
-                            <option value="articulo">Articulo</option>
+                            <option value="categoria" *ngIf="user.rol.nombre === 'super admin'">Categoria</option>
+                            <option value="producto">Producto</option>
                             <option value="etiqueta">Etiqueta</option>
                           </select>
                         </div>
