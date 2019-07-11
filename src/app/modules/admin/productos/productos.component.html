@@ -80,9 +80,10 @@
                         <td>
                           <button
                             mat-mini-fab
-                            (click)="add(item)"
                             placeholder="Ver"
+                            [routerLink]="['../productos', item.id]"
                           >
+                          <!-- (click)="add(item)" -->
                             <i
                               class="material-icons"
                             >
@@ -130,11 +131,11 @@
                   height="180px">
               </div>
               <div class="row justify-content-md-center p-1">
-                <input type="file" [(ngModel)]="img" (blur)="datafiles($event)">
+                <input type="file" [(ngModel)]="img" (blur)="datafiles($event)" accept="image/png, image/jpeg">
               </div>
               <div class="row justify-content-md-center">
                 <button
-                  (click)="file(cuerpo)"
+                  (click)="file(false)"
                   *ngIf="carga"
                   class="btn btn-primary"
                 >
@@ -154,7 +155,7 @@
                   (blur)="blur('codigo')"
                   class="form-control" placeholder="Codigo del Producto" [(ngModel)]="data.codigo">
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Nombre del Producto</label>
                 <input type="text"
                   (blur)="blur('titulo')"
@@ -162,7 +163,7 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Categoria</label>
                 <select class="custom-select"  (blur)="blur('categorias')" [(ngModel)]="data.categorias">
                   <option value="none">none</option>
@@ -174,7 +175,7 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Marca</label>
                 <select class="custom-select"  (blur)="blur('marca')" [(ngModel)]="data.marca">
                   <option value="none">none</option>
@@ -186,13 +187,13 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Cantidad</label>
                 <input type="number"
                   (blur)="blur('cantidad')"
                   class="form-control" placeholder="Cantidad de Producto" [(ngModel)]="data.cantidad">
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Stock</label>
                 <input type="text"
                   (blur)="blur('stock')"
@@ -200,7 +201,7 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Estado del Producto</label>
                 <select class="custom-select"  (blur)="blur('estado')" [(ngModel)]="data.estado">
                   <option value="none">none</option>
@@ -208,7 +209,7 @@
                   <option value="usado">Usado</option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Opcion</label>
                 <select class="custom-select"  (blur)="blur('opcion')" [(ngModel)]="data.opcion">
                   <option value="none">none</option>
@@ -216,19 +217,19 @@
                   <option value="inactivo">Inactivo</option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de la Compra</label>
                 <input type="number"
                   (blur)="blur('costocompra')"
                   class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="data.costocompra">
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de la Venta</label>
                 <input type="number"
                   (blur)="blur('costoventa')"
                   class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costoventa">
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de Promosion</label>
                 <input type="number"
                   (blur)="blur('costoventa')"
@@ -236,7 +237,7 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Talla del Producto</label>
                 <select class="custom-select"  (blur)="blur('talla')" [(ngModel)]="data.talla">
                   <option value="none">none</option>
@@ -248,7 +249,7 @@
                     </option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Color del Producto</label>
                 <select class="custom-select"  (blur)="blur('color')" [(ngModel)]="data.color">
                   <option value="none">none</option>
@@ -260,7 +261,7 @@
                     </option>
                 </select>
               </div>
-              <div class="form-group col">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Fecha de Vencimiento</label>
                 <input type="date"  placeholder="Fecha de Vencimiento" [(ngModel)]="data.fechavencimiento"
                 (blur)="edit('fechavencimiento')">
@@ -272,216 +273,80 @@
                 <textarea class="form-control" (blur)="blur('descripcion')" rows="3" [(ngModel)]="data.descripcion"></textarea>
               </div>
             </div>
+            <div class="column">
+              <nav
+                class="navbar navbar-light bg-light row card-header card-header-danger"
+              >
+                <span
+                  class="p"
+                >
+                    Galeria
+                </span>
+                <div class="row">
+                  <div class="row p-1">
+                    <input
+                      type="file"
+                      [(ngModel)]="img"
+                      (blur)="datafiles($event)"
+                      accept="image/png, image/jpeg"
+                    >
+                  </div>
+                  <div class="p-1">
+                    <button
+                      (click)="file(data)"
+                      *ngIf="carga"
+                      class="btn btn-primary"
+                    >
+                      <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                      Guardar Imagen
+                    </button>
+                  </div>
+                  <div *ngIf="!carga" class="p-1">
+                    <strong>Loading...</strong>
+                    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </nav>
+              <div class="row p-3">
+                <div
+                  class="col-6 col-sm-4 col-lg-3" *ngFor="let pro of listgaleria"
+                >
+                    <div class="single-product-wrapper">
+                        <div class="product-img">
+                            <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                            <img class="hover-img" src="{{ pro.foto || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                        </div>
+                        <div class="product-description">
+                            <a href="single-product-details.html">
+                                <h6>{{ pro.titulo }}</h6>
+                            </a>
+                            <div class="hover-content">
+                                <div class="">
+                                    <button type="button" (click)="data.foto = pro.foto; blur('foto')" class="btn btn-primary">Principal</button>
+                                    <button type="button" (click)="deletefile(pro)" class="btn btn-primary">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <nav
+                class="navbar navbar-light bg-light row card-header card-header-danger"
+              >
+                <span
+                  class="p"
+                >
+                    Etiqueta
+                </span>
+              </nav>
+            </div>
+            <div class="">
+
+            </div>
           </div>
         </div>
-        <!-- <div
-          *ngIf="disable"
-          class="column"
-        >
-          <div
-            class="column"
-          >
-            <div
-              class="row"
-            >
-              <mat-form-field
-                class=""
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Codigo"
-                  [(ngModel)]="data.codigo"
-                  (blur)="edit('codigo')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Nombre del Producto"
-                  [(ngModel)]="data.titulo"
-                  (blur)="edit('titulo')"
-                >
-              </mat-form-field>
-            </div>
-
-            <div
-              class="row"
-            >
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="tipo"
-                  [(ngModel)]="data.tipo"
-                  (blur)="edit('tipo')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Cantidad de Producto"
-                  [(ngModel)]="data.cantidad"
-                  (blur)="edit('cantidad')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Cantidad Stock"
-                  [(ngModel)]="data.cantidadstock"
-                  (blur)="edit('cantidadstock')"
-                >
-              </mat-form-field>
-            </div>
-            <div
-              class="row"
-            >
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Estado"
-                  [(ngModel)]="data.estado"
-                  (blur)="edit('estado')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Costo de Compra"
-                  [(ngModel)]="data.costocompra"
-                  (blur)="edit('costocompra')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Costo de Venta"
-                  [(ngModel)]="data.costoventa"
-                  (blur)="edit('costoventa')"
-                >
-              </mat-form-field>
-            </div>
-            <div
-              class="row"
-            >
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Talla"
-                  [(ngModel)]="data.talla"
-                  (blur)="edit('talla')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Color"
-                  [(ngModel)]="data.color"
-                  (blur)="edit('color')"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Fecha de Vencimiento"
-                  [(ngModel)]="data.fechavencimiento"
-                  (blur)="edit('fechavencimiento')"
-                >
-              </mat-form-field>
-            </div>
-            <div
-              class="row"
-            >
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Megustas"
-                  disabled
-                  [(ngModel)]="data.megustas"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="No Megustas"
-                  disabled
-                  [(ngModel)]="data.nomegusta"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Vistos"
-                  disabled
-                  [(ngModel)]="data.vistos"
-                >
-              </mat-form-field>
-              <mat-form-field
-                class="col"
-              >
-                <input
-                  matInput
-                  type="text"
-                  placeholder="Compartidos"
-                  disabled
-                  [(ngModel)]="data.compartidos"
-                >
-              </mat-form-field>
-            </div>
-            <div class="row">
-              <mat-form-field
-                class="col"
-              >
-                <textarea
-                  matInput
-                  placeholder="Descripcion"
-                  [(ngModel)]="data.descripcion"
-                  (blur)="edit('descripcion')"
-                >
-                </textarea>
-              </mat-form-field>
-            </div>
-          </div>
-        </div> -->
       </div>
   </div>
 </div>

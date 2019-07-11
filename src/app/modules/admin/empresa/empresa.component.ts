@@ -53,7 +53,7 @@ export class EmpresaComponent implements OnInit {
       }
     });
   }
-  getlist(obj){
+  getlist(obj: any){
     const
       query: any ={
         where:{
@@ -106,17 +106,13 @@ export class EmpresaComponent implements OnInit {
       ;
     // console.log(file);
     this.carga = false;
-    this._archivos.pushfile(file)
+    this._archivos.pushfile(file, false, "empresa")
       .subscribe(
         (data: any) => {
-          console.log('POST Request is successful ', data);
-          if(data[0]){
-            const
-              url:any = _.split(data[0].fd,"images", 10)
-            ;
-            console.log(url);
-            this.data.foto = this._model.url+"images"+url[1];
-            this.blur('foto');
+          // console.log('POST Request is successful ', data);
+          if(data){
+            this.data.foto = data;
+            this.blur('foto')
           }
           this.carga = true;
         },

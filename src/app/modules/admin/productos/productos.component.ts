@@ -20,7 +20,8 @@ export class ProductosComponent implements OnInit {
 
   public disable:boolean = false;
   data:any = {};
-  img: any = {};
+  clone:any = {};
+  img: any;
   list:any = [];
   datafile: any = {};
   public global  =  GLOBAL;
@@ -28,6 +29,7 @@ export class ProductosComponent implements OnInit {
   public listmarca: any = [];
   public listcolor: any = [];
   public listtalla: any = [];
+  public listgaleria: any = [];
   public user: any = {};
   public carga: boolean= true;
   cuerpo: any = {};
@@ -50,9 +52,17 @@ export class ProductosComponent implements OnInit {
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
-    this.getlist();
+    this.route.params.subscribe(params => {
+      // console.log(params);
+       if(params['id']!=null){
+        this.getlist(params['id']);
+      }else{
+        this.getlist(null);
+      }
+    });
+
   }
-  getlist(){
+  getlist(obj: any){
     const
       data:any = {
         where:{
@@ -64,11 +74,19 @@ export class ProductosComponent implements OnInit {
     if(this.user.rol.nombre === "super admin"){
       delete data.where.empresa;
     }
+    if(obj){
+      data.where.id = obj;
+      data.limit = 1;
+    }
     this._producto.get(data)
     .subscribe(
       (res: any) =>{
         // console.log(res.data);
-        this.list = _.unionBy(this.list || [], res.data, 'id');
+        if(obj){
+          this.add(res.data[0]);
+        }else{
+          this.list = _.unionBy(this.list || [], res.data, 'id');
+        }
       }
     );
   }
@@ -76,18 +94,43 @@ export class ProductosComponent implements OnInit {
     // console.log(opt);
       this.disable = !this.disable;
       if(opt){
+        this.clone = _.clone(opt);
         this.data = opt;
+        this.getGaleria();
       }else{
+        this.clone = {};
         this.data = {
           codigo: this.codigo(),
           empresa: this.user.empresa
         }
         ;
+        this.router.navigate(['admin/productos']);
       }
       this.categorias();
   }
   codigo() {
     return (Date.now().toString(36).substr(2, 3) + Math.random().toString(36).substr(2, 2)).toUpperCase();
+  }
+  getGaleria(){
+    return this._producto.getGaleria({
+        where:{
+          articulo: this.data.id
+        },
+        limit: 1
+      })
+      .subscribe(
+        (res: any)=>{
+          // console.log(res);
+          res = res.data[0];
+          if(res){
+            this.listgaleria = res.archivos;
+            if(res.length >=5){
+              this.carga=false;
+            }
+          }
+        }
+      )
+      ;
   }
   categorias(){
     return this._categoria.get({
@@ -185,7 +228,7 @@ export class ProductosComponent implements OnInit {
   }
   blur(obj){
     // console.log(this.data);
-    if(this.data.id){
+    if(this.data.id && this.data[obj] !== this.clone[obj]){
       var
         data: any = {
           id: this.data.id
@@ -211,26 +254,37 @@ export class ProductosComponent implements OnInit {
     }
     // console.log(this.datafile);
   }
-  file() {
+  file(data: any) {
     // if(this.img){
     const
       file = this.datafile
       ;
     // console.log(file);
     this.carga = false;
-    this._archivos.pushfile(file)
+    this._archivos.pushfile(file, data, "articulo")
       .subscribe(
         (data: any) => {
-          console.log('POST Request is successful ', data);
-          if(data[0]){
-            const
-              url:any = _.split(data[0].fd,"images", 10)
-            ;
-            console.log(url);
-            this.data.foto = this._model.url+"images"+url[1];
+          // console.log('POST Request is successful ', data);
+          if(data){
+            this.data.foto = data;
             this.blur('foto');
+            this.carga = true;
+          }else{
+            if(this.data.id){
+              let
+                init:any = 0
+              ;
+              const interval = setInterval(() => {
+                // console.log(init);
+                init+= 1;
+                if(init === 3){
+                  this.carga = true;
+                  this.getGaleria();
+                  this.stopConter(interval);
+                }
+              }, 1000);
+            }
           }
-          this.carga = true;
         },
         (error: any) => {
           console.log('Error', error);
@@ -239,15 +293,28 @@ export class ProductosComponent implements OnInit {
         }
       );
   }
-  deletefile() {
-    if (this.data.foto) {
+  stopConter(interval: any) {
+    clearInterval(interval);
+  }
+  deletefile(obj: any) {
+    if (obj) {
       const
-        urldelete = _.split(this.data.foto, '/', 10)
+        url:any = _.split(obj.foto, '/', 10)
       ;
-      this._producto.deletefile(urldelete[3])
+      const
+        query = {
+          name : url[3],
+          archivo: obj
+        }
+      ;
+      // console.log(query);
+      this._archivos.deletefile(query)
       .subscribe(
         data => {
-          // console.log(data);
+          console.log(data);
+          if(data.status = 200){
+            this.getGaleria();
+          }
         }
       )
       ;
