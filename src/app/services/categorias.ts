@@ -20,25 +20,13 @@ export class CategoriasService {
   edit(query:any){
     return this._model.update('categoria', query.id, query);
   }
-  pushfile(obj: any) {
-    console.log(this._model);
-    const
-      form = new FormData()
-    ;
-    // tslint:disable-next-line:quotemark
-    if (obj) {
-      form.append('file', obj[0]);
-      return this._model.create('articulo/file', form);
-    } else {
-      // cuerpo._tools.openSnack('Error', false);
-    }
+  articuloCategoria(query: any){
+    return this._model.create('articulocategoria', query);
   }
-  deletefile(obj: any ) {
-    if (obj) {
-      return this._model.get('user/deletefile', {
-        name: obj
-      })
-      ;
-    }
+  articuloCategoriaget(query: any){
+    return this._model.query('articulocategoria', query);
+  }
+  articuloCategoriadelete(query: any){
+    return this._model.delete('articulocategoria', query.id, query);
   }
 }

@@ -8,33 +8,75 @@
         >
             Productos
         </span>
-        <div>
-          <button
-            mat-mini-fab
-            placeholder="guardar"
-            *ngIf="disable && !data.id"
-            (click)="saved()"
-          >
-            <i class="material-icons">save</i>
-          </button>
-          <button
-            mat-mini-fab
-            (click)="add()"
-            placeholder="agregar"
-          >
-            <i
-              class="material-icons"
-              *ngIf="!disable"
+        <div class="content p-1">
+          <div class="row">
+            <button
+              mat-mini-fab
+              color="primary"
+              placeholder="guardar"
+              *ngIf="disable && !data.id"
+              (click)="saved()"
             >
-              add_circle_outline
-            </i>
-            <i
-              class="material-icons"
-              *ngIf="disable"
+              <i class="material-icons">save</i>
+            </button>
+            <!-- <button
+              mat-mini-fab
+              color="primary"
+              placeholder="guardar"
+              *ngIf="disable && !data.id"
+              matTooltip="Importar hoja de calculo"
+              (click)="disabledexcel = !disabledexcel"
             >
-              close
-            </i>
-          </button>
+              <i class="material-icons">description</i>
+            </button> -->
+            <div *ngIf="disable && !data.id && !disabledexcel">
+              <button
+                mat-mini-fab
+                color="accent"
+                (click)="multiple = !multiple;"
+                class="btn btn-primary">
+                <span *ngIf="!multiple"
+                  matTooltip="varios formulario"
+                >
+                  <i class="material-icons">library_books</i>
+                </span>
+                <span
+                  *ngIf="multiple"
+                  matTooltip="Un solo formulario"
+                >
+                  <i class="material-icons">turned_in</i>
+                </span>
+              </button>
+              <button
+                mat-mini-fab
+                color="accent"
+                *ngIf="multiple"
+                type="button"
+                (click)="clickmultiple()"
+                class="btn btn-primary">
+                <i class="material-icons">add_circle_outline</i>
+              </button>
+            </div>
+            <button
+              mat-mini-fab
+              (click)="add()"
+              color="warn"
+              placeholder="agregar"
+            >
+              <i
+                class="material-icons"
+                *ngIf="!disable"
+              >
+                add_circle_outline
+              </i>
+              <i
+                class="material-icons"
+                *ngIf="disable"
+              >
+                close
+              </i>
+            </button>
+          </div>
         </div>
       </nav>
       <br>
@@ -83,7 +125,6 @@
                             placeholder="Ver"
                             [routerLink]="['../productos', item.id]"
                           >
-                          <!-- (click)="add(item)" -->
                             <i
                               class="material-icons"
                             >
@@ -124,10 +165,10 @@
             </div>
         </div>
         <div class="card-body" *ngIf="disable">
-          <div class="form-column">
+          <div class="form-column" *ngIf="!multiple && !disabledexcel">
             <div class="column" *ngIf="data.id">
               <div class="row justify-content-md-center">
-                <img *ngIf="data.id" [src]="data.foto" alt="none" width="200px"
+                <img *ngIf="data.id" [src]="data.foto" alt="none" width="200px" class="rounded"
                   height="180px">
               </div>
               <div class="row justify-content-md-center p-1">
@@ -166,7 +207,6 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Categoria</label>
                 <select class="custom-select"  (blur)="blur('categorias')" [(ngModel)]="data.categorias">
-                  <option value="none">none</option>
                   <option
                     value="{{item.id}}"
                     *ngFor="let item of listcategoria"
@@ -178,7 +218,6 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Marca</label>
                 <select class="custom-select"  (blur)="blur('marca')" [(ngModel)]="data.marca">
-                  <option value="none">none</option>
                   <option
                     value="{{item.id}}"
                     *ngFor="let item of listmarca"
@@ -204,7 +243,6 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Estado del Producto</label>
                 <select class="custom-select"  (blur)="blur('estado')" [(ngModel)]="data.estado">
-                  <option value="none">none</option>
                   <option value="nuevo">Nuevo</option>
                   <option value="usado">Usado</option>
                 </select>
@@ -212,7 +250,6 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Opcion</label>
                 <select class="custom-select"  (blur)="blur('opcion')" [(ngModel)]="data.opcion">
-                  <option value="none">none</option>
                   <option value="activo">Activo</option>
                   <option value="inactivo">Inactivo</option>
                 </select>
@@ -232,7 +269,7 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de Promosion</label>
                 <input type="number"
-                  (blur)="blur('costoventa')"
+                  (blur)="blur('costopromosion')"
                   class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costopromosion">
               </div>
             </div>
@@ -240,7 +277,6 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Talla del Producto</label>
                 <select class="custom-select"  (blur)="blur('talla')" [(ngModel)]="data.talla">
-                  <option value="none">none</option>
                     <option
                       value="{{item.id}}"
                       *ngFor="let item of listtalla"
@@ -252,7 +288,6 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Color del Producto</label>
                 <select class="custom-select"  (blur)="blur('color')" [(ngModel)]="data.color">
-                  <option value="none">none</option>
                     <option
                       value="{{item.id}}"
                       *ngFor="let item of listcolor"
@@ -267,13 +302,40 @@
                 (blur)="edit('fechavencimiento')">
               </div>
             </div>
+            <div class="form-column">
+              <div class="d-flex justify-content-center">
+                <h5>Tamaño del producto</h5>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Alto cm</label>
+                  <input type="number"
+                    (blur)="blur('alto')"
+                    class="form-control" placeholder="Alto del producto en cm" [(ngModel)]="data.alto">
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Largo cm</label>
+                  <input type="number"
+                    (blur)="blur('largo')"
+                    class="form-control" placeholder="Largo del producto en cm" [(ngModel)]="data.largo">
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Ancho cm</label>
+                  <input type="number"
+                    (blur)="blur('ancho')"
+                    class="form-control" placeholder="Ancho del producto en cm" [(ngModel)]="data.ancho">
+                </div>
+              </div>
+            </div>
             <div class="form-row">
               <div class="form-group col">
-                <label for="formGroupExampleInput">Descripcin</label>
+                <label for="formGroupExampleInput">Descripcion</label>
                 <textarea class="form-control" (blur)="blur('descripcion')" rows="3" [(ngModel)]="data.descripcion"></textarea>
               </div>
             </div>
-            <div class="column">
+            <br>
+            <br>
+            <div class="column" *ngIf="data.id">
               <nav
                 class="navbar navbar-light bg-light row card-header card-header-danger"
               >
@@ -309,12 +371,17 @@
               </nav>
               <div class="row p-3">
                 <div
-                  class="col-6 col-sm-4 col-lg-3" *ngFor="let pro of listgaleria"
+                  class="col-6 col-sm-4 col-lg-3 mat-elevation-z3" *ngFor="let pro of listgaleria"
                 >
                     <div class="single-product-wrapper">
                         <div class="product-img">
                             <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
                             <img class="hover-img" src="{{ pro.foto || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                            <div class="product-badge offer-badge">
+                                <span class="mouse" (click)="deletefile(pro)">
+                                  <i class="material-icons">close</i>
+                                </span>
+                            </div>
                         </div>
                         <div class="product-description">
                             <a href="single-product-details.html">
@@ -323,7 +390,7 @@
                             <div class="hover-content">
                                 <div class="">
                                     <button type="button" (click)="data.foto = pro.foto; blur('foto')" class="btn btn-primary">Principal</button>
-                                    <button type="button" (click)="deletefile(pro)" class="btn btn-primary">Eliminar</button>
+                                    <button type="button" (click)="data.foto2 = pro.foto; blur('foto2')" class="btn btn-primary">Segunda p</button>
                                 </div>
                             </div>
                         </div>
@@ -331,7 +398,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column" *ngIf="data.id">
               <nav
                 class="navbar navbar-light bg-light row card-header card-header-danger"
               >
@@ -341,12 +408,217 @@
                     Etiqueta
                 </span>
               </nav>
-            </div>
-            <div class="">
+              <div class="column content">
+                <div class="row">
+                  <div class="form-group col">
+                    <input type="text"
+                      class="form-control" (keyup)="buscaretiquete()" placeholder="Buscar Etiqueta" [(ngModel)]="search">
+                  </div>
+                  <div class="p-1">
+                    <button type="button" (click)="buscaretiquete()" class="btn btn-primary">Buscar</button>
+                  </div>
+                </div>
+                <div class="row p-3">
+                  <div
+                    class="col-4 col-sm-3 col-lg-2 mat-elevation-z3" *ngFor="let pro of listetiqueta"
+                  >
+                      <div class="single-product-wrapper">
+                          <div class="product-img">
 
+                              <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                              <img class="hover-img" src="{{ pro.foto || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                              <div class="product-badge offer-badge">
+                                  <span class="mouse" (click)="etiquetaAdd(pro)" *ngIf="!pro.check">
+                                    <i class="material-icons">check</i>
+                                  </span>
+                                  <span class="mouse" (click)="etiquetaDelete(pro)" *ngIf="pro.check">
+                                    <i class="material-icons">close</i>
+                                  </span>
+                              </div>
+                          </div>
+                          <div class="product-description">
+                              <a href="single-product-details.html">
+                                  <h6>{{ pro.categoria }}</h6>
+                              </a>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="d-flex justify-content-center" *ngIf="!listetiqueta.length">
+                    <button type="button" (click)="crearetiqueta()" class="btn btn-success">Crear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-column" *ngIf="multiple && !disabledexcel">
+            <div class="form-column" *ngFor="let item of listgroup">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Codigo del Producto</label>
+                  <input type="text"
+                    class="form-control" placeholder="Codigo del Producto" [(ngModel)]="item.codigo">
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Nombre del Producto</label>
+                  <input type="text"
+                    (blur)="clickmultiple()"
+                    class="form-control" placeholder="Nombre" [(ngModel)]="item.titulo">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Categoria</label>
+                  <select class="custom-select" [(ngModel)]="item.categorias">
+                    <option
+                      value="{{item.id}}"
+                      *ngFor="let item of listcategoria"
+                    >
+                      {{ item.categoria }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Marca</label>
+                  <select class="custom-select" [(ngModel)]="item.marca">
+                    <option
+                      value="{{item.id}}"
+                      *ngFor="let item of listmarca"
+                    >
+                      {{ item.categoria }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Cantidad</label>
+                  <input type="number"
+                    class="form-control" placeholder="Cantidad de Producto" [(ngModel)]="item.cantidad">
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Stock</label>
+                  <input type="text"
+                    class="form-control" placeholder="Stock de Producto" [(ngModel)]="item.stock">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Estado del Producto</label>
+                  <select class="custom-select" [(ngModel)]="item.estado">
+                    <option value="nuevo">Nuevo</option>
+                    <option value="usado">Usado</option>
+                  </select>
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Opcion</label>
+                  <select class="custom-select" [(ngModel)]="item.opcion">
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                  </select>
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Costo de la Compra</label>
+                  <input type="number"
+                    class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="item.costocompra">
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Costo de la Venta</label>
+                  <input type="number"
+                    class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="item.costoventa">
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Costo de Promosion</label>
+                  <input type="number"
+                    class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="item.costopromosion">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Talla del Producto</label>
+                  <select class="custom-select" [(ngModel)]="item.talla">
+                      <option
+                        value="{{item.id}}"
+                        *ngFor="let item of listtalla"
+                      >
+                        {{ item.talla }}
+                      </option>
+                  </select>
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Color del Producto</label>
+                  <select class="custom-select"  [(ngModel)]="item.color">
+                      <option
+                        value="{{item.id}}"
+                        *ngFor="let item of listcolor"
+                      >
+                        {{ item.color }}
+                      </option>
+                  </select>
+                </div>
+                <div class="form-group col-sm">
+                  <label for="formGroupExampleInput">Fecha de Vencimiento</label>
+                  <input type="date"  placeholder="Fecha de Vencimiento" [(ngModel)]="item.fechavencimiento">
+                </div>
+              </div>
+              <div class="form-column">
+                <div class="d-flex justify-content-center">
+                  <h5>Tamaño del producto</h5>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Alto cm</label>
+                    <input type="number"
+                      class="form-control" placeholder="Alto del producto en cm" [(ngModel)]="item.alto">
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Largo cm</label>
+                    <input type="number"
+                      class="form-control" placeholder="Largo del producto en cm" [(ngModel)]="item.largo">
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Ancho cm</label>
+                    <input type="number"
+                      class="form-control" placeholder="Ancho del producto en cm" [(ngModel)]="item.ancho">
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+                  <label for="formGroupExampleInput">Descripcin</label>
+                  <textarea class="form-control" rows="3" [(ngModel)]="item.descripcion"></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="p-1">
+                  <button
+                    mat-mini-fab
+                    color="warn"
+                    placeholder="eliminar"
+                    (click)="listgroup.splice(indice, 1)"
+                  >
+                    <i
+                      class="material-icons"
+                    >
+                      close
+                    </i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-column">
+            <div class="d-flex align-items-center">
+              <input type="file" (change)="onFileChange($event)" multiple="false" />
             </div>
           </div>
         </div>
       </div>
+      <!-- <table class="sjs-table">
+        <tr *ngFor="let row of excel">
+          <td *ngFor="let val of row">
+            {{val}}
+          </td>
+        </tr>
+      </table> -->
+      <!-- <button type="button" (click)="genrarexcel()" name="button">Export</button> -->
   </div>
 </div>

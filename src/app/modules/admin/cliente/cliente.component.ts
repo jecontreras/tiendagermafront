@@ -19,6 +19,7 @@ export class ClienteComponent implements OnInit {
   public data: any = {};
   public list: any = [];
   public user: any = {};
+  clone:any = {};
   constructor(
     private _usuarios: UsuariosService,
     private _tools: ToolsService,
@@ -33,13 +34,21 @@ export class ClienteComponent implements OnInit {
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
-    this.getlist();
+    this.route.params.subscribe(params => {
+      // console.log(params);
+       if(params['id']!=null){
+        this.getlist(params['id']);
+      }else{
+        this.getlist(null);
+      }
+    });
   }
-  getlist(){
+  getlist(obj: any){
     const
       query:any = {
         where:{
-          empresa: this.user.empresa
+          empresa: this.user.empresa,
+          estado: "activo"
         },
         limit: 10
       }
@@ -47,11 +56,19 @@ export class ClienteComponent implements OnInit {
     if(this.user.rol.nombre === "super admin"){
       delete query.where.empresa;
     }
-    this._usuarios.get({})
+    if(obj){
+      query.where.id = obj;
+      query.limit = 1;
+    }
+    this._usuarios.get(query)
     .subscribe(
       (res: any)=>{
-        console.log(res);
-        this.list = _.unionBy(this.list || [], res.data, 'id');
+        // console.log(res);
+        if(obj){
+          this.open(res.data[0]);
+        }else{
+          this.list = _.unionBy(this.list || [], res.data, 'id');
+        }
       }
     )
     ;
@@ -60,11 +77,13 @@ export class ClienteComponent implements OnInit {
     this.disable =!this.disable;
     if(obj){
       this.data = obj;
+      this.clone = _.clone(obj);
     }else{
       this.data = {
         empresa: this.user.empresa
       }
       ;
+      this.router.navigate(['admin/clientes']);
       this.rol();
     }
   }
@@ -100,7 +119,7 @@ export class ClienteComponent implements OnInit {
     ;
     if(data.name){
       data.slug = _.kebabCase(data.name)
-      this._usuarios.saved(data)
+      return this._usuarios.saved(data)
       .subscribe(
         (res: any) => {
           // console.log(res);
@@ -122,7 +141,7 @@ export class ClienteComponent implements OnInit {
   }
   blur(obj){
     // console.log(this.data);
-    if(this.data.id){
+    if(this.data.id && this.data[obj] !== this.clone[obj]){
       var
         data: any = {
           id: this.data.id
@@ -130,7 +149,7 @@ export class ClienteComponent implements OnInit {
       ;
       data[obj]=this.data[obj];
       // console.log(data);
-      this._usuarios.edit(data)
+      return this._usuarios.edit(data)
       .subscribe(
         (res: any)=> {
           // console.log(res);
@@ -140,6 +159,24 @@ export class ClienteComponent implements OnInit {
           }
         }
       );
+    }
+  }
+  delete(obj:any, idx){
+    // console.log(obj, idx);
+    if(obj){
+      return this._usuarios.edit({
+        id: obj.id,
+        estado: "inactivo"
+      })
+      .subscribe(
+        (res: any)=>{
+          if(res){
+            this.list.splice(idx, 1);
+            swal("Completado!", "Eliminado Correctamente!", "success");
+          }
+        }
+      )
+      ;
     }
   }
 

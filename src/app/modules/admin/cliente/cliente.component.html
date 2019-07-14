@@ -30,6 +30,7 @@
                             add_circle_outline
                           </i>
                           <i
+                            color="warn"
                             class="material-icons"
                             *ngIf="disable"
                           >
@@ -43,15 +44,17 @@
                           <table class="table">
                               <thead class=" text-primary">
                                   <th>
-                                     Index
+                                     Opciones
                                   </th>
                                   <th>
-                                     Opciones
+                                      Foto
                                   </th>
                                   <th>
                                       Cliente
                                   </th>
-                                  <th>
+                                  <th
+                                    *ngIf="user.rol.nombre === 'super admin'"
+                                  >
                                       Email
                                   </th>
                                   <th>
@@ -60,33 +63,55 @@
                               </thead>
                               <tbody>
                                   <tr
-                                    *ngFor="let item of list"
+                                    *ngFor="let item of list; let indice=index"
                                   >
                                     <td>
-                                      {{ item.id }}
-                                    </td>
-                                      <td>
-                                        <button
-                                          mat-mini-fab
-                                          (click)="ope(item)"
-                                          placeholder="Ver"
+                                      <button
+                                        mat-mini-fab
+                                        color="primary"
+                                        placeholder="Ver"
+                                        [routerLink]="['../clientes', item.id]"
+                                      >
+                                      <!-- (click)="open(item)" -->
+                                        <i
+                                          class="material-icons"
                                         >
-                                          <i
-                                            class="material-icons"
-                                          >
-                                            remove_red_eye
-                                          </i>
-                                        </button>
-                                      </td>
-                                      <td>
-                                        {{ item.cliente }}
-                                      </td>
-                                      <td>
-                                        {{ item.email }}
-                                      </td>
-                                      <td>
-                                        {{ item.createdAt}}
-                                      </td>
+                                          remove_red_eye
+                                        </i>
+                                      </button>
+                                      <button
+                                        mat-mini-fab
+                                        color="warn"
+                                        placeholder="Ver"
+                                        (click)="delete(item, indice)"
+                                      >
+                                        <i
+                                          class="material-icons"
+                                        >
+                                          close
+                                        </i>
+                                      </button>
+                                    </td>
+                                    <td>
+                                      <img
+                                        class="md-avatar"
+                                        height="40px"
+                                        width="50px"
+                                        src="{{ item.foto }}"
+                                        alt="None"
+                                      >
+                                    </td>
+                                    <td>
+                                      {{ item.username }}
+                                    </td>
+                                    <td
+                                      *ngIf="user.rol.nombre === 'super admin'"
+                                    >
+                                      {{ item.email }}
+                                    </td>
+                                    <td>
+                                      {{ item.createdAt}}
+                                    </td>
                                   </tr>
                               </tbody>
                           </table>
@@ -95,13 +120,13 @@
                   <div class="card-body" *ngIf="disable">
                     <div class="form-column">
                       <div class="form-row">
-                        <div class="form-group col">
+                        <div class="form-group col-sm">
                           <label for="formGroupExampleInput">Nombre del Cliente</label>
                           <input type="text"
                             (blur)="blur('name')"
                             class="form-control" placeholder="Nombre" [(ngModel)]="data.name">
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-sm">
                           <label for="formGroupExampleInput">Apellido del Cliente</label>
                           <input type="text"
                             (blur)="blur('lastname')"
@@ -109,19 +134,19 @@
                         </div>
                       </div>
                       <div class="form-row">
-                        <div class="form-group col">
+                        <div class="form-group col-sm">
                           <label for="formGroupExampleInput">Nombre de Usuario/avatar</label>
                           <input type="text"
                             (blur)="blur('username')"
                             class="form-control" placeholder="Nombre" [(ngModel)]="data.username">
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
                           <label for="formGroupExampleInput">Celular</label>
                           <input type="text"
                             (blur)="blur('celular')"
                             class="form-control" placeholder="Celular" [(ngModel)]="data.celular">
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-sm" >
                           <label for="formGroupExampleInput">Sexo</label>
                           <select class="custom-select"  (blur)="blur('sexo')" [(ngModel)]="data.sexo">
                             <option value="none">none</option>
@@ -131,8 +156,8 @@
                           </select>
                         </div>
                       </div>
-                      <div class="form-row">
-                        <div class="form-group col">
+                      <div class="form-row" *ngIf="user.rol.nombre === 'super admin'">
+                        <div class="form-group col-sm">
                           <label for="formGroupExampleInput">Tipo de Documento</label>
                           <select class="custom-select"  (blur)="blur('tipdoc')" [(ngModel)]="data.tipdoc">
                             <option value="none">none</option>
@@ -142,21 +167,21 @@
                             <option value="sinespecificar">Sin Especificar</option>
                           </select>
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-sm" >
                           <label for="formGroupExampleInput">Documento</label>
                           <input type="text"
                             (blur)="blur('documento')"
                             class="form-control" placeholder="clave" [(ngModel)]="data.documento">
                         </div>
                       </div>
-                      <div class="form-row">
-                        <div class="form-group col">
+                      <div class="form-row" *ngIf="user.rol.nombre === 'super admin'">
+                        <div class="form-group col-sm">
                           <label for="formGroupExampleInput">Email</label>
                           <input type="text"
                             (blur)="blur('email')"
                             class="form-control" placeholder="Email" [(ngModel)]="data.email">
                         </div>
-                        <div class="form-group col">
+                        <div class="form-group col-sm">
                           <label for="formGroupExampleInput">Password</label>
                           <input type="text"
                             (blur)="blur('password')"

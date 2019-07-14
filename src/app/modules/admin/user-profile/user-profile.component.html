@@ -4,99 +4,105 @@
           <div class="col-md-8">
               <div class="card">
                   <div class="card-header card-header-danger">
-                      <h4 class="card-title">Edit Profile</h4>
-                      <p class="card-category">Complete your profile</p>
+                      <h4 class="card-title">Perfil</h4>
+                      <p class="card-category">Complete los campos</p>
                   </div>
                   <div class="card-body">
-                      <form> 
+                      <div>
                           <div class="row">
-                              <div class="col-md-5">
+                              <div class="col-md">
                                 <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Company (disabled)" disabled>
+                                    <input matInput placeholder="Empresa (disabled)" disabled [(ngModel)]="data.empresa.empresa">
                                   </mat-form-field>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md">
                                   <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Username">
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Email address" type="email">
+                                    <input matInput placeholder="Username / Avatar" [(ngModel)]="data.username">
                                   </mat-form-field>
                               </div>
                           </div>
                           <div class="row">
                               <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Fist Name" type="text">
+                                  <input matInput placeholder="Nombre" type="text" [(ngModel)]="data.name" (blur)="edit('name')">
                                 </mat-form-field>
                               </div>
                               <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Last Name" type="text">
+                                  <input matInput placeholder="Apeliido" type="text" [(ngModel)]="data.lastname" (blur)="edit('lastname')">
                                 </mat-form-field>
                               </div>
                           </div>
                           <div class="row">
-                              <div class="col-md-12">
+                              <div class="col-md">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Adress" type="text">
+                                  <input matInput placeholder="Pais" type="text" [(ngModel)]="data.pais" (blur)="edit('pais')">
                                 </mat-form-field>
+                              </div>
+                              <div class="col-md">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Correo electronico" type="email" [(ngModel)]="data.email" (blur)="edit('email')">
+                                  </mat-form-field>
                               </div>
                           </div>
                           <div class="row">
                               <div class="col-md-4">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="City" type="text">
+                                  <input matInput placeholder="Ciudad" type="text" [(ngModel)]="data.ciudad" (blur)="edit('ciudad')">
                                 </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Country" type="text">
+                                  <input matInput placeholder="Departamento" type="text" [(ngModel)]="data.departamento" (blur)="edit('departamento')">
                                 </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Postal Code" type="text">
+                                  <input matInput placeholder="Codigo Postal" type="text" [(ngModel)]="data.codigopostal" (blur)="edit('codigopostal')">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Direccion" type="text" [(ngModel)]="data.direcion" (blur)="edit('direcion')">
                                 </mat-form-field>
                               </div>
                           </div>
-                          <div class="row">
-                              <div class="col-md-12">
-                                <label>About Me</label>
-                                <mat-form-field class="example-full-width">
-                                   <textarea matInput placeholder="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."></textarea>
-                                 </mat-form-field>
-                                  <!-- <div class="form-group">
-
-                                      <div class="form-group">
-                                          <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
-                                          <textarea class="form-control" rows="5"></textarea>
-                                      </div>
-                                  </div> -->
-                              </div>
-                          </div>
-                          <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
+                          <button mat-raised-button type="submit" class="btn btn-danger pull-right">Actualizar</button>
                           <div class="clearfix"></div>
-                      </form>
+                      </div>
                   </div>
               </div>
           </div>
           <div class="col-md-4">
               <div class="card card-profile">
                   <div class="card-avatar">
-                      <a href="#pablo">
-                          <img class="img" src="./assets/img/faces/marc.jpg" />
+                      <a class="mouse">
+                          <img class="img" [src]="data.foto || './assets/img/faces/marc.jpg'" />
                       </a>
                   </div>
+                  <div class="row justify-content-md-center p-1">
+                    <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                  </div>
+                  <div class="row justify-content-md-center">
+                    <button
+                      (click)="file(cuerpo)"
+                      *ngIf="carga"
+                      class="btn btn-primary"
+                    >
+                      <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                      Guardar Imagen
+                    </button>
+                  </div>
+                  <div  *ngIf="!carga" class="d-flex align-items-center">
+                    <strong>Loading...</strong>
+                    <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                  </div>
                   <div class="card-body">
-                      <h6 class="card-category text-gray">CEO / Co-Founder</h6>
-                      <h4 class="card-title">Alec Thompson</h4>
+                      <h6 class="card-category text-gray">{{ data.rol.nombre }}</h6>
+                      <!-- <h4 class="card-title">{{ data.}}</h4> -->
                       <p class="card-description">
-                          Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                          Usuario de plaforma
                       </p>
-                      <a href="#pablo" class="btn btn-danger btn-round">Follow</a>
                   </div>
               </div>
           </div>

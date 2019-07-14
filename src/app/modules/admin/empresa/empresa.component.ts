@@ -24,7 +24,7 @@ export class EmpresaComponent implements OnInit {
   public clone: any = [];
   public listmercados: any = [];
   public user: any = {};
-  public img: any;
+  public img: any = [];
   public datafile: any;
   public carga: boolean= true;
 

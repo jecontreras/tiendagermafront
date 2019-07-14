@@ -20,25 +20,4 @@ export class UsuariosService {
   edit(query:any){
     return this._model.update('user', query.id, query);
   }
-  pushfile(obj: any) {
-    console.log(this._model);
-    const
-      form = new FormData()
-    ;
-    // tslint:disable-next-line:quotemark
-    if (obj) {
-      form.append('file', obj[0]);
-      return this._model.create('articulo/file', form);
-    } else {
-      // cuerpo._tools.openSnack('Error', false);
-    }
-  }
-  deletefile(obj: any ) {
-    if (obj) {
-      return this._model.get('user/deletefile', {
-        name: obj
-      })
-      ;
-    }
-  }
 }
