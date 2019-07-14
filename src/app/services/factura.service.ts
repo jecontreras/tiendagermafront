@@ -4,7 +4,7 @@ import { FactoryModelService } from './factory-model.service'
 @Injectable({
   providedIn: 'root'
 })
-export class TallaService {
+export class CartService {
   cuerpo: any = {};
   constructor(
     private _model: FactoryModelService
@@ -12,12 +12,12 @@ export class TallaService {
     this.cuerpo = this._model;
   }
   get(query: any){
-    return this._model.query('talla', query);
+    return this._model.query('cart', query);
   }
   saved (query: any){
-    return this._model.create('talla', query);
+    return this._model.create('cart', query);
   }
   edit(query:any){
-    return this._model.update('talla', query.id, query);
+    return this._model.update('cart', query.id, query);
   }
 }

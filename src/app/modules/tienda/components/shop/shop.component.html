@@ -47,13 +47,15 @@
         <h2>Productos Con Gran Prestigios</h2>
     </div>
     <div class="row">
-      <div class="col-12 col-sm-6 col-lg-4" *ngFor="let pro of listproductpres">
-          <div class="single-product-wrapper">
+      <div class="col-9 col-sm-4 col-lg-3" *ngFor="let pro of listproductpres">
+          <div
+            class="single-product-wrapper"
+          >
               <!-- Product Image -->
-              <div class="product-img">
-                  <img src="{{ pro.logo || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+              <div class="product-img mouse" [routerLink]="['../singleproductdetails', pro.slug]" target="_blank">
+                  <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
                   <!-- Hover Thumb -->
-                  <img class="hover-img" src="{{ pro.logo2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                  <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
 
                   <!-- Favourite -->
                   <div class="product-favourite">
@@ -63,8 +65,8 @@
 
               <!-- Product Description -->
               <div class="product-description">
-                  <span>topshop</span>
-                  <a href="single-product-details.html">
+                  <span [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">topshop</span>
+                  <a [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">
                       <h6>{{ pro.titulo }}</h6>
                   </a>
                   <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa }}</p>
@@ -253,10 +255,10 @@
                       <div class="col-12 col-sm-6 col-lg-4" *ngFor="let pro of listProduct">
                           <div class="single-product-wrapper">
                               <!-- Product Image -->
-                              <div class="product-img">
-                                  <img src="{{ pro.logo || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                              <div class="product-img mouse" [routerLink]="['../singleproductdetails', pro.slug]" target="_blank">
+                                  <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
                                   <!-- Hover Thumb -->
-                                  <img class="hover-img" src="{{ pro.logo2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                                  <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
 
                                   <!-- Favourite -->
                                   <div class="product-favourite">
@@ -266,8 +268,8 @@
 
                               <!-- Product Description -->
                               <div class="product-description">
-                                  <span>topshop</span>
-                                  <a href="single-product-details.html">
+                                  <span [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">topshop</span>
+                                  <a [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">
                                       <h6>{{ pro.titulo }}</h6>
                                   </a>
                                   <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa }}</p>

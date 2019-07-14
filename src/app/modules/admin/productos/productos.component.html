@@ -114,6 +114,9 @@
                         <th>
                             Megusta
                         </th>
+                        <th>
+                            Estado
+                        </th>
                     </thead>
                     <tbody>
                         <tr
@@ -159,6 +162,9 @@
                             <td class="text-primary">
                                 {{ item.megusta }}
                             </td>
+                            <td class="text-primary">
+                                {{ item.opcion }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -201,6 +207,13 @@
                 <input type="text"
                   (blur)="blur('titulo')"
                   class="form-control" placeholder="Nombre" [(ngModel)]="data.titulo">
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">O</label>
+                <select class="custom-select"  (blur)="blur('opcion')" [(ngModel)]="data.opcion">
+                  <option value="producto" *ngIf="user.empresa.ofrece === 'producto' || user.empresa.ofrece === 'productoservicio'">Producto</option>
+                  <option value="servicio" *ngIf="user.empresa.ofrece === 'servicio' || user.empresa.ofrece === 'productoservicio'">Servicio</option>
+                </select>
               </div>
             </div>
             <div class="form-row">
@@ -344,7 +357,7 @@
                 >
                     Galeria
                 </span>
-                <div class="row">
+                <div class="row" *ngIf="listgaleria.length <=5">
                   <div class="row p-1">
                     <input
                       type="file"
@@ -605,7 +618,7 @@
               </div>
             </div>
           </div>
-          <div class="form-column">
+          <div class="form-column" *ngIf="disabledexcel">
             <div class="d-flex align-items-center">
               <input type="file" (change)="onFileChange($event)" multiple="false" />
             </div>
