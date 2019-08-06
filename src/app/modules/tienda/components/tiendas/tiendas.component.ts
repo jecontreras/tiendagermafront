@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-tiendas',
   templateUrl: './tiendas.component.html',
-  styleUrls: ['/tiendas.component.scss']
+  styleUrls: ['./tiendas.component.scss']
 })
 export class TiendasComponent implements OnInit {
 

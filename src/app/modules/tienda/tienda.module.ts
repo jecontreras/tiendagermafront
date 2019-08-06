@@ -14,9 +14,11 @@ import { MyOwnCustomMaterialModule } from './../../app.material.module';
 import { RegularPageComponent } from './components/regularpage/regularpage.component';
 import { ShopComponent } from './components/shop/shop.component';
 import { SingleblogComponent } from './components/singleblog/singleblog.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SingleproductdetailsComponent } from './components/singleproductdetails/singleproductdetails.component';
 import { TiendasComponent } from './components/tiendas/tiendas.component';
-import { FormsModule } from '@angular/forms';
+import { OwlModule } from 'ngx-owl-carousel';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
   declarations: [
@@ -37,8 +39,11 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    MainRoutingModule,
+    OwlModule,
+    RecaptchaModule,
     FormsModule,
+    ReactiveFormsModule,
+    MainRoutingModule,
     MyOwnCustomMaterialModule
   ]
 })

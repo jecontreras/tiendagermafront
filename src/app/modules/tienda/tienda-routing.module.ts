@@ -37,9 +37,9 @@ const tienda: Routes = [
      {path: 'regularpage', component: RegularPageComponent },
      {path: 'shop', component: ShopComponent },
      {path: 'shop/:id', component: ShopComponent },
-     // {path: 'singleblog', component: SingleblogComponent },
-     {path: 'shop/singleproductdetails/:id', component: SingleproductdetailsComponent },
+     {path: 'singleblog', component: SingleblogComponent },
      {path: 'singleproductdetails/:id', component: SingleproductdetailsComponent },
+     {path: 'shop/singleproductdetails/:id', component: SingleproductdetailsComponent },
      {path: 'tiendas', component: TiendasComponent },
      {path: '**', redirectTo: 'contenido', pathMatch: 'full'}
    ]

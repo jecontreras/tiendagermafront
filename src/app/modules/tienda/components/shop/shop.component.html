@@ -35,14 +35,12 @@
       <div class="col">
         <img
           src="{{ data.fondo || './assets/img/cover.jpeg'}}" alt="Not Found"
-          width="683px"
-          class="rounded"
-          height="373px"
+          class="rounded imgperfil"
         >
       </div>
     </div>
   </div>
-  <div class="column content">
+  <!-- <div class="column content">
     <div class="page-title text-center">
         <h2>Productos Con Gran Prestigios</h2>
     </div>
@@ -51,19 +49,13 @@
           <div
             class="single-product-wrapper"
           >
-              <!-- Product Image -->
               <div class="product-img mouse" [routerLink]="['../singleproductdetails', pro.slug]" target="_blank">
                   <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
-                  <!-- Hover Thumb -->
                   <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
-
-                  <!-- Favourite -->
                   <div class="product-favourite">
                       <a href="#" class="favme fa fa-heart"></a>
                   </div>
               </div>
-
-              <!-- Product Description -->
               <div class="product-description">
                   <span [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">topshop</span>
                   <a [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">
@@ -71,10 +63,7 @@
                   </a>
                   <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa }}</p>
                   <p class="product-price" *ngIf="pro.costopromosion"><span class="old-price">{{ pro.costoventa }}</span> {{ pro.costopromosion }}</p>
-
-                  <!-- Hover Content -->
                   <div class="hover-content">
-                      <!-- Add to Cart -->
                       <div class="add-to-cart-btn">
                           <a (click)="agregar(pro)" class="mouse btn essence-btn">Agregar Al Carrito</a>
                       </div>
@@ -83,7 +72,7 @@
           </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <div class="breadcumb_area bg-img" style="background-image: url(./assets/img/bg-img/breadcumb.jpg);">
@@ -109,48 +98,28 @@
                     <!-- ##### Single Widget ##### -->
                     <div class="widget catagory mb-50">
                         <!-- Widget Title -->
-                        <h6 class="widget-title mb-30">Catagories</h6>
+                        <h6 class="widget-title mb-30">Categorias</h6>
 
                         <!--  Catagories  -->
                         <div class="catagories-menu">
                             <ul id="menu-content2" class="menu-content collapse show">
                                 <!-- Single Item -->
                                 <li data-toggle="collapse" data-target="#clothing">
-                                    <a href="#">clothing</a>
-                                    <ul class="sub-menu collapse show" id="clothing">
-                                        <li><a href="#">All</a></li>
-                                        <li><a href="#">Bodysuits</a></li>
-                                        <li><a href="#">Dresses</a></li>
-                                        <li><a href="#">Hoodies &amp; Sweats</a></li>
-                                        <li><a href="#">Jackets &amp; Coats</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                        <li><a href="#">Pants &amp; Leggings</a></li>
-                                        <li><a href="#">Rompers &amp; Jumpsuits</a></li>
-                                        <li><a href="#">Shirts &amp; Blouses</a></li>
-                                        <li><a href="#">Shirts</a></li>
-                                        <li><a href="#">Sweaters &amp; Knits</a></li>
+                                    <a class="mouse">Tipos de Productos</a>
+                                    <ul class="sub-menu collapse show" id="clothing" *ngFor="let item of listmercados">
+                                        <li><a (click)="query.where.tipomercado=item.id; getsearh();" class="mouse">{{ item.titulo }}</a></li>
                                     </ul>
                                 </li>
                                 <!-- Single Item -->
-                                <li data-toggle="collapse" data-target="#shoes" class="collapsed">
-                                    <a href="#">shoes</a>
+                                <!-- <li data-toggle="collapse" data-target="#shoes" class="collapsed">
+                                    <a class="mouse">Tipo</a>
                                     <ul class="sub-menu collapse" id="shoes">
                                         <li><a href="#">All</a></li>
-                                        <li><a href="#">Bodysuits</a></li>
-                                        <li><a href="#">Dresses</a></li>
-                                        <li><a href="#">Hoodies &amp; Sweats</a></li>
-                                        <li><a href="#">Jackets &amp; Coats</a></li>
-                                        <li><a href="#">Jeans</a></li>
-                                        <li><a href="#">Pants &amp; Leggings</a></li>
-                                        <li><a href="#">Rompers &amp; Jumpsuits</a></li>
-                                        <li><a href="#">Shirts &amp; Blouses</a></li>
-                                        <li><a href="#">Shirts</a></li>
-                                        <li><a href="#">Sweaters &amp; Knits</a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <!-- Single Item -->
                                 <li data-toggle="collapse" data-target="#accessories" class="collapsed">
-                                    <a href="#">accessories</a>
+                                    <a class="mouse">accessories</a>
                                     <ul class="sub-menu collapse" id="accessories">
                                         <li><a href="#">All</a></li>
                                         <li><a href="#">Bodysuits</a></li>
@@ -168,12 +137,8 @@
                             </ul>
                         </div>
                     </div>
-
-                    <!-- ##### Single Widget ##### -->
-                    <div class="widget price mb-50">
-                        <!-- Widget Title -->
+                    <!-- <div class="widget price mb-50">
                         <h6 class="widget-title mb-30">Filter by</h6>
-                        <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-30">Price</p>
 
                         <div class="widget-desc">
@@ -186,31 +151,32 @@
                                 <div class="range-price">Range: $49.00 - $360.00</div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- ##### Single Widget ##### -->
                     <div class="widget color mb-50">
-                        <!-- Widget Title 2 -->
                         <p class="widget-title2 mb-30">Color</p>
                         <div class="widget-desc">
                             <ul class="d-flex">
-                                <li><a href="#" class="color1"></a></li>
-                                <li><a href="#" class="color2"></a></li>
-                                <li><a href="#" class="color3"></a></li>
-                                <li><a href="#" class="color4"></a></li>
-                                <li><a href="#" class="color5"></a></li>
-                                <li><a href="#" class="color6"></a></li>
-                                <li><a href="#" class="color7"></a></li>
-                                <li><a href="#" class="color8"></a></li>
-                                <li><a href="#" class="color9"></a></li>
-                                <li><a href="#" class="color10"></a></li>
+                                <li *ngFor="let item of listcolor"><a (click)="query.where.color=item.id; getsearh();"
+                                  [ngClass]="{
+                                     'color1':item.color === 'blanco',
+                                     'color2':item.color === 'gris',
+                                     'color3':item.color === 'negro',
+                                     'color4':item.color === 'azul',
+                                     'color5':item.color === 'rojo',
+                                     'color6':item.color === 'amarillo',
+                                     'color7':item.color === 'naranjado',
+                                     'color8':item.color === 'amarron',
+                                     'color9':item.color === 'verde',
+                                     'color10':item.color === 'morado'
+                                  }"></a></li>
                             </ul>
                         </div>
                     </div>
 
                     <!-- ##### Single Widget ##### -->
-                    <div class="widget brands mb-50">
-                        <!-- Widget Title 2 -->
+                    <!-- <div class="widget brands mb-50">
                         <p class="widget-title2 mb-30">Brands</p>
                         <div class="widget-desc">
                             <ul>
@@ -221,31 +187,43 @@
                                 <li><a href="#">Zara</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
             <div class="col-12 col-md-8 col-lg-9">
                 <div class="shop_grid_product_area">
+                    <div class="row p-3 mb-2 bg-light text-white rounded">
+                      <div class="col p-2">
+                        <input type="text"
+                          matTooltip="Buscador"
+                          class="form-control" placeholder="Buscar Articulo" [(ngModel)]="searcht.txt">
+                      </div>
+                      <div class="row">
+                        <button type="button" (click)="getsearh()" class="btn btn-success">Buscar</button>
+                        <button type="button" (click)="getTienda();" class="btn btn-danger">Limpiar</button>
+                      </div>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="product-topbar d-flex align-items-center justify-content-between">
                                 <!-- Total Products -->
                                 <div class="total-products">
-                                    <p><span>186</span> products found</p>
+                                    <p><span>{{ count }}</span> productos encontrados</p>
                                 </div>
                                 <!-- Sorting -->
                                 <div class="product-sorting d-flex">
-                                    <p>Sort by:</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="sortByselect">
-                                            <option value="value">Highest Rated</option>
-                                            <option value="value">Newest</option>
-                                            <option value="value">Price: $$ - $</option>
-                                            <option value="value">Price: $ - $$</option>
+                                    <div class="p-2">
+                                      <p>Ordenar por:</p>
+                                    </div>
+                                    <div>
+                                        <select class="custom-select" [(ngModel)]="searcht.ordenar" (blur)="getsearh()">
+                                            <option value="mejor-valor">El mejor valorado</option>
+                                            <option value="nuevo">El más nuevo</option>
+                                            <option value="precio-mayor">Precio Mayor $</option>
+                                            <option value="precio-menor">Precio Menor $</option>
                                         </select>
-                                        <input type="submit" class="d-none" value="">
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -259,11 +237,6 @@
                                   <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
                                   <!-- Hover Thumb -->
                                   <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
-
-                                  <!-- Favourite -->
-                                  <div class="product-favourite">
-                                      <a href="#" class="favme fa fa-heart"></a>
-                                  </div>
                               </div>
 
                               <!-- Product Description -->
@@ -272,33 +245,25 @@
                                   <a [routerLink]="['../singleproductdetails', pro.slug]" class="mouse" target="_blank">
                                       <h6>{{ pro.titulo }}</h6>
                                   </a>
-                                  <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa }}</p>
-                                  <p class="product-price" *ngIf="pro.costopromosion"><span class="old-price">{{ pro.costoventa }}</span> {{ pro.costopromosion }}</p>
+                                  <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa | currency:'COP':true }}</p>
+                                  <p class="product-price" *ngIf="pro.costopromosion"><span class="old-price">{{ pro.costoventa | currency:'COP':true }}</span> {{ pro.costopromosion | currency:'COP':true }}</p>
 
                                   <!-- Hover Content -->
-                                  <div class="hover-content">
-                                      <!-- Add to Cart -->
+                                  <!-- <div class="hover-content">
                                       <div class="add-to-cart-btn">
-                                          <a (click)="agregar(pro)" class="mouse btn essence-btn">Agregar Al Carrito</a>
+                                          <a [routerLink]="['../singleproductdetails', pro.slug]" class="mouse btn essence-btn">Ver Articulo</a>
                                       </div>
-                                  </div>
+                                  </div> -->
                               </div>
                           </div>
                       </div>
                     </div>
                 </div>
                 <!-- Pagination -->
-                <nav aria-label="navigation">
-                    <ul class="pagination mt-50 mb-70">
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">21</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
-                </nav>
+                <mat-paginator [length]="count"
+                              [pageSize]="10"
+                              (page)="pageEvent($event)">
+                </mat-paginator>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['/contact.component.scss']
+  styleUrls: ['./contact.component.scss']
 })
 export class ContactComponent implements OnInit {
   public slug: any = {};
@@ -22,7 +22,7 @@ export class ContactComponent implements OnInit {
          this.slug = params['id'];
          console.log(params);
        }else{
-         
+
        }
     });
   }

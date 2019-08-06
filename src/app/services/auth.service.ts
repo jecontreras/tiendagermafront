@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 import { tap } from 'rxjs/operators';
 import {Router, CanActivate } from '@angular/router';
 
@@ -55,12 +56,29 @@ export class AuthService implements CanActivate {
         return moment(expiresAt);
     }
     canActivate() {
-      const identity = localStorage.getItem('user');
-      if (identity) {
-        return true;
-      } else {
-        this.router.navigate(['/']);
-        return false;
+      var
+        identity:any = localStorage.getItem('user'),
+        splice: any = [];
+      // console.log(identity, window.location.pathname);
+      splice = _.split(window.location.pathname, "/", 3);
+      // console.log(splice);
+      if(splice[1] === 'admin' || identity){
+        if (identity) {
+          return true;
+        } else {
+          this.router.navigate(['/']);
+          return false;
+        }
+      }
+    }
+    urlreturn(splice, identity){
+      if(splice){
+        if (identity) {
+          return true;
+        } else {
+          this.router.navigate(['/']);
+          return false;
+        }
       }
     }
 }

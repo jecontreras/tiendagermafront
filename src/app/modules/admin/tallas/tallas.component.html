@@ -4,10 +4,27 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger row">
-                      <div class="col">
-                        <h4 class="card-title ">Tallas</h4>
-                        <p class="card-category" *ngIf="!disable"> Listado de Tallas</p>
-                        <p class="card-category" *ngIf="disable"> Agregar Tallas</p>
+                      <div class="col row">
+                        <div class="">
+                          <h4 class="card-title ">Tallas</h4>
+                          <p class="card-category" *ngIf="!disable"> Listado de Tallas</p>
+                          <p class="card-category" *ngIf="disable"> Agregar Tallas</p>
+                        </div>
+                        <div class="col p-1" *ngIf="!disable">
+                          <input type="text"
+                            style="color: white;"
+                            matTooltip="Buscador"
+                            class="form-control" placeholder="Buscar Cliente" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+                        </div>
+                        <div class="" *ngIf="!disable">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            matTooltip="Buscar"
+                            placeholder="Buscar" (click)="getsearh()">
+                            <i class="material-icons">search</i>
+                          </button>
+                        </div>
                       </div>
                       <div class="">
                         <button
@@ -20,7 +37,7 @@
                         </button>
                         <button
                           mat-mini-fab
-                          (click)="add()"
+                          (click)="add(false)"
                           placeholder="agregar"
                         >
                           <i
@@ -84,6 +101,10 @@
                                   </tr>
                               </tbody>
                           </table>
+                          <mat-paginator [length]="count"
+                                        [pageSize]="10"
+                                        (page)="pageEvent($event)">
+                          </mat-paginator>
                       </div>
                   </div>
                   <div class="card-body" *ngIf="disable">

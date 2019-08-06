@@ -14,6 +14,9 @@ export class CartService {
   get(query: any){
     return this._model.query('cart', query);
   }
+  getcart(query: any){
+    return this._model.query('cart/getcompleto', query);
+  }
   saved (query: any){
     return this._model.create('cart', query);
   }
@@ -23,28 +26,10 @@ export class CartService {
   generate(query: any){
     return this._model.create('cart/generateCar', query);
   }
+  validarart(query: any){
+    return this._model.create('cart/validarart', query);
+  }
   edit(query:any){
     return this._model.update('cart', query.id, query);
-  }
-  pushfile(obj: any) {
-    console.log(this._model);
-    const
-      form = new FormData()
-    ;
-    // tslint:disable-next-line:quotemark
-    if (obj) {
-      form.append('file', obj[0]);
-      return this._model.create('articulo/file', form);
-    } else {
-      // cuerpo._tools.openSnack('Error', false);
-    }
-  }
-  deletefile(obj: any ) {
-    if (obj) {
-      return this._model.get('user/deletefile', {
-        name: obj
-      })
-      ;
-    }
   }
 }

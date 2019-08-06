@@ -5,3 +5,38 @@
     height: 500px;
     width: 100%;
 }
+.alto {
+  height: 0px;
+}
+.ancho {
+  height: 28px;
+}
+
+.label {
+  font-size: 20px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.label {
+  color: grey;
+}
+
+.clasificacion {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+}
+
+.label:hover,
+.label:hover ~ .label {
+  color: orange;
+}
+
+input[type="radio"]:checked ~ .label {
+  color: orange;
+}
+.checkcolor {
+  color: orange;
+}

@@ -4,10 +4,27 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger row">
-                      <div class="col">
-                        <h4 class="card-title ">Compras</h4>
-                        <p class="card-category" *ngIf="!disable"> Listado de Compras</p>
-                        <p class="card-category" *ngIf="disable"> Compras</p>
+                      <div class="col row">
+                        <div class="">
+                          <h4 class="card-title ">Compras</h4>
+                          <p class="card-category" *ngIf="!disable"> Listado de Compras</p>
+                          <p class="card-category" *ngIf="disable"> Compras</p>
+                        </div>
+                        <div class="col p-1" *ngIf="!disable">
+                          <input type="text"
+                            style="color: white;"
+                            matTooltip="Buscador"
+                            class="form-control" placeholder="Buscar Cliente" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+                        </div>
+                        <div class="" *ngIf="!disable">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            matTooltip="Buscar"
+                            placeholder="Buscar" (click)="getsearh()">
+                            <i class="material-icons">search</i>
+                          </button>
+                        </div>
                       </div>
                       <div class="">
                         <!-- <button
@@ -22,6 +39,7 @@
                           mat-mini-fab
                           (click)="add()"
                           placeholder="agregar"
+                          *ngIf="disable"
                         >
                           <i
                             class="material-icons"
@@ -49,10 +67,10 @@
                                       Codigo
                                   </th>
                                   <th>
-                                      titulo
+                                      Costo
                                   </th>
                                   <th>
-                                      Costo
+                                      Fecha de Entrega
                                   </th>
                                   <th>
                                       Creado
@@ -66,9 +84,8 @@
                                         <button
                                           mat-mini-fab
                                           placeholder="Ver"
-                                          [routerLink]="['../empresa', item.id]"
+                                          [routerLink]="['../factura', item.id]"
                                         >
-                                        <!-- (click)="add(item)" -->
                                           <i
                                             class="material-icons"
                                           >
@@ -80,10 +97,10 @@
                                         {{ item.codigo }}
                                       </td>
                                       <td>
-                                        {{ item.titulo }}
+                                        {{ item.total }}
                                       </td>
                                       <td>
-                                        {{ item.costo }}
+                                        {{ item.fechaentrega }}
                                       </td>
                                       <td>
                                         {{ item.createdAt}}
@@ -91,97 +108,91 @@
                                   </tr>
                               </tbody>
                           </table>
+                          <mat-paginator [length]="count"
+                                        [pageSize]="10"
+                                        (page)="pageEvent($event)">
+                          </mat-paginator>
                       </div>
                   </div>
                   <div class="card-body" *ngIf="disable">
-                    <div class="form-column">
-                      <!-- <nav
-                        class="navbar navbar-light bg-light row card-header card-header-danger"
+                    <!-- <nav
+                      class="navbar navbar-light bg-light row card-header card-header-danger"
+                    >
+                      <span
+                        class="p"
                       >
-                        <span
-                          class="p"
-                        >
-                            Informacion de la Compra
-                        </span>
-                      </nav> -->
-                      <div class="form-row">
-                        <div class="form-group">
-                          <label for="formGroupExampleInput">Codigo</label>
-                          <input type="text"
-                            (blur)="blur('codigo')"
-                            class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="data.codigo">
-                        </div>
-                        <div class="form-group col-sm">
-                          <label for="formGroupExampleInput">Usuario</label>
-                          <input type="text"
-                            class="form-control" placeholder="Nombre del usuario" [(ngModel)]="data.user.username">
-                        </div>
-                        <div class="form-group col-sm">
-                          <label for="formGroupExampleInput">Celular</label>
-                          <input type="text"
-                            class="form-control" placeholder="Telefono del usuario" [(ngModel)]="data.user.celular">
-                        </div>
+                          Informacion Principal
+                      </span>
+                    </nav> -->
+                    <div class="row" *ngIf="user.rol.nombre === 'super admin' || user.rol.nombre === 'usuario'">
+                      <div class="col-md-3 mb-3">
+                          <label for="first_name">Factura Codigo <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.codigo" required [disabled]="user.rol.nombre === 'usuario'">
                       </div>
-                      <div class="form-row">
-                        <div class="form-group col-sm">
-                          <label for="formGroupExampleInput">Email</label>
-                          <input type="text"
-                            class="form-control" placeholder="Email del usuario" [(ngModel)]="data.user.email">
-                        </div>
-                        <div class="form-group col-sm">
-                          <label for="formGroupExampleInput">Direccion</label>
-                          <input type="text"
-                            class="form-control" placeholder="Direccion del usuario" [(ngModel)]="data.user.direccion">
-                        </div>
-                        <div class="form-group col-sm">
-                          <label for="formGroupExampleInput">Departamento</label>
-                          <input type="text"
-                            class="form-control" placeholder="Departamento / ciudad" [(ngModel)]="data.user.departamento">
-                        </div>
+                      <div class="col-md-9 mb-3">
+                          <label for="last_name">user <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.user.name" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label for="last_name">Cantidad <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.cantidad" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label for="last_name">Subtotal <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.subtotal" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label for="last_name">Total <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.total" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Estado <span>*</span></label>
+                          <select class="custom-select" [(ngModel)]="data.estado" (blur)="blur('estado', false)" [disabled]="user.rol.nombre === 'usuario'">
+                            <option value="activo">Activo</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="enviado">Enviado</option>
+                            <option value="completado">Completado</option>
+                            <option value="rechazado">Rechazado</option>
+                          </select>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Ciudad <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.ciudad" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label for="last_name">Valor de la Entrega <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.valorentrega" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label for="last_name">Fecha de la Entrega <span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.fechaentrega" (blur)="blur('fechaentrega', false)" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label for="last_name">Fecha Maxima<span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.valorentrega" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Pais<span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.pais" required [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Provivencia<span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.provivencia" required (blur)="blur('provivencia', false)" [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Direccion<span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.direccion1" required (blur)="blur('direccion1', false)" [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Otra Direccion</label>
+                          <input type="text" class="form-control" [(ngModel)]="data.direccion2" required (blur)="blur('direccion2', false)" [disabled]="user.rol.nombre === 'usuario'">
+                      </div>
+                      <div class="col-md-12 mb-3">
+                          <label for="last_name">Codigo Postal<span>*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="data.codigopostal" required (blur)="blur('codigopostal', false)" [disabled]="user.rol.nombre === 'usuario'">
                       </div>
                     </div>
                     <br>
-                    <br>
-                    <br>
-                    <div class="form-column">
-                      <nav
-                        class="navbar navbar-light bg-light row card-header card-header-danger"
-                      >
-                        <span
-                          class="p"
-                        >
-                            Productos Comprados
-                        </span>
-                      </nav>
-                      <div class="form-column p-3">
-                        <div
-                          class="col-6 col-sm-4 col-lg-3 mat-elevation-z3" *ngFor="let pro of listproductos"
-                        >
-                            <div class="single-product-wrapper">
-                                <div class="product-img">
-                                    <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
-                                    <img class="hover-img" src="{{ pro.foto || '/assets/img/product-img/product-5.jpg'}}" alt="none">
-                                    <div class="product-badge offer-badge">
-                                        <span class="mouse" (click)="deletefile(pro)">
-                                          <i class="material-icons">close</i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="product-description">
-                                    <a href="single-product-details.html">
-                                        <h6>{{ pro.titulo }}</h6>
-                                    </a>
-                                    <div class="hover-content">
-                                        <!-- <div class="">
-                                            <button type="button" (click)="data.foto = pro.foto; blur('foto')" class="btn btn-primary">Principal</button>
-                                            <button type="button" (click)="data.foto2 = pro.foto; blur('foto2')" class="btn btn-primary">Segunda p</button>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
                     <div class="form-column">
                       <nav
                         class="navbar navbar-light bg-light row card-header card-header-danger"
@@ -193,14 +204,155 @@
                         </span>
                       </nav>
                       <div class="form-column">
-                        <div class="form-row">
-                          <div class="form-group col-sm">
-                            <label for="formGroupExampleInput">Medio de pago</label>
-                            <input type="text"
-                              class="form-control" placeholder="Pago" [(ngModel)]="data.pago.medio">
+                        <div class="row">
+                          <div class="col-md-3 mb-3">
+                              <label for="first_name">Ref payco<span>*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="data.cartpago.x_ref_payco" required disabled>
+                          </div>
+                          <div class="col-md-3 mb-3">
+                              <label for="first_name">Por Medio<span>*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="data.cartpago.x_bank_name" required disabled>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label for="first_name">Valor sin Iva<span>*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="data.cartpago.x_amount" required disabled>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label for="first_name">Anombre<span>*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="data.cartpago.x_business" required disabled>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label for="first_name">Fecha de la Transacción<span>*</span></label>
+                              <input type="text" class="form-control" [(ngModel)]="data.cartpago.x_fecha_transaccion" required disabled>
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <br>
+                    <div class="form-column" *ngFor="let item of listfact">
+                      <nav
+                        class="navbar navbar-light bg-light row card-header card-header-danger"
+                      >
+                        <span
+                          class="p"
+                        >
+                            Informacion de la Compra
+                        </span>
+                      </nav>
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="formGroupExampleInput">Codigo</label>
+                          <input type="text"
+                            class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="item.codigo" disabled>
+                        </div>
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Usuario</label>
+                          <input type="text"
+                            class="form-control" placeholder="Nombre del usuario" [(ngModel)]="item.user.username" [disabled]="(user.rol.nombre === 'usuario' || user.rol.nombre === 'admin')">
+                        </div>
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Empresa</label>
+                          <input type="text"
+                            class="form-control" placeholder="Telefono del usuario" [(ngModel)]="item.articulo[0].empresa.empresa" [disabled]="(user.rol.nombre === 'usuario' || user.rol.nombre === 'admin')">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <!-- <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Email</label>
+                          <input type="text"
+                            class="form-control" placeholder="Email del usuario" [(ngModel)]="item.user.email">
+                        </div>
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Direccion</label>
+                          <input type="text"
+                            class="form-control" placeholder="Direccion del usuario" [(ngModel)]="item.direccion1">
+                        </div> -->
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Estado de la Factura</label>
+                          <select class="custom-select" [(ngModel)]="item.estado" (blur)="blur('estado', item)" [disabled]="(user.rol.nombre === 'usuario')">
+                            <option value="activo">Activo</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="enviado">Enviado</option>
+                            <option value="completado">Completado</option>
+                            <option value="rechazado">Rechazado</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Departamento</label>
+                          <input type="text"
+                            class="form-control" placeholder="Departamento / ciudad" [(ngModel)]="item.provivencia" [disabled]="(user.rol.nombre === 'usuario' || user.rol.nombre === 'admin')">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">Subtotal:</label>
+                          <span>{{" "+item.subtotal | currency: 0 : "$"}}</span>
+                        </div>
+                        <div class="form-group col-sm">
+                          <label for="formGroupExampleInput">total:</label>
+                          <span>{{" "+item.total | currency: 0 : "$"}}</span>
+                        </div>
+                      </div>
+                      <div
+                        class="form-row"
+                      >
+                        <div class="form-group col">
+                          <label for="formGroupExampleInput">Descripcion</label>
+                          <textarea class="form-control" maxlength="100" minlength="5" (blur)="blur('descripcion', item)" rows="3" [(ngModel)]="item.descripcion" required [disabled]="(user.rol.nombre === 'usuario')"></textarea>
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      <div class="form-column">
+                        <nav
+                          class="navbar navbar-light bg-light row card-header card-header-danger"
+                        >
+                          <span
+                            class="p"
+                          >
+                              Productos Comprados
+                          </span>
+                        </nav>
+                        <div class="form-row p-3">
+                          <div
+                            class="col-6 col-sm-4 col-lg-3 mat-elevation-z3" *ngFor="let pro of item.articulo"
+                          >
+                              <div class="single-product-wrapper">
+                                  <div class="product-img">
+                                      <img src="{{ pro.articulo.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                                      <img class="hover-img" src="{{ pro.articulo.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                                      <!-- <div class="product-badge offer-badge">
+                                          <span class="mouse" (click)="deletefile(pro)">
+                                            <i class="material-icons">close</i>
+                                          </span>
+                                      </div> -->
+                                  </div>
+                                  <div class="product-description">
+                                      <a href="single-product-details.html">
+                                          <h6>Producto: {{ " "+pro.articulo.titulo }}</h6>
+                                          <h6>Cantidad: {{" "+ pro.cantidad }}</h6>
+                                          <h6 *ngIf="pro.valordescuento">Valor: {{" "+ pro.valordescuento }}</h6>
+                                          <h6 *ngIf="pro.valor">Valor: {{" "+ pro.valor }}</h6>
+                                          <h6>Color: {{" "+ pro.color }}</h6>
+                                          <h6>Talla: {{" "+ pro.talla }}</h6>
+                                      </a>
+                                      <div class="hover-content">
+                                        <div class="add-to-cart-btn">
+                                            <a [routerLink]="['/tienda/shop/singleproductdetails', pro.articulo.slug]" target="_blank" class="mouse btn essence-btn">Ver En La Tienda</a>
+                                        </div>
+                                        <div class="add-to-cart-btn">
+                                            <a [routerLink]="['/admin/productos', pro.articulo.id]" target="_blank" *ngIf="user.rol.nombre !== 'usuario'" class="mouse btn essence-btn">Ver Administracion</a>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-divider"></div>
+                      <br>
+                      <br>
                     </div>
                   </div>
               </div>

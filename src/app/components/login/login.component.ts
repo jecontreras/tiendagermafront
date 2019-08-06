@@ -3,11 +3,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { AuthService } from './../../services/auth.service';
+import { UsuariosService } from './../../services/usuarios.service';
 import { ToolsService } from './../../services/tools.service';
 import { FactoryModelService } from './../../services/factory-model.service';
 import * as _ from 'lodash';
 import { GLOBAL } from './../../services/global';
-// import swal from 'sweetalert';
+import swal from 'sweetalert';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,11 +27,13 @@ export class LoginComponent implements OnInit {
   public disabledemail: boolean = true;
   public disabled: any = false;
   public data: any = {};
+  public id: any;
   // public _publicacion: any;
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
+      private _user: UsuariosService,
       private _userService: UserService,
       private _authSrvice: AuthService,
       private _tools: ToolsService,
@@ -40,6 +43,13 @@ export class LoginComponent implements OnInit {
     if (this._authSrvice.isLoggedIn()) {
       this.router.navigate(['admin/dashboard']);
     }
+    this.route.params.subscribe(params => {
+      // console.log(params);
+       if(params['id']!=null){
+         this.id = params['id'];
+         this.getuser();
+      }
+    });
     this.url = GLOBAL.url;
   }
 
@@ -48,6 +58,22 @@ export class LoginComponent implements OnInit {
           username: ['', Validators.required],
           password: ['', Validators.required]
       });
+  }
+  getuser(){
+    return this._user.get({
+      where:{
+        id: this.id
+      }
+    })
+    .subscribe(
+      (res: any)=>{
+        // console.log(res);
+        res = res.data[0];
+        if(res){
+          this.loginForm.patchValue({ username:res.email });
+        }
+      }
+    )
   }
   validadEmail(){
     const
@@ -102,18 +128,20 @@ export class LoginComponent implements OnInit {
       this._userService.login(this.loginForm.value).subscribe(
         (response: any) => {
           if (response.success) {
-            console.log(response);
+            // console.log(response);
             localStorage.setItem('user', JSON.stringify(response.data));
             this.router.navigate(['admin/dashboard']);
           } else {
-            // swal( 'Oops' ,  'El usuario o la contraseña son incorrectos!' ,  'error' );
+            swal( 'Oops' ,  'El usuario o la contraseña son incorrectos!' ,  'error' );
           }
         },
         error => {
-          // swal( 'Error' ,  'Problema con el servidor!' ,  'error' );
-          console.log(<any>error);
+          swal( 'Error' ,  'Problema con el servidor!' ,  'error' );
+          // console.log(<any>error);
         }
       );
+    }else{
+      swal( 'Oops' ,  'Por Favor Check de No Soy un Robot!' ,  'error' );
     }
   }
 

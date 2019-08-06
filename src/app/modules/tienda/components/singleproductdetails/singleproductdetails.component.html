@@ -1,52 +1,274 @@
 
 <!-- ##### Single Product Details Area Start ##### -->
+<div class="row conten container breadcumb_area bg-img" style="background-image: url(./assets/img/bg-img/breadcumb.jpg);">
+  <div class="p-3 col">
+    <div class="container column">
+      <div class="">
+        <h3>{{ data.titulo }}</h3>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="p-2">
+          <span><small>
+            {{ "Marca: " + data.marca }}
+          </small></span>
+        </div>
+        <div class="p-2">
+          <span><small>
+            {{ "Empresa: " + data.empresa.empresa }}
+          </small></span>
+        </div>
+        <div class="p-2">
+          <span><small>
+            {{ data.disponible || 0 + " Disponible"}}
+          </small></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <section class="single_product_details_area d-flex align-items-center">
-
     <!-- Single Product Thumb -->
     <div class="single_product_thumb clearfix">
-        <div class="product_thumbnail_slides owl-carousel">
-            <img src="/assets/img/product-img/product-big-1.jpg" alt="">
-            <img src="/assets/img/product-img/product-big-2.jpg" alt="">
-            <img src="/assets/img/product-img/product-big-3.jpg" alt="">
+        <div class="product_thumbnail_slides">
+          <owl-carousel [options]="mySlideOptions" [items]="images" [carouselClasses]="['owl-theme', 'sliding']" >
+           <div class="item" *ngFor="let image of mySlideImages;let i = index">
+            <div style="
+              background-image: url('https://www.diariodesevilla.es/2018/09/27/sevilla/centro-comercial-Torre-Sevilla_1285982036_89413339_667x375.jpg');
+              background-repeat: no-repeat;
+              background-size: cover;
+              height: 500px;
+              width: 100%;"[style.background-image]="sanitizeImage(imagenes[i])">
+              <!-- <img src={{image}}/> -->
+            </div>
+           </div>
+          </owl-carousel>
         </div>
     </div>
 
     <!-- Single Product Description -->
     <div class="single_product_desc clearfix">
-        <span>{{ data.tipo }}</span>
-        <a href="cart.html">
-            <h2>{{ data.titulo }}</h2>
-        </a>
-        <p class="product-price" *ngIf="!data.costopromosion">${{ data.costoventa }}</p>
-        <p class="product-price" *ngIf="data.costopromosion"><span class="old-price">${{ data.costoventa }}</span> ${{ data.costopromosion }}</p>
-        <p class="product-desc">{{ data.descripcion }}</p>
+        <p class="product-price" *ngIf="!data.costopromosion">${{ data.costoventa | currency:'COP':true }}</p>
+        <p class="product-price" *ngIf="data.costopromosion"><span class="old-price">$ {{ data.costoventa | currency:'COP':true }}</span> ${{ data.costopromosion | currency:'COP':true }}</p>
+        <p class="product-desc">{{ data.descripcioncorta }}</p>
 
         <!-- Form -->
-        <form class="cart-form clearfix" method="post">
+        <div class="cart-form clearfix">
             <!-- Select Box -->
             <div class="select-box d-flex mt-50 mb-30">
-                <select name="select" id="productSize" class="mr-5">
-                    <option value="value">Size: XL</option>
-                    <option value="value">Size: X</option>
-                    <option value="value">Size: M</option>
-                    <option value="value">Size: S</option>
+              <div class="form-group mr-5" *ngIf="data.listatallas.length">
+                <label for="formGroupExampleInput">Tallas</label>
+                <select class="custom-select"  [(ngModel)]="dato.talla">
+                    <option
+                      *ngFor="let item of data.listatallas"
+                      value="{{item.talla}}"
+                    >
+                      {{ item.talla + " T " + item.color }}
+                    </option>
                 </select>
-                <select name="select" id="productColor">
-                    <option value="value">Color: Black</option>
-                    <option value="value">Color: White</option>
-                    <option value="value">Color: Red</option>
-                    <option value="value">Color: Purple</option>
+              </div>
+              <div class="form-group row" *ngIf="data.listacolores.length">
+                <div class="form-group mr-5">
+                  <label for="formGroupExampleInput">Colores</label>
+                  <select class="custom-select" [(ngModel)]="dato.color">
+                    <option
+                      *ngFor="let item of data.listacolores"
+                      value="{{item.color}}"
+                    >
+                    {{ item.color }}
+                  </option>
                 </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group column">
+              <!-- <div class="row">
+                <span>Envio $ {{ dato.costoenvio | currency:'COP':true }}</span>
+              </div> -->
+              <div>
+                <span>Plazó de entrega previsto {{ dato.fechaentrega }} - {{ dato.fechamaxima }} <!--y recibelo en {{ dato.ciudad }}  --></span>
+              </div>
+              <!-- <div>
+                <a class="mouse" (click)="disablediri = !disablediri">Calcular envío en otra dirección</a>
+              </div>
+              <div>
+                <a class="mouse">Envio Rapido</a>
+              </div>
+              <div *ngIf="disablediri" class="form-group row">
+                <div class="form-group mr-5">
+                  <label for="formGroupExampleInput">Departamento</label>
+                  <select class="custom-select" [(ngModel)]="dato.departamento" (blur)="blurdepartamento()">
+                    <option
+                      *ngFor="let item of listdepartamento"
+                      value="{{ item.departamento }}"
+                    >
+                    {{ item.departamento }}
+                  </option>
+                </select>
+                </div>
+                <div class="form-group mr-5">
+                  <label for="formGroupExampleInput">Ciudad</label>
+                  <select class="custom-select" [(ngModel)]="dato.ciudad" (blur)="blurcosto()">
+                    <option
+                      *ngFor="let item of listciudades"
+                      value="{{ item }}"
+                    >
+                    {{ item }}
+                  </option>
+                </select>
+                </div>
+              </div> -->
             </div>
             <!-- Cart & Favourite Box -->
             <div class="cart-fav-box d-flex align-items-center">
-                <!-- Cart -->
-                <button type="submit" name="addtocart" value="5" class="btn essence-btn">Add to cart</button>
-                <!-- Favourite -->
-                <div class="product-favourite ml-4">
-                    <a href="#" class="favme fa fa-heart"></a>
+                <div class="row">
+                  <!-- Cart -->
+                  <button type="submit" (click)="agregar(data)" name="addtocart" class="btn essence-btn" [disabled]="data.check">Agregar Al Carrito</button>
+                  <!-- Favourite -->
+                  <div class="p-3 row">
+                    <div class="product-favourite ml-4 p-2" (click)="blur('megusta')">
+                        <div class="row">
+                          <a class="favme fa fa-heart mouse"></a>
+                          <span class="p-1">{{ data.megusta }}</span>
+                        </div>
+                    </div>
+                    <!-- <div class="product-favourite ml-4 p-2">
+                        <div class="row">
+                          <a class="favme fa fa-share mouse"></a>
+                        </div>
+                    </div> -->
+                  </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </div>
+    <div class="column conten container">
+      <div class="cart-fav-box d-flex align-items-center">
+        <div class="col-sm">
+          <div class="d-flex justify-content-center">
+            <small>¡Tus compras están seguras! Devoluciones gratuitas *Aplican condiciones</small>
+          </div>
+          </div>
+          <div class="col-sm">
+            <div class="d-flex justify-content-center">
+              <small>Enviado y Vendido por: <br>{{ data.empresa.empresa }}</small>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="d-flex justify-content-center">
+              <small>PROTECCIÓN AL COMPRADOR
+                ASESORÍA TELEFÓNICA: 3228576900</small>
+            </div>
+          </div>
+      </div>
+      <br>
+      <div>
+      </div>
+      <div class="row">
+        <div class="col-sm column">
+          <label>DETALLE DEL PRODUCTO</label>
+          <p [innerHtml] = "data.descripcion"></p>
+        </div>
+        <div class="p-1 row">
+          <ul class="list-group">
+            <li class="list-group-item list-group-item list-group-item-action list-group-item-dark"><small>Codigo</small></li>
+            <li class="list-group-item"><small>Garantia del Producto</small></li>
+            <li class="list-group-item list-group-item list-group-item-action list-group-item-dark"><small>Condicion del Producto</small></li>
+            <li class="list-group-item"><small>Color</small></li>
+            <li class="list-group-item list-group-item list-group-item-action list-group-item-dark"><small>Peso(kg)</small></li>
+            <li class="list-group-item"><small>Marca</small></li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item list-group-item list-group-item-action list-group-item-dark"><small>{{ data.codigo }}</small></li>
+            <li class="list-group-item"><small>{{ data.garantia || 'null' }}</small></li>
+            <li class="list-group-item list-group-item list-group-item-action list-group-item-dark"><small>{{ data.estado }}</small></li>
+            <li class="list-group-item"><small>{{ data.color.color || 'null'}}</small></li>
+            <li class="list-group-item list-group-item list-group-item-action list-group-item-dark"><small>{{ data.peso || 'null' }}</small></li>
+            <li class="list-group-item"><small>{{ data.marca || 'null' }}</small></li>
+          </ul>
+        </div>
+      </div>
+      <div class="column">
+        <div class="col-sm column">
+          <label>RESEÑA DEL PRODUCTO</label>
+          <div class="conten">
+            <div class="">
+              <ul class="list-group" *ngFor="let item of listresena">
+                <li class="list-group-item alto">
+                  <img class="rounded ancho p-1" src="https://d500.epimg.net/cincodias/imagenes/2016/07/04/lifestyle/1467646262_522853_1467646344_noticia_normal.jpg" alt="">
+                  <small>{{ item.user || 'User'}}</small>
+                </li>
+                <li class="list-group-item alto">
+                  <p class="clasificacion">
+                    <input id="radio1" type="radio" name="estrellas" value="5" [(ngModel)]="comentario.califica"><!--
+                    --><label class="label" [ngClass]="{'checkcolor':item.Califica >=5}" for="radio1" >★</label><!--
+                    --><input id="radio2" type="radio" name="estrellas" value="4" [(ngModel)]="comentario.califica"><!--
+                    --><label class="label" [ngClass]="{'checkcolor':item.Califica >=4}" for="radio2">★</label><!--
+                    --><input id="radio3" type="radio" name="estrellas" value="3" [(ngModel)]="comentario.califica"><!--
+                    --><label class="label" [ngClass]="{'checkcolor':item.Califica >=3}" for="radio3">★</label><!--
+                    --><input id="radio4" type="radio" name="estrellas" value="2" [(ngModel)]="comentario.califica"><!--
+                    --><label class="label" [ngClass]="{'checkcolor':item.Califica >=2}" for="radio4">★</label><!--
+                    --><input id="radio5" type="radio" name="estrellas" value="1" [(ngModel)]="comentario.califica"><!--
+                    --><label class="label"  [ngClass]="{'checkcolor':item.Califica >=1}"for="radio5">★</label>
+                  </p>
+                </li>
+                <li class="list-group-item alto"><small>{{ item.comentario }}</small></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="d-flex justify-content-center">
+          <div class="column">
+            <div class="">
+              <label>¿QUÉ TE PARECIÓ EL PRODUCTO?</label>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <p class="clasificacion">
+                  <input id="radio1" type="radio" name="estrellas" value="5" [(ngModel)]="comentario.califica"><!--
+                  --><label class="label" for="radio1">★</label><!--
+                  --><input id="radio2"  type="radio" name="estrellas" value="4" [(ngModel)]="comentario.califica"><!--
+                  --><label class="label" for="radio2">★</label><!--
+                  --><input id="radio3" type="radio" name="estrellas" value="3" [(ngModel)]="comentario.califica"><!--
+                  --><label class="label" for="radio3">★</label><!--
+                  --><input id="radio4" type="radio" name="estrellas" value="2" [(ngModel)]="comentario.califica"><!--
+                  --><label class="label" for="radio4">★</label><!--
+                  --><input id="radio5" type="radio" name="estrellas" value="1" [(ngModel)]="comentario.califica"><!--
+                  --><label class="label" for="radio5">★</label>
+                </p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Email</label>
+                <input type="email"
+                  class="form-control" placeholder="Escriba tu Email" [(ngModel)]="comentario.titulo">
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                  <label for="formGroupExampleInput">Comentarios</label>
+                  <textarea class="form-control" maxlength="60" minlength="5" rows="3" [(ngModel)]="comentario.comentario" required></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <re-captcha (resolved)="resolved($event)"
+                    siteKey="6Lcau6wUAAAAABGrzV52hTz7dAfZdTWxxRNWWr-u"></re-captcha>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <div class="form-row">
+                <div class="for-group col">
+                  <button type="button" (click)="evResena()" class="btn btn-success">Enviar Reseña</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </section>

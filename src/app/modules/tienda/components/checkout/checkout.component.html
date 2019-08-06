@@ -18,154 +18,209 @@
   <div class="checkout_area section-padding-80">
       <div class="container">
           <div class="row">
-
-              <div class="col-12 col-md-6">
-                  <div class="checkout_details_area mt-50 clearfix">
-
-                      <div class="cart-page-heading mb-30">
-                          <h5>Dirección de Envio</h5>
+            <div class="col column" *ngIf="!nexbuild">
+              <h3 mat-subheader>CARRITO DE COMPRAS</h3>
+              <ul class="list-group list-group-flush" *ngFor="let item of data.articulo; let idx = index">
+                <li class="list-group-item">
+                  <div class="row container">
+                    <div class="p-3">
+                      <img
+                        class="md-avatar rounded"
+                        mat-list-icon
+                        width="100px"
+                        src="{{ item.foto }}"
+                        alt="None"
+                      >
+                    </div>
+                    <div class="container column p-2 col">
+                      <div class="column">
+                        <div class="">
+                          <span>{{item.titulo}}</span>
+                        </div>
+                        <div class="">
+                          <span>{{ item.estado }}</span>
+                        </div>
                       </div>
-
-                      <div action="#" method="post">
-                          <div class="row">
-                              <div class="col-md-6 mb-3">
-                                  <label for="first_name">Nombre <span>*</span></label>
-                                  <input type="text" class="form-control" id="first_name" [(ngModel)]="data.nombre" required>
-                              </div>
-                              <div class="col-md-6 mb-3">
-                                  <label for="last_name">Apellido <span>*</span></label>
-                                  <input type="text" class="form-control" id="last_name" [(ngModel)]="data.apellido" required>
-                              </div>
-                              <div class="col-12 mb-4">
-                                  <label for="email_address">Dirección de correo electrónico<span>*</span></label>
-                                  <input type="email" class="form-control" id="email_address" [(ngModel)]="data.email">
-                              </div>
-                              <!-- <div class="col-12 mb-3">
-                                  <label for="company">Company Name</label>
-                                  <input type="text" class="form-control" id="company" value="">
-                              </div> -->
-                              <div class="col-12 mb-3 form-group">
-                                  <label for="country">Pais <span>*</span></label>
-                                  <select class="form-control" id="country" [(ngModel)]="data.pais">
-                                      <option
-                                        *ngFor="let item of listpaises"
-                                        [value]="item.sigla"
-                                      >{{ item.nome_pais_int }}</option>
-                                  </select>
-                              </div>
-                              <div class="col-12 mb-3">
-                                  <label for="state">Proveniencia<span>*</span></label>
-                                  <input type="text" class="form-control" id="state" [(ngModel)]="data.proveniencia">
-                              </div>
-                              <div class="col-12 mb-3">
-                                  <label for="city">Pueblo / ciudad<span>*</span></label>
-                                  <input type="text" class="form-control" id="city" [(ngModel)]="data.ciudad">
-                              </div>
-                              <div class="col-12 mb-3">
-                                  <label for="street_address">Dirección <span>*</span></label>
-                                  <input type="text" class="form-control mb-3" id="street_address" [(ngModel)]="data.direccion1">
-                                  <label for="street_address">Dirección 2 <span>*</span></label>
-                                  <input type="text" class="form-control" id="street_address2" [(ngModel)]="data.direccion2">
-                              </div>
-                              <div class="col-12 mb-3">
-                                  <label for="postcode">Código postal<span>*</span></label>
-                                  <input type="text" class="form-control" id="postcode" [(ngModel)]="data.codigopostal">
-                              </div>
-                              <div class="col-12 mb-3">
-                                  <label for="phone_number">Telefono N# <span>*</span></label>
-                                  <input type="number" class="form-control" id="phone_number" min="0" [(ngModel)]="data.telefono">
-                              </div>
-                              <div class="col-12">
-                                  <div class="custom-control custom-checkbox d-block mb-2">
-                                      <input type="checkbox" class="custom-control-input" id="customCheck1" [(ngModel)]="data.terminocondicione">
-                                      <label class="custom-control-label" for="customCheck1">Términos y condiciones</label>
-                                  </div>
-                                  <div class="custom-control custom-checkbox d-block mb-2">
-                                      <input type="checkbox" class="custom-control-input" id="customCheck2" [(ngModel)]="data.crearcuenta">
-                                      <label class="custom-control-label" for="customCheck2">Crea una cuenta</label>
-                                  </div>
-                                  <div class="custom-control custom-checkbox d-block">
-                                      <input type="checkbox" class="custom-control-input" id="customCheck3" [(ngModel)]="data.suscribete">
-                                      <label class="custom-control-label" for="customCheck3">Suscríbete a nuestro boletín</label>
-                                  </div>
-                              </div>
+                      <div class="row">
+                        <div class="single_product_details_area col-sm">
+                          <div class="single_product_desc clearfix">
+                            <span class="product-price" *ngIf="!item.costopromosion">${{ item.costoventa | currency:'COP':true }}</span>
+                            <span class="product-price row" *ngIf="item.costopromosion"><span class="old-price">${{ item.costoventa | currency:'COP':true }}</span> ${{ item.costopromosion | currency:'COP':true }}</span>
                           </div>
+                        </div>
+                        <div class="col-sm">
+                          <span><strong>Recibelo el {{ data.infextras.fechaentrega + "-" + data.infextras.fechamaxima }}</strong></span>
+                          <span><strong>Enviado y Vendido por {{ item.empresa.empresa }}</strong></span>
+                        </div>
+                        <div class="col-sm">
+                          <div class="form-group mr-5 row">
+                            <label for="formGroupExampleInput">Cantidad</label>
+                            <select class="custom-select" [(ngModel)]="item.cantidadadquiridad" (blur)="delearticulo()">
+                              <option
+                                value="1"
+                              >
+                                1
+                              </option>
+                              <option
+                                value="2"
+                              >
+                                2
+                              </option>
+                              <option
+                                value="3"
+                              >
+                                3
+                              </option>
+                          </select>
+                          </div>
+                        </div>
                       </div>
+                    </div>
+                    <div class="p-3 mouse" style="margin: auto;" (click)="data.articulo.splice(idx ,1); delearticulo()">
+                      x
+                    </div>
                   </div>
-              </div>
-
-              <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
-                  <div class="order-details-confirmation">
-
-                      <div class="cart-page-heading">
-                          <h5>Su pedido</h5>
-                          <p>Los detalles</p>
+                </li>
+              </ul>
+            </div>
+            <div class="col border rounded" *ngIf="nexbuild">
+              <h3 mat-subheader>DIRECCIÓN DEL ENVIO</h3>
+              <div action="#" method="post">
+                  <div class="row">
+                      <div class="col-md-6 mb-3">
+                          <label for="first_name">Nombre <span>*</span></label>
+                          <input type="text" class="form-control" id="first_name" [(ngModel)]="data.nombre" required>
                       </div>
-
-                      <ul class="order-details-form mb-4">
-                          <li><span>Producto</span> <span>Total</span></li>
-                          <li *ngFor="let art of data.articulo"><span>{{ art.titulo }}</span> <span>{{ art.costoventa }}</span></li>
-                          <li><span>Subtotal</span> <span>{{ data.subtotal }}</span></li>
-                          <li><span>Descuento</span> <span>{{ data.descuento }}</span></li>
-                          <li><span>Envío</span> <span>{{ data.entrega }}</span></li>
-                          <li><span>Total</span> <span>{{ data.total }}</span></li>
-                      </ul>
-
-                      <!-- <div id="accordion" role="tablist" class="mb-4">
-                          <div class="card">
-                              <div class="card-header" role="tab" id="headingOne">
-                                  <h6 class="mb-0">
-                                      <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i class="fa fa-circle-o mr-3"></i>Paypal</a>
-                                  </h6>
-                              </div>
-
-                              <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                  <div class="card-body">
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
-                                  </div>
-                              </div>
+                      <div class="col-md-6 mb-3">
+                          <label for="last_name">Apellido <span>*</span></label>
+                          <input type="text" class="form-control" id="last_name" [(ngModel)]="data.apellido" required>
+                      </div>
+                      <div class="col-12 mb-4">
+                          <label for="email_address">Dirección de correo electrónico<span>*</span></label>
+                          <input type="email" class="form-control" id="email_address" [(ngModel)]="data.email" (blur)="validadEmail()">
+                          <div
+                            *ngIf="!disabledemail"
+                          >
+                            <span class="bg-danger text-white rounded">El Email Solo Seran Correos Con Dominio Gmail</span>
                           </div>
-                          <div class="card">
-                              <div class="card-header" role="tab" id="headingTwo">
-                                  <h6 class="mb-0">
-                                      <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-circle-o mr-3"></i>cash on delievery</a>
-                                  </h6>
-                              </div>
-                              <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                                  <div class="card-body">
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis in veritatis officia inventore, tempore provident dignissimos.</p>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="card">
-                              <div class="card-header" role="tab" id="headingThree">
-                                  <h6 class="mb-0">
-                                      <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-circle-o mr-3"></i>credit card</a>
-                                  </h6>
-                              </div>
-                              <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                                  <div class="card-body">
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quo sint repudiandae suscipit ab soluta delectus voluptate, vero vitae</p>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="card">
-                              <div class="card-header" role="tab" id="headingFour">
-                                  <h6 class="mb-0">
-                                      <a class="collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour"><i class="fa fa-circle-o mr-3"></i>direct bank transfer</a>
-                                  </h6>
-                              </div>
-                              <div id="collapseFour" class="collapse show" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                                  <div class="card-body">
-                                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est cum autem eveniet saepe fugit, impedit magni.</p>
-                                  </div>
-                              </div>
-                          </div>
+                      </div>
+                      <!-- <div class="col-6 mb-3 form-group">
+                          <label for="country">Pais <span>*</span></label>
+                          <select class="form-control" id="country" [(ngModel)]="data.pais">
+                              <option
+                                *ngFor="let item of listpaises"
+                                [value]="item.sigla"
+                              >{{ item.nome_pais_int }}</option>
+                          </select>
                       </div> -->
-
-                      <a (click)="submidOrden()" class="btn essence-btn">Realizar pedido</a>
+                      <div class="col-6 mb-3">
+                          <label for="state">Proveniencia / Departamento<span>*</span></label>
+                          <input type="text" class="form-control" id="state" [(ngModel)]="data.provivencia">
+                      </div>
+                      <div class="col-6 mb-3">
+                          <label for="city">Pueblo / ciudad<span>*</span></label>
+                          <input type="text" class="form-control" id="city" [(ngModel)]="data.ciudad">
+                      </div>
+                      <div class="col-12 mb-3">
+                          <label for="street_address">Dirección <span>*</span></label>
+                          <input type="text" class="form-control mb-3" id="street_address" [(ngModel)]="data.direccion1">
+                          <label for="street_address">Dirección 2 <span>*</span></label>
+                          <input type="text" class="form-control" id="street_address2" [(ngModel)]="data.direccion2">
+                      </div>
+                      <div class="col-6 mb-3">
+                          <label for="postcode">Código postal<span>*</span></label>
+                          <input type="text" class="form-control" id="postcode" [(ngModel)]="data.codigopostal">
+                      </div>
+                      <div class="col-6 mb-3">
+                          <label for="phone_number">Telefono / Celular N# <span>*</span></label>
+                          <input type="number" class="form-control" id="phone_number" min="0" [(ngModel)]="data.telefono">
+                      </div>
+                      <div class="col-12">
+                          <div class="custom-control custom-checkbox d-block mb-2">
+                              <input type="checkbox" class="custom-control-input" id="customCheck1" [(ngModel)]="data.terminocondicione">
+                              <label class="custom-control-label" for="customCheck1">Términos y condiciones</label>
+                          </div>
+                          <div class="custom-control custom-checkbox d-block">
+                              <input type="checkbox" class="custom-control-input" id="customCheck3" [(ngModel)]="data.suscribete">
+                              <label class="custom-control-label" for="customCheck3">Suscríbete a nuestro boletín</label>
+                          </div>
+                      </div>
                   </div>
               </div>
+            </div>
+            <div class="column p-3 border rounded">
+              <h3 mat-subheader>RESUMEN DE TU PEDIDO</h3>
+              <mat-divider></mat-divider>
+              <div class="row">
+                <label class="col p-3">Subtotal({{ data.cantidad }})</label>
+                <span class="p-3">${{ data.subtotal | currency:'COP':true }}</span>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="row">
+                <label class="col p-3">Envío</label>
+                <span class="p-3">${{ 0 | currency:'COP':true }}</span>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="row">
+                <label class="col p-3">Descuento</label>
+                <span class="p-3">${{ data.descuento | currency:'COP':true }}</span>
+              </div>
+              <mat-divider></mat-divider>
+              <!-- <div class="row">
+                <label class="col p-3 mouse" (click)="disablediri = !disablediri"><u>Calcular envío</u></label>
+              </div> -->
+              <div *ngIf="disablediri" class="form-group column">
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Departamento</label>
+                  <select class="custom-select" [(ngModel)]="data.infextras.departamento" (blur)="blurdepartamento()">
+                    <option
+                      *ngFor="let item of listdepartamento"
+                      value="{{ item.departamento }}"
+                    >
+                    {{ item.departamento }}
+                  </option>
+                </select>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Ciudad</label>
+                  <select class="custom-select" [(ngModel)]="data.infextras.ciudad" (blur)="blurcosto()">
+                    <option
+                      *ngFor="let item of listciudades"
+                      value="{{ item }}"
+                    >
+                    {{ item }}
+                  </option>
+                </select>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col p-3">Total</label>
+                <span class="p-3">${{ data.total | currency:'COP':true }}</span>
+              </div>
+              <div class="row">
+                <div class="p-3" style="margin: auto;">
+                  <button name="addtocart" type="button" class="btn btn-dark" (click)="nexbuild=!nexbuild">
+                    <span *ngIf="!nexbuild">SIGUIENTE</span>
+                    <span *ngIf="nexbuild">Volver</span>
+                  </button>
+                  <button type="button" matTooltip="finalizar compra" name="addtocart" class="btn btn-success" (click)="submidOrden()" *ngIf="nexbuild">PROCESAR COMPRA</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="p-3" style="margin: auto;">
+                  <img src="https://dycperfumeria.com/wp-content/uploads/2017/01/compra-segura.png" width="120px" alt="">
+                </div>
+              </div>
+              <div class="row p-1">
+                <span><li class="material-icons mouse p-1">verified_user</li> PROTECCIÓN AL COMPRADOR</span>
+              </div>
+              <div class="row p-1">
+                <span><li class="material-icons mouse p-1">supervised_user_circle</li>ASESORÍA TELEFÓNICA: 5808747</span>
+              </div>
+              <div class="row p-1">
+                <span><li class="material-icons mouse p-1">pin_drop</li> RASTREA TU PEDIDO</span>
+              </div>
+            </div>
           </div>
       </div>
   </div>

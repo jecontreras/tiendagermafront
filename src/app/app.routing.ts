@@ -33,18 +33,21 @@ const routes: Routes =[
     path: 'login', component: LoginComponent
   },
   {
+    path: 'login/:id', component: LoginComponent
+  },
+  {
     path: 'registro', component: RegistryComponent
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'tienda',
     pathMatch: 'full'
   },
-  // {
-  //   path: '**',
-  //   redirectTo: 'tienda',
-  //   pathMatch: 'full'
-  // }
+  {
+    path: '**',
+    redirectTo: 'tienda',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

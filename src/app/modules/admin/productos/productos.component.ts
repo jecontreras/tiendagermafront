@@ -6,6 +6,7 @@ import { TallaService } from './../../../services/talla.service';
 import { ColoresService } from './../../../services/colores.service';
 import { FactoryModelService } from './../../../services/factory-model.service';
 import { ArchivoService } from './../../../services/archivo.service';
+import { MercadoService } from './../../../services/mercados.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
@@ -21,11 +22,17 @@ type AOA = any[][];
 export class ProductosComponent implements OnInit {
 
   public disable:boolean = false;
-  data:any = {};
+  data:any = {
+    tallas:{},
+    colores: {},
+    listacolores: [],
+    listatallas: []
+  };
   excel: any = [];
   clone:any = {};
   img: any = [];
   list:any = [];
+  public count: any = 0;
   datafile: any = {};
   public global  =  GLOBAL;
   public listcategoria: any = [];
@@ -33,7 +40,7 @@ export class ProductosComponent implements OnInit {
   public listcolor: any = [];
   public listtalla: any = [];
   public listgaleria: any = [];
-  public user: any = {};
+  public user: any = {empresas:{}};
   public carga: boolean= true;
   cuerpo: any = {};
   public search: any;
@@ -41,6 +48,11 @@ export class ProductosComponent implements OnInit {
   public multiple: boolean = false;
   public disabledexcel: boolean = false;
   public listgroup: any = [];
+  public searcht: any ={
+    txt: ''
+  };
+  public query: any = {where:{}};
+  public listmercados: any = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -51,31 +63,150 @@ export class ProductosComponent implements OnInit {
     private _archivos: ArchivoService,
     private _talla: TallaService,
     private _color: ColoresService,
+    private _mercados: MercadoService,
     private _tools: ToolsService
   ) {
     this.cuerpo = _producto;
+    this.user = this._model.user;
+    this.user.empresas = {};
+    // console.log(this.user);
+    this.getEmpresa();
+    this.getmercados();
   }
 
   ngOnInit() {
-    this.user = this._model.user;
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
     this.route.params.subscribe(params => {
       // console.log(params);
        if(params['id']!=null){
-        this.getlist(params['id']);
+        this.getlist(params['id'], null);
       }else{
-        this.getlist(null);
+        const
+          paginate: any = {
+            pageIndex: 10,
+            pageSize: 0
+          }
+        ;
+        this.getlist(null, paginate);
       }
     });
     this.listgroup = [
       {
         codigo: this.codigo(),
+        tallas: {},
+        colores: {},
+        listatallas:[],
+        listacolores: [],
         empresa: this.user.empresa
       }
     ]
 
+  }
+  pageEvent(ev){
+    // console.log(ev);
+    ev.pageIndex = 10;
+    ev.pageSize+= 1;
+    this.getlist(null, ev);
+  }
+  getsearh(){
+    const
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
+      }
+    ;
+    if(this.searcht.txt){
+      this.query.where.or = [
+        {
+          codigo:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          titulo: {
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          slug: {
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          tipo:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          estado:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          opcion:{
+            contains: this.searcht.txt || ''
+          }
+        }
+      ];
+    }else{
+      delete this.query.where.or;
+    }
+    this.list = [];
+    // console.log(this.query);
+    this.getlist(null, paginate);
+  }
+  getlist(obj: any, paginate: any){
+    if(!paginate){
+      paginate = {
+        pageIndex: -1,
+        pageSize: 0
+      };
+    }
+    this.query.where.empresa = this.user.empresa;
+    this.query.sort ='createdAt DESC';
+    this.query.limit = paginate.pageIndex;
+    this.query.skip = paginate.pageSize;
+
+    if(this.user.rol.nombre === "super admin"){
+      delete this.query.where.empresa;
+    }
+    if(obj){
+      this.query.where.id = obj;
+      this.query.limit = 1;
+    }
+    // console.log(data);
+    this._producto.get(this.query)
+    .subscribe(
+      (res: any) =>{
+        // console.log(res.data);
+        if(obj){
+          this.add(res.data[0]);
+        }else{
+          this.count = res.count;
+          this.list = _.unionBy(this.list || [], res.data, 'id');
+        }
+      }
+    );
+  }
+  getEmpresa(){
+    return this._model.query("empresa",{
+      where:{
+        id: this.user.empresa.id
+      },
+      limit: 1
+    })
+    .subscribe(
+      (res: any)=>{
+        // console.log(res);
+        res = res.data[0];
+        if(res){
+          this.user.empresas = res;
+        }
+      }
+    )
+    ;
   }
   genrarexcel(){
     /* generate worksheet */
@@ -124,53 +255,54 @@ export class ProductosComponent implements OnInit {
     };
     reader.readAsBinaryString(target.files[0]);
   }
-  getlist(obj: any){
-    const
-      data:any = {
-        where:{
-          empresa: this.user.empresa
-        },
-        limit: 10
-      }
-    ;
-    if(this.user.rol.nombre === "super admin"){
-      delete data.where.empresa;
-    }
-    if(obj){
-      data.where.id = obj;
-      data.limit = 1;
-    }
-    // console.log(data);
-    this._producto.get(data)
-    .subscribe(
-      (res: any) =>{
-        // console.log(res.data);
-        if(obj){
-          this.add(res.data[0]);
-        }else{
-          this.list = _.unionBy(this.list || [], res.data, 'id');
-        }
-      }
-    );
-  }
   add(opt){
     // console.log(opt);
       this.disable = !this.disable;
       if(opt){
+        if(!opt.listatallas){
+          opt.listatallas = [];
+        }
+        if(!opt.listacolores){
+          opt.listacolores = [];
+        }
+        if(!opt.listapromosion){
+          opt.listapromosion = [];
+        }
+        opt.tallas = {};
+        opt.colores = {};
         this.clone = _.clone(opt);
         this.data = opt;
+        // console.log(this.data);
         this.getGaleria();
         this.buscaretiquete();
+        this.populatelist();
       }else{
         this.clone = {};
         this.data = {
           codigo: this.codigo(),
-          empresa: this.user.empresa
+          tallas:{},
+          colores: {},
+          empresa: this.user.empresa,
+          listacolores: [],
+          listatallas: [],
+          listapromosion: []
         }
         ;
         this.router.navigate(['admin/productos']);
       }
       this.categorias();
+  }
+  populatelist(){
+    if(this.data.listatallas){
+      if(this.data.listacolores.length){
+        this.data.colores.color = "varias";
+      }
+    }
+    if(this.data.listatallas){
+      if(this.data.listatallas.length){
+        this.data.tallas.talla = "varias";
+      }
+    }
   }
   codigo() {
     return (Date.now().toString(36).substr(2, 3) + Math.random().toString(36).substr(2, 2)).toUpperCase();
@@ -213,6 +345,16 @@ export class ProductosComponent implements OnInit {
      )
      ;
   }
+  getmercados(){
+    return this._mercados.get({where:{}, limit: -1})
+    .subscribe(
+      (res: any)=>{
+        console.log(res)
+        res = res.data;
+        this.listmercados = res;
+      }
+    );
+  }
   marcas(){
     return this._categoria.get({
       where:{
@@ -225,40 +367,61 @@ export class ProductosComponent implements OnInit {
        (res: any)=>{
          // console.log(res);
          this.listmarca = res.data;
-         this.talla();
+         this.talla(null);
        }
      )
      ;
   }
-  talla(){
+  talla(data: any){
     // console.log(this._talla);
+    var
+      query = {}
+    ;
+    if(data){
+      query = {
+        id: data.color
+      }
+    }
     return this._talla.get({
-      where:{
-        // empresa: 1
-      },
+      where: query,
       limit: -1
      })
      .subscribe(
        (res: any)=>{
          // console.log(res);
-         this.listtalla = res.data;
-         this.color();
+         if(!data){
+           this.listtalla = res.data;
+           this.color(null);
+         }else{
+           data.color = res.data[0];
+         }
        }
      )
      ;
   }
-  color(){
-    // console.log(this._color);
+  color(data: any){
+    // console.log(data);
+    var
+      query = {}
+    ;
+    if(data){
+      query = {
+        id: data.color
+      };
+    }
+    // console.log(data);
     return this._color.get({
-      where:{
-        // empresa: 1
-      },
+      where: query,
       limit: -1
      })
      .subscribe(
        (res: any)=>{
          // console.log(res);
-         this.listcolor = res.data;
+         if(!data){
+           this.listcolor = res.data;
+         }else{
+           data.color = res.data[0];
+         }
        }
      )
      ;
@@ -281,11 +444,19 @@ export class ProductosComponent implements OnInit {
       data = [data];
     }
     _.forEach(data, function(item, idx){
-      if(item.titulo){
+      if(item.titulo && item.empresa && item.tipoproduct && item.marca && item.categorias
+        && item.alto && item.largo && item.ancho){
         item.slug = _.kebabCase(item.titulo);
         if(item.costopromosion){
           item.porcentajedes = item.costopromosion * 100 / item.costoventa;
         }
+        if(item.talla === 'None'){
+          delete item.talla;
+        }
+        if(item.color === 'None'){
+          delete item.color;
+        }
+        // console.log(item);
         return _producto.saved(item)
         .subscribe(
           (res: any) => {
@@ -311,9 +482,33 @@ export class ProductosComponent implements OnInit {
     })
     ;
   }
-  blur(obj){
+  blur(obj: any, opt: boolean){
     // console.log(this.data);
-    if(this.data.id && this.data[obj] !== this.clone[obj]){
+    // console.log(obj);
+    if(obj === "talla"){
+      const
+        idx:any = _.findIndex(this.listtalla, ['id', this.data.talla])
+      ;
+      if(idx >-1){
+        this.data.tallas = this.listtalla[idx];
+      }else{
+        this.data.tallas = {};
+        this.data.listatallas = [];
+      }
+    }
+    if(obj === "color"){
+      const
+        idx:any = _.findIndex(this.listcolor, ['id', this.data.color])
+      ;
+      if(idx >-1){
+        this.data.colores = this.listcolor[idx];
+      }else{
+        this.data.colores = {};
+        this.data.listacolores = [];
+      }
+    }
+
+    if(this.data.id && this.data[obj] !== this.clone[obj] || opt){
       var
         data: any = {
           id: this.data.id
@@ -324,7 +519,7 @@ export class ProductosComponent implements OnInit {
       if(obj === "costopromosion" || obj === "costoventa"){
         data.porcentajedes = this.data.costopromosion * 100 / this.data.costoventa;
       }
-      console.log(data);
+      // console.log(data);
       this._producto.edit(data)
       .subscribe(
         (res: any)=> {
@@ -342,11 +537,40 @@ export class ProductosComponent implements OnInit {
     this.listgroup.push(
       {
         codigo: this.codigo(),
-        empresa: this.user.empresa
+        tallas: {},
+        colores: {},
+        empresa: this.user.empresa,
+        listacolores: [],
+        listatallas:[],
       }
     );
+    // console.log(this.listgroup);
   }
-
+  estadolist(obj: any, item: any){
+    console.log(item);
+    if(obj === "talla"){
+      const
+        idx:any = _.findIndex(this.listtalla, ['id', item.talla])
+      ;
+      if(idx >-1){
+        item.tallas = this.listtalla[idx];
+      }else{
+        item.tallas = {};
+        item.listatallas = [];
+      }
+    }
+    if(obj === "color"){
+      const
+        idx:any = _.findIndex(this.listcolor, ['id', item.color])
+      ;
+      if(idx >-1){
+        item.colores = this.listcolor[idx];
+      }else{
+        item.colores = {};
+        item.listacolores = [];
+      }
+    }
+  }
 
   datafiles(ev: any) {
     if(ev){
@@ -367,7 +591,7 @@ export class ProductosComponent implements OnInit {
           // console.log('POST Request is successful ', data);
           if(data){
             this.data.foto = data;
-            this.blur('foto');
+            this.blur('foto', false);
             this.carga = true;
           }else{
             if(this.data.id){
@@ -432,7 +656,9 @@ export class ProductosComponent implements OnInit {
       }
     ;
     if(data){
-      query.where.categoria = data;
+      query.where.categoria = {
+        contains: data
+      };
     }
     // console.log(query);
     return this._categoria.get(query)

@@ -20,6 +20,7 @@ import { ColorComponent } from '../../color/color.component';
 import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
 import { MercadosComponent } from '../../mercados/mercados.component';
+import { MyOwnCustomMaterialModule } from './../../../../app.material.module';
 
 import {
   MatButtonModule,
@@ -39,6 +40,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MyOwnCustomMaterialModule,
     MatTooltipModule,
   ],
   declarations: [

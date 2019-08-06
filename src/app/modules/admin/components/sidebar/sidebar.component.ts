@@ -50,31 +50,37 @@ export class SidebarComponent implements OnInit {
     ;
     this._model.loadUser();
     var menuItems: any = [];
-    // console.log(user, menuItems);
+    console.log(user);
     if(user){
-      if(user.rol.nombre !== "super admin"){
-        _.forEach(this.menus, function(item: any, idx: any){
-          // console.log(item);
-          if(item){
-            if(user.rol.nombre === 'admin'){
-              if(item.rol !== "superadmin"){
-                menuItems.push(item);
-              }
-            }
-            if(user.rol.nombre === 'usuario'){
-              if(item.rol !== "superadmin" && item.rol !== 'admin'){
-                menuItems.push(item);
-              }
-            }
-          }
-        })
-        ;
-      }else{
-        menuItems = this.menus;
-      }
+     if(user.rol){
+       if(user.rol.nombre !== "super admin"){
+         _.forEach(this.menus, function(item: any, idx: any){
+           // console.log(item);
+           if(item){
+             if(user.rol.nombre === 'admin'){
+               if(item.rol !== "superadmin"){
+                 menuItems.push(item);
+               }
+             }
+             if(user.rol.nombre === 'usuario'){
+               if(item.rol !== "superadmin" && item.rol !== 'admin'){
+                 menuItems.push(item);
+               }
+             }
+           }
+         })
+         ;
+       }else{
+         menuItems = this.menus;
+       }
+     }
     }
     this.menuItems = menuItems;
     // console.log(this.menuItems);
+  }
+  logout() {
+    // localStorage.clear();
+    localStorage.removeItem('user');
   }
   isMobileMenu() {
       if ($(window).width() > 991) {

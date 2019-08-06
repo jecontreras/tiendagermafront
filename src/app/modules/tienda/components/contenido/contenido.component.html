@@ -1,14 +1,14 @@
 
 
 <!-- ##### Welcome Area Start ##### -->
-<section class="welcome_area bg-img background-overlay" style="background-image: url(./assets/img/bg-img/bg-1.jpg);">
+<section class="welcome_area bg-img background-overlay" style="background-image: url(./assets/img/productnew2.jpg);">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="hero-content">
-                    <h6>asoss</h6>
-                    <h2>New Collection</h2>
-                    <a href="#" class="btn essence-btn">view collection</a>
+                    <h6>new</h6>
+                    <h2>Nuevos Productos</h2>
+                    <a [routerLink]="['/tienda/shop', 'new']" class="btn essence-btn">Ver Productos</a>
                 </div>
             </div>
         </div>
@@ -22,25 +22,25 @@
         <div class="row justify-content-center">
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/bg-img/bg-2.jpg);">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/tecnologia.jpg);">
                     <div class="catagory-content">
-                        <a href="#">Clothing</a>
+                        <a [routerLink]="['/tienda/shop', 'tec']">Tecnologia</a>
                     </div>
                 </div>
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/bg-img/bg-3.jpg);">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/computadores.png);">
                     <div class="catagory-content">
-                        <a href="#">Shoes</a>
+                        <a [routerLink]="['/tienda/shop', 'pc']">Computadores</a>
                     </div>
                 </div>
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/bg-img/bg-4.jpg);">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/gamer.jpg);">
                     <div class="catagory-content">
-                        <a href="#">Accessories</a>
+                        <a [routerLink]="['/tienda/shop', 'gamer']">Video Juegos</a>
                     </div>
                 </div>
             </div>
@@ -54,12 +54,12 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="cta-content bg-img background-overlay" style="background-image: url(./assets/img/bg-img/bg-5.jpg);">
+                <div class="cta-content bg-img background-overlay rounded" style="background-image: url(./assets/img/descuentos.jpg);">
                     <div class="h-100 d-flex align-items-center justify-content-end">
                         <div class="cta--text">
                             <h6>-60%</h6>
-                            <h2>Global Sale</h2>
-                            <a href="#" class="btn essence-btn">Buy Now</a>
+                            <h2>Descuentos</h2>
+                            <a [routerLink]="['/tienda/shop', 'des']" class="btn essence-btn">Comprar</a>
                         </div>
                     </div>
                 </div>
@@ -75,151 +75,36 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-heading text-center">
-                    <h2>Popular Products</h2>
+                    <h2>Productos Populares</h2>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="row">
-
-                    <!-- Single Product -->
-                    <div class="single-product-wrapper col">
-                        <!-- Product Image -->
-                        <div class="product-img">
-                            <img src="./assets/img/product-img/product-1.jpg" alt="">
-                            <!-- Hover Thumb -->
-                            <img class="hover-img" src="./assets/img/product-img/product-2.jpg" alt="">
-                            <!-- Favourite -->
-                            <div class="product-favourite">
-                                <a href="#" class="favme fa fa-heart"></a>
-                            </div>
-                        </div>
-                        <!-- Product Description -->
-                        <div class="product-description col">
-                            <span>topshop</span>
-                            <a href="single-product-details.html">
-                                <h6>Knot Front Mini Dress</h6>
-                            </a>
-                            <p class="product-price">$80.00</p>
-
-                            <!-- Hover Content -->
-                            <div class="hover-content">
-                                <!-- Add to Cart -->
-                                <div class="add-to-cart-btn">
-                                    <a href="#" class="btn essence-btn">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
+      <div class="row">
+        <div class="col-9 col-sm-4 col-lg-3" *ngFor="let pro of listproductpres">
+            <div
+              class="single-product-wrapper"
+            >
+                <div class="product-img mouse" [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]">
+                    <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                    <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                    <div class="product-favourite">
+                        <a href="#" class="favme fa fa-heart"></a>
                     </div>
-
-                    <!-- Single Product -->
-                    <div class="single-product-wrapper col">
-                        <!-- Product Image -->
-                        <div class="product-img">
-                            <img src="./assets/img/product-img/product-2.jpg" alt="">
-                            <!-- Hover Thumb -->
-                            <img class="hover-img" src="./assets/img/product-img/product-3.jpg" alt="">
-                            <!-- Favourite -->
-                            <div class="product-favourite">
-                                <a href="#" class="favme fa fa-heart"></a>
-                            </div>
-                        </div>
-                        <!-- Product Description -->
-                        <div class="product-description">
-                            <span>topshop</span>
-                            <a href="single-product-details.html">
-                                <h6>Poplin Displaced Wrap Dress</h6>
-                            </a>
-                            <p class="product-price">$80.00</p>
-
-                            <!-- Hover Content -->
-                            <div class="hover-content">
-                                <!-- Add to Cart -->
-                                <div class="add-to-cart-btn">
-                                    <a href="#" class="btn essence-btn">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Single Product -->
-                    <div class="single-product-wrapper col">
-                        <!-- Product Image -->
-                        <div class="product-img">
-                            <img src="./assets/img/product-img/product-3.jpg" alt="">
-                            <!-- Hover Thumb -->
-                            <img class="hover-img" src="./assets/img/product-img/product-4.jpg" alt="">
-
-                            <!-- Product Badge -->
-                            <div class="product-badge offer-badge">
-                                <span>-30%</span>
-                            </div>
-
-                            <!-- Favourite -->
-                            <div class="product-favourite">
-                                <a href="#" class="favme fa fa-heart"></a>
-                            </div>
-                        </div>
-                        <!-- Product Description -->
-                        <div class="product-description">
-                            <span>mango</span>
-                            <a href="single-product-details.html">
-                                <h6>PETITE Crepe Wrap Mini Dress</h6>
-                            </a>
-                            <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
-
-                            <!-- Hover Content -->
-                            <div class="hover-content">
-                                <!-- Add to Cart -->
-                                <div class="add-to-cart-btn">
-                                    <a href="#" class="btn essence-btn">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Single Product -->
-                    <div class="single-product-wrapper col">
-                        <!-- Product Image -->
-                        <div class="product-img">
-                            <img src="./assets/img/product-img/product-4.jpg" alt="">
-                            <!-- Hover Thumb -->
-                            <img class="hover-img" src="./assets/img/product-img/product-5.jpg" alt="">
-
-                            <!-- Product Badge -->
-                            <div class="product-badge new-badge">
-                                <span>New</span>
-                            </div>
-
-                            <!-- Favourite -->
-                            <div class="product-favourite">
-                                <a href="#" class="favme fa fa-heart"></a>
-                            </div>
-                        </div>
-                        <!-- Product Description -->
-                        <div class="product-description">
-                            <span>mango</span>
-                            <a href="single-product-details.html">
-                                <h6>PETITE Belted Jumper Dress</h6>
-                            </a>
-                            <p class="product-price">$80.00</p>
-
-                            <!-- Hover Content -->
-                            <div class="hover-content">
-                                <!-- Add to Cart -->
-                                <div class="add-to-cart-btn">
-                                    <a href="#" class="btn essence-btn">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="product-description">
+                    <span [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]" class="mouse">topshop</span>
+                    <a [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]" class="mouse">
+                        <h6>{{ pro.titulo }}</h6>
+                    </a>
+                    <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa | currency:'COP':true }}</p>
+                    <p class="product-price" *ngIf="pro.costopromosion"><span class="old-price">{{ pro.costoventa | currency:'COP':true }}</span> {{ pro.costopromosion  | currency:'COP':true }}</p>
                 </div>
             </div>
         </div>
+      </div>
     </div>
 </section>
 <!-- ##### New Arrivals Area End ##### -->
@@ -228,27 +113,27 @@
 <div class="brands-area d-flex align-items-center justify-content-between">
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/core-img/brand1.png" alt="">
+        <img src="./assets/img/apoyo/lenovo.png" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/core-img/brand2.png" alt="">
+        <img src="./assets/img/apoyo/intel.png" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/core-img/brand3.png" alt="">
+        <img src="./assets/img/apoyo/dell.png" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/core-img/brand4.png" alt="">
+        <img src="./assets/img/apoyo/hp.png" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/core-img/brand5.png" alt="">
+        <img src="./assets/img/apoyo/motorola.png" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/core-img/brand6.png" alt="">
+        <img src="./assets/img/apoyo/samsung.png" alt="">
     </div>
 </div>
 <!-- ##### Brands Area End ##### -->

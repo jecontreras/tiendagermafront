@@ -28,11 +28,14 @@ export class ArchivoService {
           // console.log(res);
           if(res[0]){
             const
-              url:any = _.split(res[0].fd,"images", 10)
+              // url:any = _.split(res[0].fd,"images", 10)
+              url: any = res[0].thumbnailLink;
             ;
             // console.log(url);
             if(data){
-              data.url2 = this._model.url+"images"+url[1];
+              // data.url2 = this._model.url+"images"+url[1];
+              data.url2 = url;
+              data.infodrive = res[0];
               this.getGaleria(data, modelo,);
               return null;
             }else{
@@ -98,6 +101,7 @@ export class ArchivoService {
     // console.log(obj);
     return this._model.create("archivo",{
       foto: obj.url2,
+      infodrive: obj.infodrive,
       galeria: obj.galeria
     })
     ;

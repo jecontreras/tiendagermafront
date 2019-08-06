@@ -19,6 +19,11 @@ export class ClienteComponent implements OnInit {
   public data: any = {};
   public list: any = [];
   public user: any = {};
+  public count: any = 0;
+  public searcht: any ={
+    txt: ''
+  };
+  public query: any = {where:{}};
   clone:any = {};
   constructor(
     private _usuarios: UsuariosService,
@@ -37,33 +42,105 @@ export class ClienteComponent implements OnInit {
     this.route.params.subscribe(params => {
       // console.log(params);
        if(params['id']!=null){
-        this.getlist(params['id']);
+        this.getlist(params['id'], null);
       }else{
-        this.getlist(null);
+        const
+          paginate: any = {
+            pageIndex: 10,
+            pageSize: 0
+          }
+        ;
+        this.getlist(null, paginate);
       }
     });
   }
-  getlist(obj: any){
+  pageEvent(ev){
+    // console.log(ev);
+    ev.pageIndex = 10;
+    ev.pageSize+= 1;
+    this.getlist(null, ev);
+  }
+  getsearh(){
     const
-      query:any = {
-        where:{
-          empresa: this.user.empresa,
-          estado: "activo"
-        },
-        limit: 10
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
       }
     ;
+    if(this.searcht.txt){
+      this.query.where.or = [
+        {
+          name:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          lastname:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          celular: {
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          sexo:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          email:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          documento:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          ciudad:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          codigopostal:{
+            contains: this.searcht.txt || ''
+          }
+        }
+      ];
+    }else{
+      delete this.query.where.or;
+    }
+    this.list = [];
+    // console.log(this.query);
+    this.getlist(null, paginate);
+  }
+  getlist(obj: any, paginate: any){
+    if(!paginate){
+      paginate = {
+        pageIndex: -1,
+        pageSize: 0
+      };
+    }
+    this.query.where.empresa = this.user.empresa;
+    this.query.where.estado = "activo";
+    this.query.limit = paginate.pageIndex;
+    this.query.skip = paginate.pageSize;
+
     if(this.user.rol.nombre === "super admin"){
-      delete query.where.empresa;
+      delete this.query.where.empresa;
     }
     if(obj){
-      query.where.id = obj;
-      query.limit = 1;
+      this.query.where.id = obj;
+      this.query.limit = 1;
     }
-    this._usuarios.get(query)
+    this._usuarios.get(this.query)
     .subscribe(
       (res: any)=>{
         // console.log(res);
+        this.count = res.count;
         if(obj){
           this.open(res.data[0]);
         }else{

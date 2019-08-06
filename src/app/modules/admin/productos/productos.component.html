@@ -3,80 +3,95 @@
       <nav
         class="navbar navbar-light bg-light row card-header card-header-danger"
       >
-        <span
-          class="p"
-        >
-            Productos
-        </span>
-        <div class="content p-1">
-          <div class="row">
+        <div class="col row">
+          <span
+            class="p"
+          >
+              Productos
+          </span>
+          <div class="col p-1" *ngIf="!disable">
+            <input type="text"
+              style="color: white;"
+              matTooltip="Buscador"
+              class="form-control" placeholder="Buscar Articulo" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+          </div>
+          <div class="" *ngIf="!disable">
             <button
               mat-mini-fab
               color="primary"
-              placeholder="guardar"
-              *ngIf="disable && !data.id"
-              (click)="saved()"
-            >
-              <i class="material-icons">save</i>
-            </button>
-            <!-- <button
-              mat-mini-fab
-              color="primary"
-              placeholder="guardar"
-              *ngIf="disable && !data.id"
-              matTooltip="Importar hoja de calculo"
-              (click)="disabledexcel = !disabledexcel"
-            >
-              <i class="material-icons">description</i>
-            </button> -->
-            <div *ngIf="disable && !data.id && !disabledexcel">
-              <button
-                mat-mini-fab
-                color="accent"
-                (click)="multiple = !multiple;"
-                class="btn btn-primary">
-                <span *ngIf="!multiple"
-                  matTooltip="varios formulario"
-                >
-                  <i class="material-icons">library_books</i>
-                </span>
-                <span
-                  *ngIf="multiple"
-                  matTooltip="Un solo formulario"
-                >
-                  <i class="material-icons">turned_in</i>
-                </span>
-              </button>
-              <button
-                mat-mini-fab
-                color="accent"
-                *ngIf="multiple"
-                type="button"
-                (click)="clickmultiple()"
-                class="btn btn-primary">
-                <i class="material-icons">add_circle_outline</i>
-              </button>
-            </div>
-            <button
-              mat-mini-fab
-              (click)="add()"
-              color="warn"
-              placeholder="agregar"
-            >
-              <i
-                class="material-icons"
-                *ngIf="!disable"
-              >
-                add_circle_outline
-              </i>
-              <i
-                class="material-icons"
-                *ngIf="disable"
-              >
-                close
-              </i>
+              matTooltip="Buscar"
+              placeholder="Buscar" (click)="getsearh()">
+              <i class="material-icons">search</i>
             </button>
           </div>
+        </div>
+        <div class="row">
+          <button
+            mat-mini-fab
+            color="primary"
+            placeholder="guardar"
+            *ngIf="disable && !data.id"
+            (click)="saved()"
+          >
+            <i class="material-icons">save</i>
+          </button>
+          <!-- <button
+            mat-mini-fab
+            color="primary"
+            placeholder="guardar"
+            *ngIf="disable && !data.id"
+            matTooltip="Importar hoja de calculo"
+            (click)="disabledexcel = !disabledexcel"
+          >
+            <i class="material-icons">description</i>
+          </button> -->
+          <div *ngIf="disable && !data.id && !disabledexcel">
+            <button
+              mat-mini-fab
+              color="accent"
+              (click)="multiple = !multiple;"
+              class="btn btn-primary">
+              <span *ngIf="!multiple"
+                matTooltip="varios formulario"
+              >
+                <i class="material-icons">library_books</i>
+              </span>
+              <span
+                *ngIf="multiple"
+                matTooltip="Un solo formulario"
+              >
+                <i class="material-icons">turned_in</i>
+              </span>
+            </button>
+            <button
+              mat-mini-fab
+              color="accent"
+              *ngIf="multiple"
+              type="button"
+              (click)="clickmultiple()"
+              class="btn btn-primary">
+              <i class="material-icons">add_circle_outline</i>
+            </button>
+          </div>
+          <button
+            mat-mini-fab
+            (click)="add(false)"
+            color="warn"
+            placeholder="agregar"
+          >
+            <i
+              class="material-icons"
+              *ngIf="!disable"
+            >
+              add_circle_outline
+            </i>
+            <i
+              class="material-icons"
+              *ngIf="disable"
+            >
+              close
+            </i>
+          </button>
         </div>
       </nav>
       <br>
@@ -168,6 +183,10 @@
                         </tr>
                     </tbody>
                 </table>
+                <mat-paginator [length]="count"
+                              [pageSize]="10"
+                              (page)="pageEvent($event)">
+                </mat-paginator>
             </div>
         </div>
         <div class="card-body" *ngIf="disable">
@@ -199,27 +218,35 @@
               <div class="form-group">
                 <label for="formGroupExampleInput">Codigo del Producto</label>
                 <input type="text"
-                  (blur)="blur('codigo')"
+                  (blur)="blur('codigo', false)"
+                  required
                   class="form-control" placeholder="Codigo del Producto" [(ngModel)]="data.codigo">
               </div>
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Nombre del Producto</label>
                 <input type="text"
-                  (blur)="blur('titulo')"
+                  (blur)="blur('titulo', false)"
+                  required
                   class="form-control" placeholder="Nombre" [(ngModel)]="data.titulo">
               </div>
               <div class="form-group">
-                <label for="formGroupExampleInput">O</label>
-                <select class="custom-select"  (blur)="blur('opcion')" [(ngModel)]="data.opcion">
-                  <option value="producto" *ngIf="user.empresa.ofrece === 'producto' || user.empresa.ofrece === 'productoservicio'">Producto</option>
-                  <option value="servicio" *ngIf="user.empresa.ofrece === 'servicio' || user.empresa.ofrece === 'productoservicio'">Servicio</option>
+                <label for="formGroupExampleInput">Tipo de producto</label>
+                <select class="custom-select"  (blur)="blur('tipoproduct', false)" [(ngModel)]="data.tipoproduct" required>
+                  <option value="producto" *ngIf="user.empresas.ofrece === 'producto' || user.empresas.ofrece === 'productoservicio'">Producto</option>
+                  <option value="servicio" *ngIf="user.empresas.ofrece === 'servicio' || user.empresas.ofrece === 'productoservicio'">Servicio</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Tipo de Mercado</label>
+                <select class="custom-select" (blur)="blur('tipomercado', false)" [(ngModel)]="data.tipomercado" required>
+                  <option value="{{ pro.id }}" *ngFor="let pro of listmercados">{{ pro.titulo }}</option>
                 </select>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Categoria</label>
-                <select class="custom-select"  (blur)="blur('categorias')" [(ngModel)]="data.categorias">
+                <select class="custom-select"  (blur)="blur('categorias', false)" [(ngModel)]="data.categorias" required>
                   <option
                     value="{{item.id}}"
                     *ngFor="let item of listcategoria"
@@ -230,7 +257,7 @@
               </div>
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Marca</label>
-                <select class="custom-select"  (blur)="blur('marca')" [(ngModel)]="data.marca">
+                <select class="custom-select"  (blur)="blur('marca', false)" [(ngModel)]="data.marca" required>
                   <option
                     value="{{item.id}}"
                     *ngFor="let item of listmarca"
@@ -240,49 +267,63 @@
                 </select>
               </div>
               <div class="form-group col-sm">
-                <label for="formGroupExampleInput">Cantidad</label>
+                <label for="formGroupExampleInput">Cantidad Total</label>
                 <input type="number"
-                  (blur)="blur('cantidad')"
-                  class="form-control" placeholder="Cantidad de Producto" [(ngModel)]="data.cantidad">
+                  (blur)="blur('cantidad', false)"
+                  class="form-control" placeholder="Cantidad Total del Producto" [(ngModel)]="data.cantidad" required>
               </div>
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Stock</label>
                 <input type="text"
-                  (blur)="blur('stock')"
+                  (blur)="blur('stock', false)"
                   class="form-control" placeholder="Stock de Producto" [(ngModel)]="data.stock">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Estado del Producto</label>
-                <select class="custom-select"  (blur)="blur('estado')" [(ngModel)]="data.estado">
+                <select class="custom-select"  (blur)="blur('estado', false)" [(ngModel)]="data.estado" required>
                   <option value="nuevo">Nuevo</option>
                   <option value="usado">Usado</option>
                 </select>
               </div>
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Opcion</label>
-                <select class="custom-select"  (blur)="blur('opcion')" [(ngModel)]="data.opcion">
+                <select class="custom-select"  (blur)="blur('opcion', false)" [(ngModel)]="data.opcion" required>
                   <option value="activo">Activo</option>
                   <option value="inactivo">Inactivo</option>
                 </select>
               </div>
               <div class="form-group col-sm">
+                <label for="formGroupExampleInput">Peso(kg)</label>
+                <input type="text"
+                  (blur)="blur('peso', false)"
+                  class="form-control" placeholder="Peso de Producto" [(ngModel)]="data.peso">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de la Compra</label>
                 <input type="number"
-                  (blur)="blur('costocompra')"
-                  class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="data.costocompra">
+                  (blur)="blur('costocompra', false)"
+                  class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="data.costocompra" required>
               </div>
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Costo de la Venta</label>
                 <input type="number"
-                  (blur)="blur('costoventa')"
-                  class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costoventa">
+                  (blur)="blur('costoventa', false)"
+                  class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costoventa" required>
               </div>
               <div class="form-group col-sm">
+                <div class="form-group col-sm p-3">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="data.costovarios" (blur)="blur('costovarios', false)">
+                  <label class="form-check-label">Lista de Promosiones</label>
+                </div>
+              </div>
+              <div class="form-group col-sm" *ngIf="!costovarios">
                 <label for="formGroupExampleInput">Costo de Promosion</label>
                 <input type="number"
-                  (blur)="blur('costopromosion')"
+                  (blur)="blur('costopromosion', false)"
                   class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costopromosion">
               </div>
             </div>
@@ -290,9 +331,11 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Talla del Producto</label>
                 <select class="custom-select"  (blur)="blur('talla')" [(ngModel)]="data.talla">
+                  <option>None</option>
                     <option
                       value="{{item.id}}"
                       *ngFor="let item of listtalla"
+                      [disabled]="(item.talla === 'varias' && data.colores.color === 'varias')"
                     >
                       {{ item.talla }}
                     </option>
@@ -301,9 +344,11 @@
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Color del Producto</label>
                 <select class="custom-select"  (blur)="blur('color')" [(ngModel)]="data.color">
+                  <option>None</option>
                     <option
                       value="{{item.id}}"
                       *ngFor="let item of listcolor"
+                      [disabled]="(item.color === 'varias' && data.tallas.talla === 'varias')"
                     >
                       {{ item.color }}
                     </option>
@@ -315,38 +360,256 @@
                 (blur)="edit('fechavencimiento')">
               </div>
             </div>
-            <div class="form-column">
-              <div class="d-flex justify-content-center">
-                <h5>Tamaño del producto</h5>
+            <div class="form-row">
+                <div class="form-group col">
+                  <label for="formGroupExampleInput">Descripcion Corta</label>
+                  <textarea class="form-control" maxlength="100" minlength="5" (blur)="blur('descripcioncorta', false)" rows="3" [(ngModel)]="data.descripcioncorta" required></textarea>
+                </div>
               </div>
+            <div class="form-row">
+              <div class="form-group col">
+                <label for="formGroupExampleInput">Descripcion</label>
+                <textarea class="form-control" (blur)="blur('descripcion', false)" rows="3" [(ngModel)]="data.descripcion" required></textarea>
+              </div>
+            </div>
+            <br>
+            <div class="form-column">
+              <nav
+                class="navbar navbar-light bg-light row card-header card-header-danger"
+              >
+                <div class="content container row">
+                  <span class="p">
+                    Tamaño del producto
+                  </span>
+                </div>
+              </nav>
               <div class="form-row">
                 <div class="form-group col-sm">
                   <label for="formGroupExampleInput">Alto cm</label>
                   <input type="number"
-                    (blur)="blur('alto')"
-                    class="form-control" placeholder="Alto del producto en cm" [(ngModel)]="data.alto">
+                    (blur)="blur('alto', false)"
+                    class="form-control" placeholder="Alto del producto en cm" [(ngModel)]="data.alto" required>
                 </div>
                 <div class="form-group col-sm">
                   <label for="formGroupExampleInput">Largo cm</label>
                   <input type="number"
-                    (blur)="blur('largo')"
-                    class="form-control" placeholder="Largo del producto en cm" [(ngModel)]="data.largo">
+                    (blur)="blur('largo', false)"
+                    class="form-control" placeholder="Largo del producto en cm" [(ngModel)]="data.largo" required>
                 </div>
                 <div class="form-group col-sm">
                   <label for="formGroupExampleInput">Ancho cm</label>
                   <input type="number"
-                    (blur)="blur('ancho')"
-                    class="form-control" placeholder="Ancho del producto en cm" [(ngModel)]="data.ancho">
+                    (blur)="blur('ancho', false)"
+                    class="form-control" placeholder="Ancho del producto en cm" [(ngModel)]="data.ancho" required>
                 </div>
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col">
-                <label for="formGroupExampleInput">Descripcion</label>
-                <textarea class="form-control" (blur)="blur('descripcion')" rows="3" [(ngModel)]="data.descripcion"></textarea>
+            <br>
+            <div class="column" *ngIf="data.costovarios">
+              <nav
+                class="navbar navbar-light bg-light row card-header card-header-danger"
+              >
+                <div class="content container row">
+                  <span
+                    class="p"
+                  >
+                      Lista de Promosiones
+                  </span>
+                  <div>
+                    <button
+                      mat-mini-fab
+                      color="primary"
+                      type="button"
+                      (click)="blur('listapromosion', true)"
+                    >
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button
+                      mat-mini-fab
+                      color="accent"
+                      type="button"
+                      (click)="data.listapromosion.push({})"
+                    >
+                      <i class="material-icons">add_circle_outline</i>
+                    </button>
+                  </div>
+                </div>
+              </nav>
+              <div class="column" *ngFor="let item of data.listapromosion; let idx = index">
+                <div class="row">
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Cantidad Adquirir</label>
+                    <input type="number"
+                      class="form-control" placeholder="Cantidad Adquirir del Producto" [(ngModel)]="item.cantidad">
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Presio * Unidad</label>
+                    <input type="number"
+                      class="form-control" placeholder="Presio por unidad del producto" [(ngModel)]="item.presio">
+                  </div>
+                  <div class="p-3">
+                    <button
+                      mat-mini-fab
+                      color="warn"
+                      type="button"
+                      (click)="data.listapromosion.splice(idx, 1); blur('listapromosion', true) "
+                    >
+                      <i class="material-icons">
+                        close
+                      </i>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <br>
+            <div class="column" *ngIf="data.tallas.talla === 'varias' && data.talla !== 'null'">
+              <nav
+                class="navbar navbar-light bg-light row card-header card-header-danger"
+              >
+                <div class="content container row">
+                  <span
+                    class="p"
+                  >
+                      Lista de Tallas
+                  </span>
+                  <div>
+                    <button
+                      mat-mini-fab
+                      color="primary"
+                      type="button"
+                      (click)="blur('listatallas', true)"
+                      matTooltip="Actualizar lista de Tallas"
+                    >
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button
+                      mat-mini-fab
+                      color="accent"
+                      type="button"
+                      matTooltip="Agregar Una Nueva Lista"
+                      (click)="data.listatallas.push({})"
+                    >
+                      <i class="material-icons">add_circle_outline</i>
+                    </button>
+                  </div>
+                </div>
+              </nav>
+              <div class="column" *ngFor="let item of data.listatallas; let idx = index">
+                <div class="row">
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Talla del Producto</label>
+                    <select class="custom-select"  [(ngModel)]="item.talla">
+                        <option
+                          value="{{item.talla}}"
+                          *ngFor="let item of listtalla"
+                          [disabled]="item.talla === 'varias'"
+                        >
+                          {{ item.talla }}
+                        </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Color del Producto</label>
+                    <select class="custom-select"  [(ngModel)]="item.color">
+                        <option
+                          value="{{item.color}}"
+                          *ngFor="let item of listcolor"
+                          [disabled]="item.color === 'varias'"
+                        >
+                          {{ item.color }}
+                        </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Cantidad</label>
+                    <input type="number"
+                      class="form-control" placeholder="Cantidad del Producto" [(ngModel)]="item.cantidad">
+                  </div>
+                  <div class="p-3">
+                    <button
+                      mat-mini-fab
+                      color="warn"
+                      type="button"
+                      matTooltip="Eliminar lista"
+                      (click)="data.listatallas.splice(idx, 1); blur('listatallas', true) "
+                    >
+                      <i class="material-icons">
+                        close
+                      </i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="column" *ngIf="data.colores.color === 'varias' && data.color !== 'null'">
+              <nav
+                class="navbar navbar-light bg-light row card-header card-header-danger"
+              >
+                <div class="content container row">
+                  <span
+                    class="p"
+                  >
+                      Lista de Colores
+                  </span>
+                  <div>
+                    <button
+                      mat-mini-fab
+                      color="primary"
+                      type="button"
+                      (click)="blur('listacolores', true)"
+                      matTooltip="Actualizar lista"
+                    >
+                      <i class="material-icons">edit</i>
+                    </button>
+                    <button
+                      mat-mini-fab
+                      color="accent"
+                      type="button"
+                      matTooltip="Agregar Una Lista Nueva"
+                      (click)="data.listacolores.push({})"
+                    >
+                      <i class="material-icons">add_circle_outline</i>
+                    </button>
+                  </div>
+                </div>
+              </nav>
+              <div class="column" *ngFor="let item of data.listacolores">
+                <div class="row">
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Color del Producto</label>
+                    <select class="custom-select"  [(ngModel)]="item.color">
+                        <option
+                          value="{{item.color}}"
+                          *ngFor="let item of listcolor"
+                          [disabled]="item.color === 'varias'"
+                        >
+                          {{ item.color }}
+                        </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="formGroupExampleInput">Cantidad</label>
+                    <input type="number"
+                      class="form-control" placeholder="Cantidad del Producto" [(ngModel)]="item.cantidad">
+                  </div>
+                  <div class="p-3">
+                    <button
+                      mat-mini-fab
+                      color="warn"
+                      type="button"
+                      matTooltip="Eliminar lista"
+                      (click)="data.listacolores.splice(idx, 1); blur('listacolores', true) "
+                    >
+                      <i class="material-icons">
+                        close
+                      </i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <br>
             <div class="column" *ngIf="data.id">
               <nav
@@ -478,6 +741,19 @@
                     (blur)="clickmultiple()"
                     class="form-control" placeholder="Nombre" [(ngModel)]="item.titulo">
                 </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Tipo de producto</label>
+                  <select class="custom-select" [(ngModel)]="item.tipoproduct" required>
+                    <option value="producto" *ngIf="user.empresas.ofrece === 'producto' || user.empresas.ofrece === 'productoservicio'">Producto</option>
+                    <option value="servicio" *ngIf="user.empresas.ofrece === 'servicio' || user.empresas.ofrece === 'productoservicio'">Servicio</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput">Tipo de Mercado</label>
+                  <select class="custom-select" *ngFor="let pro of listmercados" [(ngModel)]="item.tipomercado" required>
+                    <option value="{{ pro.id }}">{{ pro.titulo }}</option>
+                  </select>
+                </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-sm">
@@ -547,23 +823,27 @@
               <div class="form-row">
                 <div class="form-group col-sm">
                   <label for="formGroupExampleInput">Talla del Producto</label>
-                  <select class="custom-select" [(ngModel)]="item.talla">
+                  <select class="custom-select" [(ngModel)]="item.talla" (blur)="estadolist('talla', item)">
+                    <option>None</option>
                       <option
-                        value="{{item.id}}"
-                        *ngFor="let item of listtalla"
+                        value="{{pro.id}}"
+                        *ngFor="let pro of listtalla"
+                        [disabled]="(pro.talla === 'varias' && item.colores.talla === 'varias')"
                       >
-                        {{ item.talla }}
+                        {{ pro.talla }}
                       </option>
                   </select>
                 </div>
                 <div class="form-group col-sm">
                   <label for="formGroupExampleInput">Color del Producto</label>
-                  <select class="custom-select"  [(ngModel)]="item.color">
+                  <select class="custom-select"  [(ngModel)]="item.color" (blur)="estadolist('color', item)">
+                      <option>None</option>
                       <option
-                        value="{{item.id}}"
-                        *ngFor="let item of listcolor"
+                        value="{{pro.id}}"
+                        *ngFor="let pro of listcolor"
+                        [disabled]="(pro.color === 'varias' && item.tallas.talla === 'varias')"
                       >
-                        {{ item.color }}
+                        {{ pro.color }}
                       </option>
                   </select>
                 </div>
@@ -600,6 +880,108 @@
                   <textarea class="form-control" rows="3" [(ngModel)]="item.descripcion"></textarea>
                 </div>
               </div>
+              <br>
+              <br>
+              <div class="column" *ngIf="item.tallas.talla === 'varias' && item.talla !== 'null'">
+                <nav
+                  class="navbar navbar-light bg-light row card-header card-header-danger"
+                >
+                  <div class="content container row">
+                    <span
+                      class="p"
+                    >
+                        Lista de Tallas
+                    </span>
+                    <div>
+                      <button
+                        mat-mini-fab
+                        color="accent"
+                        type="button"
+                        (click)="item.listatallas.push({})"
+                        class="btn btn-primary">
+                        <i class="material-icons">add_circle_outline</i>
+                      </button>
+                    </div>
+                  </div>
+                </nav>
+                <div class="column" *ngFor="let pro of item.listatallas">
+                  <div class="row">
+                    <div class="form-group col-sm">
+                      <label for="formGroupExampleInput">Talla del Producto</label>
+                      <select class="custom-select"  [(ngModel)]="pro.talla">
+                          <option
+                            value="{{key.id}}"
+                            *ngFor="let key of listtalla"
+                            [disabled]="pro.talla === 'varias'"
+                          >
+                            {{ key.talla }}
+                          </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm">
+                      <label for="formGroupExampleInput">Color del Producto</label>
+                      <select class="custom-select"  [(ngModel)]="pro.color">
+                          <option
+                            value="{{key.id}}"
+                            *ngFor="let key of listcolor"
+                            [disabled]="key.color === 'varias'"
+                          >
+                            {{ key.color }}
+                          </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm">
+                      <label for="formGroupExampleInput">Cantidad</label>
+                      <input type="number"
+                        class="form-control" placeholder="Cantidad del Producto" [(ngModel)]="pro.cantidad">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column" *ngIf="item.colores.color === 'varias' && item.color !== 'null'">
+                <nav
+                  class="navbar navbar-light bg-light row card-header card-header-danger"
+                >
+                  <div class="content container row">
+                    <span
+                      class="p"
+                    >
+                        Lista de Colores
+                    </span>
+                    <div>
+                      <button
+                        mat-mini-fab
+                        color="accent"
+                        type="button"
+                        (click)="item.listacolores.push({})"
+                        class="btn btn-primary">
+                        <i class="material-icons">add_circle_outline</i>
+                      </button>
+                    </div>
+                  </div>
+                </nav>
+                <div class="column" *ngFor="let pro of item.listacolores">
+                  <div class="row">
+                    <div class="form-group col-sm">
+                      <label for="formGroupExampleInput">Color del Producto</label>
+                      <select class="custom-select"  [(ngModel)]="pro.color">
+                          <option
+                            value="{{key.id}}"
+                            *ngFor="let key of listcolor"
+                            [disabled]="key.color === 'varias'"
+                          >
+                            {{ key.color }}
+                          </option>
+                      </select>
+                    </div>
+                    <div class="form-group col-sm">
+                      <label for="formGroupExampleInput">Cantidad</label>
+                      <input type="number"
+                        class="form-control" placeholder="Cantidad del Producto" [(ngModel)]="pro.cantidad">
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="form-row">
                 <div class="p-1">
                   <button
@@ -616,7 +998,6 @@
                   </button>
                 </div>
               </div>
-            </div>
           </div>
           <div class="form-column" *ngIf="disabledexcel">
             <div class="d-flex align-items-center">

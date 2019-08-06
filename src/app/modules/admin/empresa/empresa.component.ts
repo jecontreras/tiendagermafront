@@ -27,6 +27,11 @@ export class EmpresaComponent implements OnInit {
   public img: any = [];
   public datafile: any;
   public carga: boolean= true;
+  public count: any = 0;
+  public searcht: any ={
+    txt: ''
+  };
+  public query: any = {where:{}};
 
   constructor(
     private route: ActivatedRoute,
@@ -47,25 +52,81 @@ export class EmpresaComponent implements OnInit {
     this.route.params.subscribe(params => {
       // console.log(params);
        if(params['id']!=null){
-        this.getlist(params['id']);
+        this.getlist(params['id'], null);
       }else{
-        this.getlist(null);
+        const
+          paginate: any = {
+            pageIndex: 10,
+            pageSize: 0
+          }
+        ;
+        this.getlist(null, paginate);
       }
     });
   }
-  getlist(obj: any){
+  pageEvent(ev){
+    // console.log(ev);
+    ev.pageIndex = 10;
+    ev.pageSize+= 1;
+    this.getlist(null,ev);
+  }
+  getsearh(){
     const
-      query: any ={
-        where:{
-        },
-        limit: 10
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
       }
     ;
-    if(obj){
-      query.where.id = obj;
-      query.limit = 1;
+    if(this.searcht.txt){
+      this.query.where.or = [
+        {
+          empresa:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          url:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          ofrece:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          codigo:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          estado:{
+            contains: this.searcht.txt || ''
+          }
+        }
+      ];
+    }else{
+      delete this.query.where.or;
     }
-    this._tiendas.get(query)
+    this.list = [];
+    // console.log(this.query);
+    this.getlist(null, paginate);
+  }
+  getlist(obj: any, paginate: any){
+    if(!paginate){
+      paginate = {
+        pageIndex: -1,
+        pageSize: 0
+      };
+    }
+    this.query.limit = paginate.pageIndex;
+    this.query.skip = paginate.pageSize;
+
+    if(obj){
+      this.query.where.id = obj;
+      this.query.limit = 1;
+    }
+    this._tiendas.get(this.query)
     .subscribe(
       (res: any)=>{
         // console.log(res.data);

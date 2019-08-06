@@ -20,6 +20,12 @@ export class ColorComponent implements OnInit {
   public list: any = [];
   public clone: any = [];
   public user: any = {};
+  public count: any = 0;
+  public searcht: any ={
+    txt: ''
+  };
+  public query: any = {where:{}};
+
   constructor(
     private _colores: ColoresService,
     private _tools: ToolsService,
@@ -33,21 +39,50 @@ export class ColorComponent implements OnInit {
     if(this._model.user.rol.nombre !== "super admin"){
       this.router.navigate(['admin/dashboard']);
     }
-    this.getlist();
-  }
-  getlist(){
     const
-      query: any ={
-        where:{
-          // empresa: 1
-        },
-        limit: 10
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
       }
     ;
-    this._colores.get(query)
+    this.getlist(paginate);
+  }
+  pageEvent(ev){
+    // console.log(ev);
+    ev.pageIndex = 10;
+    ev.pageSize+= 1;
+    this.getlist(ev);
+  }
+  getsearh(){
+    const
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
+      }
+    ;
+    if(this.searcht.txt){
+      this.query.where.or = [
+        {
+          color:{
+            contains: this.searcht.txt || ''
+          }
+        }
+      ];
+    }else{
+      delete this.query.where.or;
+    }
+    this.list = [];
+    // console.log(this.query);
+    this.getlist(paginate);
+  }
+  getlist(paginate: any){
+    this.query.limit = paginate.pageIndex;
+    this.query.skip = paginate.pageSize;
+    this._colores.get(this.query)
     .subscribe(
       (res: any)=>{
-        console.log(res.data);
+        // console.log(res.data);
+        this.count = res.count;
         this.list = _.unionBy(this.list || [], res.data, 'id');
       }
     )

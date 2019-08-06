@@ -20,6 +20,11 @@ export class CategoriasComponent implements OnInit {
   public list: any = [];
   public clone: any = [];
   public user:any = {};
+  public count: any = 0;
+  public searcht: any ={
+    txt: ''
+  };
+  public query: any = {where:{}};
   constructor(
     private _categoria: CategoriasService,
     private _tools: ToolsService,
@@ -34,25 +39,66 @@ export class CategoriasComponent implements OnInit {
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
-
-    this.getlist();
-  }
-  getlist(){
     const
-      query: any ={
-        where:{
-          categoriaDe: ["producto", "etiqueta"],
-          empresa: this.user.empresa
-        }
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
       }
     ;
-    if(this.user.rol.nombre ==="super admin"){
-      query.where.categoriaDe.push("categoria");
-      delete query.where.empresa;
+    this.getlist(paginate);
+  }
+  pageEvent(ev){
+    // console.log(ev);
+    ev.pageIndex = 10;
+    ev.pageSize+= 1;
+    this.getlist(ev);
+  }
+  getsearh(){
+    const
+      paginate: any = {
+        pageIndex: 10,
+        pageSize: 0
+      }
+    ;
+    if(this.searcht.txt){
+      this.query.where.or = [
+        {
+          categoria:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          slug:{
+            contains: this.searcht.txt || ''
+          }
+        },
+        {
+          categoriaDe:{
+            contains: this.searcht.txt || ''
+          }
+        }
+      ];
+    }else{
+      delete this.query.where.or;
     }
-    this._categoria.get(query)
+    this.list = [];
+    // console.log(this.query);
+    this.getlist(paginate);
+  }
+  getlist(paginate: any){
+    this.query.where.categoriaDe = ["producto", "etiqueta"];
+    this.query.where.empresa = this.user.empresa;
+    this.query.limit = paginate.pageIndex;
+    this.query.skip = paginate.pageSize;
+
+    if(this.user.rol.nombre ==="super admin"){
+      this.query.where.categoriaDe.push("categoria");
+      delete this.query.where.empresa;
+    }
+    this._categoria.get(this.query)
     .subscribe(
       (res: any)=>{
+        this.count = res.count;
         // console.log(res.data);
         this.list = _.unionBy(this.list || [], res.data, 'id');
       }

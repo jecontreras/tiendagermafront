@@ -4,15 +4,33 @@
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger row">
-                      <div class="col">
-                        <h4 class="card-title ">Clientes</h4>
-                        <p class="card-category" *ngIf="!disable"> Listado de Clientes</p>
-                        <p class="card-category" *ngIf="disable"> Agregar Cliente</p>
+                      <div class="col row">
+                        <div class="">
+                          <h4 class="card-title ">Clientes</h4>
+                          <p class="card-category" *ngIf="!disable"> Listado de Clientes</p>
+                          <p class="card-category" *ngIf="disable"> Agregar Cliente</p>
+                        </div>
+                        <div class="col p-1" *ngIf="!disable">
+                          <input type="text"
+                            style="color: white;"
+                            matTooltip="Buscador"
+                            class="form-control" placeholder="Buscar Cliente" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+                        </div>
+                        <div class="" *ngIf="!disable">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            matTooltip="Buscar"
+                            placeholder="Buscar" (click)="getsearh()">
+                            <i class="material-icons">search</i>
+                          </button>
+                        </div>
                       </div>
                       <div class="">
                         <button
                           mat-mini-fab
                           placeholder="guardar"
+                          color="primary"
                           *ngIf="disable && !data.id"
                           (click)="saved()"
                         >
@@ -20,7 +38,7 @@
                         </button>
                         <button
                           mat-mini-fab
-                          (click)="open()"
+                          (click)="open(false)"
                           placeholder="agregar"
                         >
                           <i
@@ -115,6 +133,10 @@
                                   </tr>
                               </tbody>
                           </table>
+                          <mat-paginator [length]="count"
+                                        [pageSize]="10"
+                                        (page)="pageEvent($event)">
+                          </mat-paginator>
                       </div>
                   </div>
                   <div class="card-body" *ngIf="disable">

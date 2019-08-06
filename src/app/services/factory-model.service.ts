@@ -43,18 +43,21 @@ export class FactoryModelService {
             // console.log(response);
             response = response.data[0];
             if (response) {
-              localStorage.clear();
+              // localStorage.clear();
+              localStorage.removeItem('user');
               localStorage.setItem('user', JSON.stringify(response));
               this.user = JSON.parse(localStorage.getItem('user'));
             } else {
-              localStorage.clear();
+              // localStorage.clear();
+              localStorage.removeItem('user');
               this.router.navigate(['login']);
             }
           },
           (error: any) => {
             console.log(error);
             this._auth.canActivate();
-            localStorage.clear();
+            // localStorage.clear();
+            localStorage.removeItem('user');
             this.router.navigate(['login']);
           }
         );
