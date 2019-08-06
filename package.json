@@ -14,10 +14,6 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && ng serve -o",
     "postinstall": "ng build --aot --prod"
   },
-  "engines": {
-    "node": "6.11.1",
-    "npm": "3.10.9"
-  },
   "private": true,
   "dependencies": {
     "@agm/core": "1.0.0-beta.5",
