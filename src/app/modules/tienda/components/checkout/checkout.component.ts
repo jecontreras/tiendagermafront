@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { paises } from './../../../../json/paises'
+import { paises } from './../../../../Json/paises'
 import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from './../../../../services/cart.service';
 import { UsuariosService } from './../../../../services/usuarios.service';
 import { FactoryModelService } from './../../../../services/factory-model.service';
-import { departamento } from '../../../../json/departamentos';
+import { departamento } from '../../../../Json/departamentos';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 import * as sha from 'sha256';

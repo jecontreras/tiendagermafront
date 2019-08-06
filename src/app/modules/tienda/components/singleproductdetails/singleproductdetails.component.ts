@@ -6,7 +6,7 @@ import { FactoryModelService } from './../../../../services/factory-model.servic
 import { ProductoService } from './../../../../services/producto';
 import { CategoriasService } from './../../../../services/categorias';
 import { ComentarioService } from './../../../../services/comentario.service';
-import { departamento } from '../../../../json/departamentos';
+import { departamento } from '../../../../Json/departamentos';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import swal from 'sweetalert';

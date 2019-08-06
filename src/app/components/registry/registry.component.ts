@@ -4,8 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { AuthService } from './../../services/auth.service';
 import { ToolsService } from './../../services/tools.service';
-import { departamento } from '../../json/departamentos';
-import { paises } from '../../json/paises';
+import { departamento } from '../../Json/departamentos';
+import { paises } from '../../Json/paises';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
 @Component({
