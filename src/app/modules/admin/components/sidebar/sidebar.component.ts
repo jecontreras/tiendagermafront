@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FactoryModelService } from './../../../../services/factory-model.service';
 import * as _ from 'lodash';
+import * as $ from 'jquery';
 
-declare const $: any;
+// declare const $: any;
 declare interface RouteInfo {
     path: string;
     title: string;
