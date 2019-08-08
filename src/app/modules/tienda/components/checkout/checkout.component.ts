@@ -58,19 +58,6 @@ export class CheckoutComponent implements OnInit {
     ;
     // console.log(articulo);
     // this.listCart = articulo;
-    _.forEach(articulo.articulo, function(item){
-      costoenvio+=item.costoenvio;
-      item.cantidadadquiridad = parseInt(item.cantidadadquiridad);
-      cantidad+=item.cantidadadquiridad;
-      if(item.costopromosion){
-        subtotal+=parseInt(item.costopromosion)*parseInt(item.cantidadadquiridad);
-        descuento+=parseInt(item.costoventa)-parseInt(item.costopromosion);
-      }
-      if(item.costoventa && !item.costopromosion){
-        subtotal+=item.costoventa*parseInt(item.cantidadadquiridad);
-      }
-    })
-    ;
     total = subtotal;
     this.data.codigo = this.codigo();
     this.data.cantidad = cantidad;
@@ -78,24 +65,46 @@ export class CheckoutComponent implements OnInit {
     this.data.entrega = costoenvio;
     this.data.descuento = descuento;
     this.data.total = total;
-    this.data.infextras = articulo.infextras;
-    this.data.articulo = articulo.articulo;
-    // console.log(this.data);
-    return this._cart.validarart(this.data)
-    .subscribe(
-      (res: any)=>{
-        // console.log(res);
-        if(res.status === 200){
-          res = res.data;
-          this.data.articulo = res.articulo;
-          this.data.subtotal = res.subtotal;
-          this.data.entrega = res.entrega;
-          this.data.descuento = res.descuento;
-          this.data.total = res.total;
-          this.data.infextras = res.infextras;
-          localStorage.setItem('shop', JSON.stringify(this.data));
+    if(articulo){
+      _.forEach(articulo.articulo, function(item){
+        costoenvio+=item.costoenvio;
+        item.cantidadadquiridad = parseInt(item.cantidadadquiridad);
+        cantidad+=item.cantidadadquiridad;
+        if(item.costopromosion){
+          subtotal+=parseInt(item.costopromosion)*parseInt(item.cantidadadquiridad);
+          descuento+=parseInt(item.costoventa)-parseInt(item.costopromosion);
         }
-      });
+        if(item.costoventa && !item.costopromosion){
+          subtotal+=item.costoventa*parseInt(item.cantidadadquiridad);
+        }
+      })
+      ;
+      total = subtotal;
+      this.data.codigo = this.codigo();
+      this.data.cantidad = cantidad;
+      this.data.subtotal = total;
+      this.data.entrega = costoenvio;
+      this.data.descuento = descuento;
+      this.data.total = total;
+      this.data.infextras = articulo.infextras;
+      this.data.articulo = articulo.articulo;
+      // console.log(this.data);
+      return this._cart.validarart(this.data)
+      .subscribe(
+        (res: any)=>{
+          // console.log(res);
+          if(res.status === 200){
+            res = res.data;
+            this.data.articulo = res.articulo;
+            this.data.subtotal = res.subtotal;
+            this.data.entrega = res.entrega;
+            this.data.descuento = res.descuento;
+            this.data.total = res.total;
+            this.data.infextras = res.infextras;
+            localStorage.setItem('shop', JSON.stringify(this.data));
+          }
+        });
+    }
   }
   blurdepartamento() {
     // console.log(this.registerForm.value);
