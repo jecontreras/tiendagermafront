@@ -32,20 +32,22 @@
   <div class="row">
     <div class="col-sm">
       <br><br>
-      <ng-image-slider
-        [images]="imageObject"
-        [infinite]="sliderInfinite"
-        [imagePopup]="sliderImagePopup"
-        [showArrow]="sliderArrowShow"
-        [imageSize]="{width: sliderImageWidth, height: sliderImageHeight}"
-        [autoSlide]="sliderAutoSlide ? 1 : 0"
-        [slideImage]="+sliderSlideImage"
-        [animationSpeed]="sliderAnimationSpeed"
-        (imageClick)="imageOnClick($event)"
-        (arrowClick)="arrowOnClick($event)"
-        (lightboxArrowClick)="lightboxArrowClick($event)"
-        #nav
-      ></ng-image-slider>
+      <div class="">
+        <ng-image-slider
+          [images]="imageObject"
+          [infinite]="sliderInfinite"
+          [imagePopup]="sliderImagePopup"
+          [showArrow]="sliderArrowShow"
+          [imageSize]="{width: sliderImageWidth, height: sliderImageHeight}"
+          [autoSlide]="sliderAutoSlide ? 1 : 0"
+          [slideImage]="1+sliderSlideImage"
+          [animationSpeed]="sliderAnimationSpeed"
+          (imageClick)="imageOnClick($event)"
+          (arrowClick)="arrowOnClick($event)"
+          (lightboxArrowClick)="lightboxArrowClick($event)"
+          #nav
+        ></ng-image-slider>
+      </div>
     </div>
     <div class="col-sm">
       <div class="single_product_details_area col-sm">
