@@ -26,23 +26,24 @@ export class ArchivoService {
       .pipe(
         map((res: any)=>{
           // console.log(res);
-          if(res[0]){
+          if(res.status === 200){
+            res = res.files;
             const
               // url:any = _.split(res[0].fd,"images", 10)
-              url: any = res[0].thumbnailLink;
+              url: any = "https://publihazclick.s3.amazonaws.com/default/"+res.fd;
             ;
             // console.log(url);
             if(data){
               // data.url2 = this._model.url+"images"+url[1];
               data.url2 = url;
-              data.infodrive = res[0];
+              // data.infodrive = res[0];
               this.getGaleria(data, modelo,);
-              return null;
+              return url;
             }else{
-              return this._model.url+"images"+url[1];
+              return url;
             }
           }
-          return res;
+          return false;
         })
       )
       ;
@@ -101,7 +102,7 @@ export class ArchivoService {
     // console.log(obj);
     return this._model.create("archivo",{
       foto: obj.url2,
-      infodrive: obj.infodrive,
+      // infodrive: obj.infodrive,
       galeria: obj.galeria
     })
     ;
@@ -109,6 +110,7 @@ export class ArchivoService {
   }
   deletefile(query: any) {
     if (query) {
+      query.disable=false;
       return this._model.query('galeria/deletefile', query)
       ;
     }

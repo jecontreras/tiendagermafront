@@ -349,7 +349,7 @@ export class ProductosComponent implements OnInit {
     return this._mercados.get({where:{}, limit: -1})
     .subscribe(
       (res: any)=>{
-        console.log(res)
+        // console.log(res)
         res = res.data;
         this.listmercados = res;
       }
@@ -587,27 +587,32 @@ export class ProductosComponent implements OnInit {
     this.carga = false;
     this._archivos.pushfile(file, data, "articulo")
       .subscribe(
-        (data: any) => {
-          // console.log('POST Request is successful ', data);
-          if(data){
-            this.data.foto = data;
-            this.blur('foto', false);
-            this.carga = true;
-          }else{
-            if(this.data.id){
-              let
-                init:any = 0
-              ;
-              const interval = setInterval(() => {
-                // console.log(init);
-                init+= 1;
-                if(init === 3){
-                  this.carga = true;
-                  this.getGaleria();
-                  this.stopConter(interval);
-                }
-              }, 1000);
+        (res: any) => {
+          // console.log('POST Request is successful ', res, data);
+          this.carga = true;
+          if(res){
+            if(!data){
+              this.data.foto = res;
+              // this.data.infodrive1 = data
+              this.blur('foto', false);
+            }else{
+              if(this.data.id){
+                let
+                  init:any = 0
+                ;
+                const interval = setInterval(() => {
+                  // console.log(init);
+                  init+= 1;
+                  if(init === 3){
+                    this.carga = true;
+                    this.getGaleria();
+                    this.stopConter(interval);
+                  }
+                }, 1000);
+              }
             }
+          }else{
+            swal('Error!', 'Error al subir la imagen', 'error');
           }
         },
         (error: any) => {

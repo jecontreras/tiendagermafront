@@ -43,7 +43,8 @@ export class IndexComponent implements OnInit {
     this.getcart();
   }
   getsearch(){
-    this.router.navigate(['/tienda/shop', this.search]);
+    localStorage.setItem('consulta', this.search);
+    this.router.navigate(['/tienda/shop']);
   }
   getlist(){
     this._categoria.get({

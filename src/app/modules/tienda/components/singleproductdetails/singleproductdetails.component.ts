@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToolsService } from './../../../../services/tools.service';
@@ -9,14 +9,15 @@ import { ComentarioService } from './../../../../services/comentario.service';
 import { departamento } from '../../../../Json/departamentos';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { NgImageSliderComponent } from 'ng-image-slider';
 import swal from 'sweetalert';
-
 @Component({
   selector: 'app-singleproductdetails',
   templateUrl: './singleproductdetails.component.html',
   styleUrls: ['./singleproductdetails.component.scss']
 })
 export class SingleproductdetailsComponent implements OnInit {
+  @ViewChild('nav') ds: NgImageSliderComponent;
   public data: any = {
     listacolores: [],
     listatallas: [],
@@ -32,12 +33,19 @@ export class SingleproductdetailsComponent implements OnInit {
   public listciudades: any = [];
   public listresena: any = [];
   mySlideImages = [];
-  myCarouselImages =[1,2,3,4,5,6].map((i)=>`https://picsum.photos/640/480?image=${i}`);
-  mySlideOptions={items: 1, dots: true, nav: false};
-  myCarouselOptions={items: 3, dots: true, nav: true};
-  public imagenes: any = [1,2,3].map((i)=> `https://picsum.photos/640/480?image=${i}`);
   public listacolores: any = [{}];
   public images: any;
+  public imageObject: any;
+  showSlider = true;
+  sliderWidth: Number = 940;
+  sliderImageWidth: Number = 300;
+  sliderImageHeight: Number = 225;
+  sliderArrowShow: Boolean = true;
+  sliderInfinite: Boolean = false;
+  sliderImagePopup: Boolean = true;
+  sliderAutoSlide: Boolean = false;
+  sliderSlideImage: Number = 1;
+  sliderAnimationSpeed: any = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,8 +57,6 @@ export class SingleproductdetailsComponent implements OnInit {
     private _tools: ToolsService,
     private _sanitizer: DomSanitizer
   ) {
-    this.mySlideImages = [1,2,3].map((i)=> `https://picsum.photos/640/480?image=${i}`);
-    // console.log(departamento);
     this.listdepartamento = departamento;
     this.route.params.subscribe(params => {
       // console.log(params);
@@ -62,12 +68,16 @@ export class SingleproductdetailsComponent implements OnInit {
       }
     });
   }
-  public sanitizeImage(image: string) {
-    // console.log(image);
-    return this._sanitizer.bypassSecurityTrustStyle(`url(${image})`);
-  }
   ngOnInit(){
     this.blurcosto();
+    // this.imageObject = [
+    //    {
+    //    	image: 'https://drive.google.com/file/d/1x76AQdRmgwDOYdsTCsrri9IvcOqV-YHJ/view?usp=drivesdk',
+    //     thumbImage: 'https://lh3.googleusercontent.com/syp6fs8HPfAFHcJCtMf3atCH8eZlNRRjGZw6q_kYYVRoXHC3fD0AyGH1RQK0OTFGirN2PUdKdqs=s220',
+    //     alt: 'Image alt'
+    //    }
+    // ];
+    console.log(this.imageObject);
   }
   getlist(id:any){
     if(id){
@@ -114,24 +124,19 @@ export class SingleproductdetailsComponent implements OnInit {
                 ;
                 if(res){
                   _.forEach(res.archivos, function(item, val){
-                    // split = _.split(item.foto, "\\", 3);
-                    // console.log(split , "\\");
-                    // split = split[0]+"/"+split[1];
-                    img.push(item.foto);
-                    mySlideImages.push("https://picsum.photos/640/480?image="+init);
-                    init++;
+                    img.push({
+                      image: item.foto64,
+                      thumbImage: item.foto,
+                      // alt
+                    });
                   })
                   ;
                 }
-                this.imagenes = img;
-                this.mySlideImages = mySlideImages;
-                // this.mySlideImages[0]= "http://localhost:1337/images/f1b76987-c567-4ef6-a978-90dd4eae1eb4.jpg/640/480?image=0";
-                // console.log(this.mySlideImages, this.imagenes)
+                // console.log(img);
+                this.imageObject=img;
               }
             )
             ;
-          }else{
-            // this.router.navigate(['../']);
           }
         }
       )
@@ -139,6 +144,25 @@ export class SingleproductdetailsComponent implements OnInit {
     }else{
       this.router.navigate(['../']);
     }
+  }
+  imageOnClick(index) {
+      console.log('index', index);
+  }
+
+  arrowOnClick(event) {
+      console.log('arrow click event', event);
+  }
+
+  lightboxArrowClick(event) {
+      console.log('popup arrow click', event);
+  }
+
+  prevImageClick() {
+      this.ds.prev();
+  }
+
+  nextImageClick() {
+      this.ds.next();
   }
   blurdepartamento() {
     // console.log(this.registerForm.value);

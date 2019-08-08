@@ -1,14 +1,14 @@
 
 
 <!-- ##### Welcome Area Start ##### -->
-<section class="welcome_area bg-img background-overlay" style="background-image: url(./assets/img/productnew2.jpg);">
+<section class="welcome_area bg-img background-overlay" style="background-image: url(./assets/img/productnew2.png);">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="hero-content">
                     <h6>new</h6>
                     <h2>Nuevos Productos</h2>
-                    <a [routerLink]="['/tienda/shop', 'new']" class="btn essence-btn">Ver Productos</a>
+                    <button type="button" class="btn btn-dark" name="button" [routerLink]="['/tienda/shop', 'new']">Ver Productos</button>
                 </div>
             </div>
         </div>
@@ -22,25 +22,25 @@
         <div class="row justify-content-center">
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/tecnologia.jpg);">
+                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/tecnologia.jpg);" [routerLink]="['/tienda/shop', 'tec']">
                     <div class="catagory-content">
-                        <a [routerLink]="['/tienda/shop', 'tec']">Tecnologia</a>
+                        <a>Tecnologia</a>
                     </div>
                 </div>
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/computadores.png);">
+                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/computadores.png);" [routerLink]="['/tienda/shop', 'pc']">
                     <div class="catagory-content">
-                        <a [routerLink]="['/tienda/shop', 'pc']">Computadores</a>
+                        <a>Computadores</a>
                     </div>
                 </div>
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/gamer.jpg);">
+                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/gamer.jpg);" [routerLink]="['/tienda/shop', 'gamer']">
                     <div class="catagory-content">
-                        <a [routerLink]="['/tienda/shop', 'gamer']">Video Juegos</a>
+                        <a>Video Juegos</a>
                     </div>
                 </div>
             </div>
@@ -54,13 +54,24 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="cta-content bg-img background-overlay rounded" style="background-image: url(./assets/img/descuentos.jpg);">
+                <div class="welcome_area bg-img background-overlay rounded" style="background-image: url(./assets/img/descuentos.png);">
+                  <!-- <div class="container h-100">
+                      <div class="row h-100 align-items-center">
+                          <div class="col-12">
+                              <div class="hero-content">
+                                  <h6>-60%</h6>
+                                  <h2>Descuentos</h2>
+                                  <a [routerLink]="['/tienda/shop', 'des']" class="btn essence-btn">Comprar</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div> -->
                     <div class="h-100 d-flex align-items-center justify-content-end">
-                        <div class="cta--text">
-                            <h6>-60%</h6>
-                            <h2>Descuentos</h2>
-                            <a [routerLink]="['/tienda/shop', 'des']" class="btn essence-btn">Comprar</a>
-                        </div>
+                      <div class="hero-content">
+                          <h6>-60%</h6>
+                          <h2>Descuentos</h2>
+                          <button type="button" class="btn btn-dark" name="button" [routerLink]="['/tienda/shop', 'des']">Comprar</button>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -82,27 +93,32 @@
     </div>
 
     <div class="container">
-      <div class="row">
-        <div class="col-9 col-sm-4 col-lg-3" *ngFor="let pro of listproductpres">
-            <div
-              class="single-product-wrapper"
-            >
-                <div class="product-img mouse" [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]">
-                    <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
-                    <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
-                    <div class="product-favourite">
-                        <a href="#" class="favme fa fa-heart"></a>
-                    </div>
-                </div>
-                <div class="product-description">
-                    <span [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]" class="mouse">topshop</span>
-                    <a [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]" class="mouse">
-                        <h6>{{ pro.titulo }}</h6>
-                    </a>
-                    <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa | currency:'COP':true }}</p>
-                    <p class="product-price" *ngIf="pro.costopromosion"><span class="old-price">{{ pro.costoventa | currency:'COP':true }}</span> {{ pro.costopromosion  | currency:'COP':true }}</p>
-                </div>
-            </div>
+      <div class="column">
+        <div class="row">
+          <div class="col-9 col-sm-4 col-lg-3" *ngFor="let pro of listproductpres">
+              <div
+                class="single-product-wrapper"
+              >
+                  <div class="product-img mouse" [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]">
+                      <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                      <img class="hover-img" src="{{ pro.foto2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                      <div class="product-favourite">
+                          <a href="#" class="favme fa fa-heart"></a>
+                      </div>
+                  </div>
+                  <div class="product-description">
+                      <span [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]" class="mouse">topshop</span>
+                      <a [routerLink]="['/tienda/shop/singleproductdetails', pro.slug]" class="mouse">
+                          <h6>{{ pro.titulo }}</h6>
+                      </a>
+                      <p class="product-price" *ngIf="!pro.costopromosion">{{ pro.costoventa | currency:'COP':true }}</p>
+                      <p class="product-price" *ngIf="pro.costopromosion"><span class="old-price">{{ pro.costoventa | currency:'COP':true }}</span> {{ pro.costopromosion  | currency:'COP':true }}</p>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="button" class="btn btn-dark" name="button" [routerLink]="['/tienda/shop']">Ver Mas</button>
         </div>
       </div>
     </div>

@@ -17,7 +17,8 @@ import { SingleblogComponent } from './components/singleblog/singleblog.componen
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SingleproductdetailsComponent } from './components/singleproductdetails/singleproductdetails.component';
 import { TiendasComponent } from './components/tiendas/tiendas.component';
-import { OwlModule } from 'ngx-owl-carousel';
+// import { OwlModule } from 'ngx-owl-carousel';
+import { NgImageSliderModule } from 'ng-image-slider';
 import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
@@ -39,7 +40,8 @@ import { RecaptchaModule } from 'ng-recaptcha';
   ],
   imports: [
     CommonModule,
-    OwlModule,
+    // OwlModule,
+    NgImageSliderModule,
     RecaptchaModule,
     FormsModule,
     ReactiveFormsModule,

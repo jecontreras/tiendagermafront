@@ -63,12 +63,22 @@ export class ShopComponent implements OnInit {
            this.query.sort ='costopromosion DESC';
            this.getProduct(null, null);
          }else{
-           // this.getTienda();
-           this.searcht.txt = this.slug;
-           this.getsearh();
+           this.getTienda();
+           // this.searcht.txt = this.slug;
+           // this.getsearh();
          }
        }else{
-         this.getProduct(null, null);
+         const
+           query:any = localStorage.getItem('consulta');
+         ;
+          // console.log(query);
+         if(query){
+           this.searcht.txt = query;
+           this.getsearh();
+           localStorage.removeItem('consulta');
+         }else{
+           this.getProduct(null, null);
+         }
        }
     });
   }
@@ -130,7 +140,7 @@ export class ShopComponent implements OnInit {
   }
   getTienda(){
     // console.log(this.slug, this.query);
-    if(this.slug !== 'new' && this.slug !== 'tec' && this.slug !== 'pc' && this.slug !== 'des'){
+    if(this.slug !== 'new' && this.slug !== 'tec' && this.slug !== 'pc' && this.slug !== 'des' && this.slug){
       return this._Tienda.get({
         where:{
           url: this.slug || ''
@@ -215,7 +225,7 @@ export class ShopComponent implements OnInit {
         this.query.sort ='costoventa asc';
       }
     }
-    // console.log(this.query, this.searcht);
+    console.log(this.query, this.searcht);
     this.getProduct(null, null);
   }
   getProduct(obj: any, paginate: any){
@@ -231,7 +241,7 @@ export class ShopComponent implements OnInit {
       this.query.limit = paginate.pageIndex;
       this.query.skip = paginate.pageSize;
     }
-    // console.log(this.query);
+    console.log(this.query);
     return this._Producto.get(this.query)
     .subscribe(
       (res: any)=>{
