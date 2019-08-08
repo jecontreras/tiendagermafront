@@ -123,12 +123,14 @@ export class ShopComponent implements OnInit {
     }
     // console.log(data);
     return this._color.get({
-      where: {},
+      where: {
+        color: {'!': 'varias'}
+      },
       limit: -1
      })
      .subscribe(
        (res: any)=>{
-         // console.log(res);
+         console.log(res);
          if(!data){
            this.listcolor = res.data;
          }else{

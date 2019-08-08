@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   public disabled: any = false;
   public data: any = {};
   public id: any;
+  public logead: boolean = false;
   // public _publicacion: any;
   constructor(
       private formBuilder: FormBuilder,
@@ -58,6 +59,9 @@ export class LoginComponent implements OnInit {
           username: ['', Validators.required],
           password: ['', Validators.required]
       });
+      if(localStorage.getItem('user')){
+        this.logead = true;
+      }
   }
   getuser(){
     return this._user.get({

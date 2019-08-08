@@ -34,6 +34,7 @@ export class RegistryComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
+  public logead: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,6 +53,9 @@ export class RegistryComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('user')){
+      this.logead = true;
+    }
     this.politicas = this.loadPoliticas();
     this.listdepartamento = departamento;
     this.listpais = paises;
