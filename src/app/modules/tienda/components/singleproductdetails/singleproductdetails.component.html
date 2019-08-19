@@ -15,9 +15,9 @@
           </small></span>
         </div>
         <div class="p-2">
-          <span><small>
+          <a [routerLink]="['/tienda/shop', data.empresa.url]">
             {{ "Empresa: " + data.empresa.empresa }}
-          </small></span>
+          </a>
         </div>
         <div class="p-2">
           <span><small>
@@ -31,8 +31,8 @@
 <div class="conten">
   <div class="row">
     <div class="col-sm">
-      <br><br>
       <div class="">
+        <span><br><br><br><br><br><br></span>
         <ng-image-slider
           [images]="imageObject"
           [infinite]="sliderInfinite"
@@ -54,7 +54,7 @@
         <div class="single_product_desc clearfix">
           <p class="product-price" *ngIf="!data.costopromosion">${{ data.costoventa | currency:'COP':true }}</p>
           <p class="product-price" *ngIf="data.costopromosion"><span class="old-price">$ {{ data.costoventa | currency:'COP':true }}</span> ${{ data.costopromosion | currency:'COP':true }}</p>
-          <p class="product-desc">{{ data.descripcioncorta }}</p>
+          <p class="product-desc" [innerHtml]="data.descripcioncorta"></p>
 
           <!-- Form -->
           <div class="cart-form clearfix">

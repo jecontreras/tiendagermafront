@@ -203,14 +203,14 @@
                           >
                               <div class="single-product-wrapper">
                                   <div class="product-img">
-                                      <img src="{{ pro.logo || '/assets/img/product-img/product-4.jpg'}}" alt="none">
-                                      <img class="hover-img" src="{{ pro.logo2 || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                                      <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
+                                      <img class="hover-img" src="{{ pro.foto || '/assets/img/product-img/product-5.jpg'}}" alt="none">
                                   </div>
                                   <div class="product-description">
-                                      <a href="single-product-details.html">
+                                      <a class="mouse">
                                           <h6>{{ pro.titulo }}</h6>
                                       </a>
-                                      <div class="hover-content" *ngIf="pro.check">
+                                      <!-- <div class="hover-content" *ngIf="pro.check">
                                           <div class="">
                                               <a (click)="savedmercado(pro)" class="mouse">Seleccionado</a>
                                           </div>
@@ -219,8 +219,20 @@
                                           <div class="add-to-cart-btn">
                                               <a (click)="savedmercado(pro)" class="mouse">Seleccionar</a>
                                           </div>
-                                      </div>
+                                      </div> -->
                                   </div>
+                              </div>
+                              <div class="row d-flex justify-content-center">
+                                <div class="d-flex justify-content-center">
+                                  <button type="button" (click)="savedmercado(pro)" class="btn btn-success">
+                                    <span *ngIf="pro.check">
+                                      Quitar
+                                    </span>
+                                    <span *ngIf="!pro.check">
+                                      Seleccionar
+                                    </span>
+                                  </button>
+                                </div>
                               </div>
                           </div>
                         </div>

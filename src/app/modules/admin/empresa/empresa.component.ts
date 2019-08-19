@@ -229,6 +229,7 @@ export class EmpresaComponent implements OnInit {
               rta = rta.data[0];
               if(rta){
                 item.check = true;
+                item.ids = rta.id;
               }
             }
           )
@@ -258,8 +259,22 @@ export class EmpresaComponent implements OnInit {
       )
       ;
     }else{
-      this._tools.openSnack('Ya esta Agregado '+obj.titulo, '', false);
-    }
+      console.log(obj);
+      if(obj.ids){
+        return this._mercados.deleteMercado({
+          id: obj.ids
+        })
+        .subscribe(
+          (res: any)=>{
+            console.log(res);
+            if(res)this._tools.openSnack('Eliminado '+obj.titulo, '', false)
+            obj.check = !obj.check;
+            delete obj.ids;
+            return res;
+          }
+       );  
+      }
+   }
   }
   saved(){
     const

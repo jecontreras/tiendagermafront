@@ -20,31 +20,13 @@ export class MercadoService {
   savedMercado (query: any){
     return this._model.create('empresamercado', query);
   }
+  deleteMercado (query: any){
+    return this._model.delete('empresamercado',query.id, query);
+  }
   saved (query: any){
     return this._model.create('mercados', query);
   }
   edit(query:any){
     return this._model.update('mercados', query.id, query);
-  }
-  pushfile(obj: any) {
-    console.log(this._model);
-    const
-      form = new FormData()
-    ;
-    // tslint:disable-next-line:quotemark
-    if (obj) {
-      form.append('file', obj[0]);
-      return this._model.create('articulo/file', form);
-    } else {
-      // cuerpo._tools.openSnack('Error', false);
-    }
-  }
-  deletefile(obj: any ) {
-    if (obj) {
-      return this._model.get('user/deletefile', {
-        name: obj
-      })
-      ;
-    }
   }
 }

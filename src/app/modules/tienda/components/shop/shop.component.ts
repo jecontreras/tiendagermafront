@@ -41,8 +41,12 @@ export class ShopComponent implements OnInit {
   ) {
     this.data = {};
     this.getmercados(null);
+    this.initial();
   }
   ngOnInit(){
+
+  }
+  initial(){
     this.data = {
       empresa: ''
     }
@@ -130,7 +134,7 @@ export class ShopComponent implements OnInit {
      })
      .subscribe(
        (res: any)=>{
-         console.log(res);
+         // console.log(res);
          if(!data){
            this.listcolor = res.data;
          }else{
@@ -175,9 +179,10 @@ export class ShopComponent implements OnInit {
     }
   }
   pageEvent(ev){
-    console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    // console.log(ev);
+    // ev.pageIndex = 10;
+    ev.pageSize = 10;
+    ev.pageSize= ev.pageSize*ev.pageIndex;
     this.getProduct(null, ev);
   }
   getsearh(){
@@ -236,20 +241,20 @@ export class ShopComponent implements OnInit {
     }else{
       if(!paginate){
         paginate = {
-          pageIndex: -1,
-          pageSize: 0
+          pageIndex: 1,
+          pageSize: 10
         };
       }
-      this.query.limit = paginate.pageIndex;
-      this.query.skip = paginate.pageSize;
+      this.query.limit = paginate.pageSize;
+      this.query.skip = paginate.pageIndex;
     }
-    console.log(this.query);
+    // console.log(this.query);
     return this._Producto.get(this.query)
     .subscribe(
       (res: any)=>{
+        // console.log(res);
         this.count = res.count;
         res = res.data;
-        // console.log(res);
         for (var i = 0; i < res.length; i++) {
           res[i]
           if(i<=3){

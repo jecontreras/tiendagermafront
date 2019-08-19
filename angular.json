@@ -26,7 +26,10 @@
               "./node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/assets/css/demo.css",
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/jquery-2.2.4.min.js",
+              "src/assets/js/plugins.js"
+            ]
           },
           "configurations": {
             "production": {

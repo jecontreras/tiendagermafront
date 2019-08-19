@@ -39,11 +39,11 @@ export class SingleproductdetailsComponent implements OnInit {
   showSlider = true;
   sliderWidth: Number = 940;
   sliderImageWidth: Number = 300;
-  sliderImageHeight: Number = 225;
+  sliderImageHeight: Number = 350;
   sliderArrowShow: Boolean = true;
   sliderInfinite: Boolean = false;
   sliderImagePopup: Boolean = true;
-  sliderAutoSlide: Boolean = false;
+  sliderAutoSlide: Number = 1;
   sliderSlideImage: Number = 1;
   sliderAnimationSpeed: any = 1;
 
@@ -201,6 +201,7 @@ export class SingleproductdetailsComponent implements OnInit {
          res = res.data[0];
          if(res){
            obj.marca = res.categoria;
+           obj.marcaid = res.id;
          }
        }
      )

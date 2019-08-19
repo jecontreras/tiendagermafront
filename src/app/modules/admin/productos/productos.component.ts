@@ -7,6 +7,7 @@ import { ColoresService } from './../../../services/colores.service';
 import { FactoryModelService } from './../../../services/factory-model.service';
 import { ArchivoService } from './../../../services/archivo.service';
 import { MercadoService } from './../../../services/mercados.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import swal from 'sweetalert';
@@ -53,6 +54,47 @@ export class ProductosComponent implements OnInit {
   };
   public query: any = {where:{}};
   public listmercados: any = [];
+
+  config: AngularEditorConfig = {
+    editable: true,
+      spellcheck: true,
+      height: '300px',
+      minHeight: '0',
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '0',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
+      placeholder: 'Enter text here...',
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      fonts: [
+        {class: 'arial', name: 'Arial'},
+        {class: 'times-new-roman', name: 'Times New Roman'},
+        {class: 'calibri', name: 'Calibri'},
+        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+      ],
+      customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+    uploadUrl: 'v1/image',
+    sanitize: true,
+    toolbarPosition: 'top',
+};
 
   constructor(
     private route: ActivatedRoute,
@@ -697,11 +739,12 @@ export class ProductosComponent implements OnInit {
             idx: any = _.findIndex(this.listetiqueta, ['id', res[i].categoria.id])
           ;
           // console.log(idx);
+          // console.log(res);
           if(idx >- 1){
             this.listetiqueta[idx].ids = res[i].id;
             this.listetiqueta[idx].check = true;
           }else{
-            res.categoria.ids = res[i].id;
+            res[i].categoria.ids = res[i].id;
             this.listetiqueta.unshift(res[i].categoria);
           }
         }

@@ -21,6 +21,7 @@ import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
 import { MercadosComponent } from '../../mercados/mercados.component';
 import { MyOwnCustomMaterialModule } from './../../../../app.material.module';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import {
   MatButtonModule,
@@ -39,6 +40,7 @@ import {
     MatRippleModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularEditorModule,
     MatSelectModule,
     MyOwnCustomMaterialModule,
     MatTooltipModule,
