@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   public data: any = {};
   public id: any;
   public logead: boolean = false;
+  public app: any = {};
   // public _publicacion: any;
   constructor(
       private formBuilder: FormBuilder,
@@ -41,6 +42,7 @@ export class LoginComponent implements OnInit {
       private _model: FactoryModelService
   ) {
     this.user = {};
+    this.app = this._model.app;
     if (this._authSrvice.isLoggedIn()) {
       this.router.navigate(['admin/dashboard']);
     }

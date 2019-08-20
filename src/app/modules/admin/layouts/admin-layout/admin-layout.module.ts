@@ -17,6 +17,7 @@ import { FacturaComponent } from '../../factura/factura.component';
 import { CategoriasComponent } from '../../categorias/categorias.component';
 import { MarcasComponent } from '../../marcas/marcas.component';
 import { ColorComponent } from '../../color/color.component';
+import { ConfiguracionComponent } from '../../configuracion/configuracion.component';
 import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
 import { MercadosComponent } from '../../mercados/mercados.component';
@@ -60,6 +61,7 @@ import {
     CategoriasComponent,
     MarcasComponent,
     ColorComponent,
+    ConfiguracionComponent,
     TallasComponent,
     EmpresaComponent,
     MercadosComponent

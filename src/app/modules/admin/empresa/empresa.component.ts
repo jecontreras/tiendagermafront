@@ -56,8 +56,8 @@ export class EmpresaComponent implements OnInit {
       }else{
         const
           paginate: any = {
-            pageIndex: 10,
-            pageSize: 0
+            pageIndex: 0,
+            pageSize: 10
           }
         ;
         this.getlist(null, paginate);
@@ -66,15 +66,14 @@ export class EmpresaComponent implements OnInit {
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    ev.pageSize = 10;
     this.getlist(null,ev);
   }
   getsearh(){
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     if(this.searcht.txt){
@@ -115,8 +114,8 @@ export class EmpresaComponent implements OnInit {
   getlist(obj: any, paginate: any){
     if(!paginate){
       paginate = {
-        pageIndex: -1,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       };
     }
     this.query.limit = paginate.pageIndex;
@@ -272,7 +271,7 @@ export class EmpresaComponent implements OnInit {
             delete obj.ids;
             return res;
           }
-       );  
+       );
       }
    }
   }

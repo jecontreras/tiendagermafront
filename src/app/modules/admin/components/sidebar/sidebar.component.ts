@@ -28,6 +28,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/admin/factura', title: 'Factura',  icon:'local_grocery_store', rol: "varios", class: '' },
     { path: '/admin/empresa', title: 'Empresa',  icon:'store', rol: "superadmin", class: '' },
     { path: '/admin/mercados', title: 'Mercados',  icon:'pageview', rol: "superadmin", class: '' },
+    { path: '/admin/configuracion', title: 'Configuracion',  icon:'confirmation_number', rol: "superadmin", class: '' },
     // { path: '/admin/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
 ];
 
@@ -39,10 +40,13 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
   menus: any = [];
+  public app:any = {};
 
   constructor(
     private _model: FactoryModelService
-  ) { }
+  ) {
+    this.app = this._model.app;
+  }
 
   ngOnInit() {
     this.menus = ROUTES.filter(menuItem => menuItem);

@@ -10,7 +10,7 @@ url(./assets/img/imgaes6.jpg);
                 *ngIf="!reContrasena"
               >
               <div>
-                <img src="./assets/img/dilisap1.png"
+                <img [src]="app.foto || './assets/img/dilisap1.png'"
                 alt="logo" class="logo">
               </div>
               <form

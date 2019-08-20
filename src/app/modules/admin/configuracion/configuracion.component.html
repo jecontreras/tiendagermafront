@@ -1,0 +1,378 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger row">
+                      <div class="col row">
+                        <div class="">
+                          <h4 class="card-title ">Configuraciones</h4>
+                          <p class="card-category" > Congirurar tienda</p>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Logo</h5>
+                            <img *ngIf="data.id" [src]="data.logo" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('logo')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <label for="formGroupExampleInput">Nombre</label>
+                        <input type="text"
+                          (blur)="blur('app')"
+                          class="form-control" placeholder="Nombre de la tienda" [(ngModel)]="data.app">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <label for="formGroupExampleInput">nit & Telefono & Celular</label>
+                        <input type="text"
+                          (blur)="blur('nit')"
+                          class="form-control" placeholder="Nit | Telefono | Celular " [(ngModel)]="data.nit">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <label for="formGroupExampleInput">Direccion</label>
+                        <input type="text"
+                          (blur)="blur('direccion')"
+                          class="form-control" placeholder="Direccion fisica de la tienda" [(ngModel)]="data.direccion">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <label for="formGroupExampleInput">Telefono</label>
+                        <input type="text"
+                          (blur)="blur('telefono')"
+                          class="form-control" placeholder="Telefono de la tienda" [(ngModel)]="data.telefono">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <label for="formGroupExampleInput">Email</label>
+                        <input type="text"
+                          (blur)="blur('email')"
+                          class="form-control" placeholder="Email de la tienda" [(ngModel)]="data.email">
+                      </div>
+                      <div class="form-group col-sm-12">
+                        <label for="formGroupExampleInput">Telefono</label>
+                        <input type="text"
+                          (blur)="blur('telefono')"
+                          class="form-control" placeholder="Telefono de la tienda" [(ngModel)]="data.telefono">
+                      </div>
+                      <div class="form-group col-12">
+                        <label for="formGroupExampleInput">Descripcion</label>
+                        <textarea class="form-control" (blur)="blur('descripcion')" rows="3" [(ngModel)]="data.descripcion"></textarea>
+                      </div>
+                      <div class="form-group col-12">
+                        <label for="formGroupExampleInput">Politicas</label>
+                        <textarea class="form-control" (blur)="blur('politicas')" rows="5" [(ngModel)]="data.politicas"></textarea>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Portada 1</h5>
+                            <img *ngIf="data.id" [src]="data.portada1" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('portada1')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Portada 2</h5>
+                            <img *ngIf="data.id" [src]="data.portada2" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('portada2')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Portada 3</h5>
+                            <img *ngIf="data.id" [src]="data.portada3" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('portada3')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Portada 4</h5>
+                            <img *ngIf="data.id" [src]="data.portada4" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('portada4')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Portada 5</h5>
+                            <img *ngIf="data.id" [src]="data.portada5" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('portada5')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Apoyo 1</h5>
+                            <img *ngIf="data.id" [src]="data.apoyo1" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('apoyo1')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Apoyo 2</h5>
+                            <img *ngIf="data.id" [src]="data.apoyo2" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('apoyo3')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Apoyo 3</h5>
+                            <img *ngIf="data.id" [src]="data.apoyo3" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('apoyo3')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Apoyo 4</h5>
+                            <img *ngIf="data.id" [src]="data.apoyo4" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('apoyo4')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Apoyo 5</h5>
+                            <img *ngIf="data.id" [src]="data.apoyo5" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('apoyo5')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="column">
+                          <div class="row justify-content-md-center">
+                            <h5 class="col-sm-12 row justify-content-md-center">Apoyo 6</h5>
+                            <img *ngIf="data.id" [src]="data.apoyo6" alt="none" width="200px"
+                              height="180px">
+                          </div>
+                          <div class="row justify-content-md-center p-1">
+                            <input type="file" placeholder="Imagenes" [(ngModel)]="img" (blur)="datafiles($event)">
+                          </div>
+                          <div class="row justify-content-md-center">
+                            <button
+                              (click)="file('apoyo6')"
+                              *ngIf="carga"
+                              class="btn btn-primary"
+                            >
+                              <i class="fas fa-cloud-upload-alt fa-1x"></i>
+                              Guardar Imagen
+                            </button>
+                          </div>
+                          <div  *ngIf="!carga" class="d-flex align-items-center">
+                            <strong>Loading...</strong>
+                            <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

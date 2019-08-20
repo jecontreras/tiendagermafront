@@ -9,11 +9,27 @@ import { ProductoService } from './../../../../services/producto';
 })
 export class ContenidoComponent implements OnInit {
   public listproductpres: any = [];
+  public disableindex: boolean = false;
+  public app: any = {};
+
   constructor(
     private _model: FactoryModelService,
     private _producto: ProductoService
   ) {
     this.getproduct();
+    console.log(this._model.app);
+    this.app = this._model.app;
+    // if(!this._model.app.portada1){
+    //   this.app = {
+    //     portada1: './assets/img/productnew2.png',
+    //     portada2: './assets/img/tecnologia.jpg',
+    //     portada3: './assets/img/computadores.png',
+    //     portada4: './assets/img/gamer.jpg',
+    //     portada5: './assets/img/descuentos.png'
+    //   };
+    // }else{
+    //   this.app = this._model.app;
+    // }
   }
   ngOnInit(){
 
@@ -28,6 +44,7 @@ export class ContenidoComponent implements OnInit {
     .subscribe(
       (res: any)=>{
         // console.log(res);
+        this.disableindex = !this.disableindex;
         res = res.data;
         this.listproductpres = res;
       }

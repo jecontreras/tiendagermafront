@@ -1,9 +1,10 @@
 <div class="logo">
-    <a href="https://www.creative-tim.com" class="simple-text">
+    <a routerLink="/admin/dashboard" class="simple-text">
         <div class="logo-img">
-            <img src="/assets/img/angular2-logo-red.png"/>
+            <img [src]="app.foto || './assets/img/dilisap1.png'"
+            alt="logo" class="logo">
         </div>
-        Admin
+        {{ app.app || 'Dlisap'}}
     </a>
 </div>
 <div class="sidebar-wrapper">

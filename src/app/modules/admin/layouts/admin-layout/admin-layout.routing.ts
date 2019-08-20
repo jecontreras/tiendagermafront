@@ -15,6 +15,7 @@ import { FacturaComponent } from '../../factura/factura.component';
 import { CategoriasComponent } from '../../categorias/categorias.component';
 import { MarcasComponent } from '../../marcas/marcas.component';
 import { ColorComponent } from '../../color/color.component';
+import { ConfiguracionComponent } from '../../configuracion/configuracion.component';
 import { TallasComponent } from '../../tallas/tallas.component';
 import { EmpresaComponent } from '../../empresa/empresa.component';
 import { MercadosComponent } from '../../mercados/mercados.component';
@@ -34,26 +35,27 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'maps',           component: MapsComponent },
       { path: 'notifications',  component: NotificationsComponent },
       { path: 'upgrade',        component: UpgradeComponent },
-      { path: 'clientes',        component: ClienteComponent},
-      { path: 'clientes/:id',        component: ClienteComponent},
-      { path: 'productos',        component: ProductosComponent},
-      { path: 'productos/:id',        component: ProductosComponent},
+      { path: 'clientes',       component: ClienteComponent},
+      { path: 'clientes/:id',   component: ClienteComponent},
+      { path: 'productos',      component: ProductosComponent},
+      { path: 'productos/:id',  component: ProductosComponent},
       { path: 'factura',        component: FacturaComponent},
-      { path: 'factura/:id',        component: FacturaComponent},
-      { path: 'categorias',        component: CategoriasComponent},
-      { path: 'categorias/:id',        component: CategoriasComponent},
-      { path: 'marcas',        component: MarcasComponent},
-      { path: 'marcas/:id',        component: MarcasComponent},
-      { path: 'tallas',        component: TallasComponent},
-      { path: 'tallas/:id',        component: TallasComponent},
+      { path: 'factura/:id',    component: FacturaComponent},
+      { path: 'categorias',     component: CategoriasComponent},
+      { path: 'categorias/:id', component: CategoriasComponent},
+      { path: 'marcas',         component: MarcasComponent},
+      { path: 'marcas/:id',     component: MarcasComponent},
+      { path: 'tallas',         component: TallasComponent},
+      { path: 'tallas/:id',     component: TallasComponent},
       { path: 'empresa',        component: EmpresaComponent},
-      { path: 'empresa/:id',        component: EmpresaComponent},
-      { path: 'mercados',        component: MercadosComponent},
-      { path: 'mercados/:id',        component: MercadosComponent},
-      { path: 'color',        component: ColorComponent},
-      { path: 'color/:id',        component: ColorComponent},
-      { path: '',  redirectTo: 'dashboard'},
-      { path: '**', component: DashboardComponent }
+      { path: 'empresa/:id',    component: EmpresaComponent},
+      { path: 'mercados',       component: MercadosComponent},
+      { path: 'mercados/:id',   component: MercadosComponent},
+      { path: 'color',          component: ColorComponent},
+      { path: 'color/:id',      component: ColorComponent},
+      { path: 'configuracion',  component: ConfiguracionComponent},
+      { path: '',               redirectTo: 'dashboard'},
+      { path: '**',             component: DashboardComponent }
     ]
   }
 ];

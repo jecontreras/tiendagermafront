@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { of, Observable, throwError} from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
+import { FactoryModelService } from './../../../../services/factory-model.service';
 import { ToolsService } from './../../../../services/tools.service';
 import { CategoriasService } from './../../../../services/categorias';
 import { ColoresService } from './../../../../services/colores.service';
@@ -17,6 +18,7 @@ export class IndexComponent implements OnInit {
   public listCart: any = [];
   public data: any = {};
   public search: any = '';
+  public app: any = {};
 
   showFiller = false;
 
@@ -31,12 +33,16 @@ export class IndexComponent implements OnInit {
     private _tools: ToolsService,
     private _color: ColoresService,
     private _talla: TallaService,
-    private _categoria: CategoriasService
+    private _categoria: CategoriasService,
+    private _model: FactoryModelService
   ) {
     this.getlist();
+    this._model.loadapp()
     // this.getcart();
   }
   ngOnInit(){
+    console.log(this._model.app);
+    this.app = this._model.app;
   }
   eventocart(){
     // console.log("ehy")

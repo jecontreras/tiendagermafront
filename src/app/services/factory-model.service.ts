@@ -7,6 +7,7 @@ import { retry, catchError } from 'rxjs/operators';
 import { handleError } from './errores';
 import { AuthService } from './auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { App } from './../models/app';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -19,7 +20,7 @@ export class FactoryModelService {
   public niveles: any;
   public global: any;
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-
+  public app: App[]=[];
   constructor(
     private _http: HttpClient,
     private router: Router,
@@ -28,6 +29,30 @@ export class FactoryModelService {
       this.url = GLOBAL.url;
       this.global = GLOBAL;
       this.handleError = handleError;
+  }
+  public loadapp():any{
+    this.app = JSON.parse(localStorage.getItem('app'));
+    // console.log(this.app);
+    const studentsObservable = new Observable(observer => {
+      // console.log(observer);
+      return this.query('app', {
+        where:{
+          app: 'Venty'
+        }
+      })
+      .subscribe(
+        (res:any)=>{
+          // console.log(res);
+          res = res.data[0];
+          if(res){
+            localStorage.removeItem('app');
+            localStorage.setItem('app', JSON.stringify(res));
+            this.app = res;
+          }
+        }
+      );
+    });
+    return studentsObservable;
   }
   loadUser() {
     this.user = JSON.parse(localStorage.getItem('user'));

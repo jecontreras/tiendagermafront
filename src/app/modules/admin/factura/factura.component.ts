@@ -57,8 +57,8 @@ export class FacturaComponent implements OnInit {
       }else{
         const
           paginate: any = {
-            pageIndex: 10,
-            pageSize: 0
+            pageIndex: 0,
+            pageSize: 10
           }
         ;
         this.getlist(null, paginate);
@@ -67,15 +67,15 @@ export class FacturaComponent implements OnInit {
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    ev.pageIndex = 0;
+    ev.pageSize = 10;
     this.getlist(null, ev);
   }
   getsearh(){
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     if(this.searcht.txt){
@@ -151,8 +151,8 @@ export class FacturaComponent implements OnInit {
   getlist(obj: any, paginate: any){
     if(!paginate){
       paginate = {
-        pageIndex: -1,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       };
     }
     if((this._model.user.rol.nombre === "admin")){

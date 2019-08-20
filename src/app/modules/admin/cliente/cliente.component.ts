@@ -56,8 +56,7 @@ export class ClienteComponent implements OnInit {
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    ev.pageSize = 10;
     this.getlist(null, ev);
   }
   getsearh(){
@@ -120,8 +119,8 @@ export class ClienteComponent implements OnInit {
   getlist(obj: any, paginate: any){
     if(!paginate){
       paginate = {
-        pageIndex: -1,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       };
     }
     this.query.where.empresa = this.user.empresa;

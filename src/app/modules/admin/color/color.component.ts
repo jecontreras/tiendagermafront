@@ -9,7 +9,7 @@ import { FactoryModelService } from './../../../services/factory-model.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'marcas',
+  selector: 'color',
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.css']
 })
@@ -41,23 +41,22 @@ export class ColorComponent implements OnInit {
     }
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     this.getlist(paginate);
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    ev.pageSize = 10;
     this.getlist(ev);
   }
   getsearh(){
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     if(this.searcht.txt){

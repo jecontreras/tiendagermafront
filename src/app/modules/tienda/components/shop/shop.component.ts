@@ -30,6 +30,10 @@ export class ShopComponent implements OnInit {
     where:{}
   };
   public listcolor: any = [];
+  public disableindex: boolean = false;
+  public disablecolor: boolean = false;
+  public disablecategoria: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -101,6 +105,7 @@ export class ShopComponent implements OnInit {
       (res: any)=>{
         // console.log(res);
         res = res.data;
+        this.disablecategoria = true;
         if(obj){
           if(res[0]){
             this.query.where.tipomercado = res[0].id;
@@ -135,6 +140,7 @@ export class ShopComponent implements OnInit {
      .subscribe(
        (res: any)=>{
          // console.log(res);
+         this.disablecolor=true;
          if(!data){
            this.listcolor = res.data;
          }else{
@@ -182,7 +188,8 @@ export class ShopComponent implements OnInit {
     // console.log(ev);
     // ev.pageIndex = 10;
     ev.pageSize = 10;
-    ev.pageSize= ev.pageSize*ev.pageIndex;
+    this.disableindex = !this.disableindex;
+    // ev.pageSize= ev.pageSize*ev.pageIndex;
     this.getProduct(null, ev);
   }
   getsearh(){
@@ -241,19 +248,20 @@ export class ShopComponent implements OnInit {
     }else{
       if(!paginate){
         paginate = {
-          pageIndex: 1,
+          pageIndex: 0,
           pageSize: 10
         };
       }
       this.query.limit = paginate.pageSize;
       this.query.skip = paginate.pageIndex;
     }
-    // console.log(this.query);
+    console.log(this.query);
     return this._Producto.get(this.query)
     .subscribe(
       (res: any)=>{
-        // console.log(res);
+        console.log(res);
         this.count = res.count;
+        this.disableindex = !this.disableindex;
         res = res.data;
         for (var i = 0; i < res.length; i++) {
           res[i]

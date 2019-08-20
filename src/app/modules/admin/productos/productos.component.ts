@@ -127,8 +127,8 @@ export class ProductosComponent implements OnInit {
       }else{
         const
           paginate: any = {
-            pageIndex: 10,
-            pageSize: 0
+            pageIndex: 1,
+            pageSize: 10
           }
         ;
         this.getlist(null, paginate);
@@ -148,15 +148,15 @@ export class ProductosComponent implements OnInit {
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    ev.pageSize = 10;
+    // ev.pageSize= ev.pageSize*ev.pageIndex;
     this.getlist(null, ev);
   }
   getsearh(){
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     if(this.searcht.txt){
@@ -202,14 +202,14 @@ export class ProductosComponent implements OnInit {
   getlist(obj: any, paginate: any){
     if(!paginate){
       paginate = {
-        pageIndex: -1,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       };
     }
     this.query.where.empresa = this.user.empresa;
     this.query.sort ='createdAt DESC';
-    this.query.limit = paginate.pageIndex;
-    this.query.skip = paginate.pageSize;
+    this.query.limit = paginate.pageSize;
+    this.query.skip = paginate.pageIndex;
 
     if(this.user.rol.nombre === "super admin"){
       delete this.query.where.empresa;
@@ -218,11 +218,11 @@ export class ProductosComponent implements OnInit {
       this.query.where.id = obj;
       this.query.limit = 1;
     }
-    // console.log(data);
+    console.log(this.query);
     this._producto.get(this.query)
     .subscribe(
       (res: any) =>{
-        // console.log(res.data);
+        console.log(res.data);
         if(obj){
           this.add(res.data[0]);
         }else{

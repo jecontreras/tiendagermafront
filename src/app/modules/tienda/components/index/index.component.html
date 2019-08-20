@@ -5,7 +5,7 @@
 
    <div class="right-side-cart-area">
        <div class="cart-button">
-           <a href="#" id="rightSideCart"><img src="./assets/img/core-img/bag.svg" alt=""> <span>3</span></a>
+           <a href="#" id="rightSideCart"><img [src]="'./assets/img/core-img/bag.svg'" alt=""> <span>3</span></a>
        </div>
        <div class="cart-content d-flex">
            <div class="cart-list">
@@ -59,7 +59,7 @@
             <!-- Classy Menu -->
             <nav class="classy-navbar" id="essenceNav">
                 <!-- Logo -->
-                <a class="nav-brand" routerLink="contenido"><img class="img" src="./assets/img/dilisap1.png" width="80px;" alt=""></a>
+                <a class="nav-brand" routerLink="contenido"><img class="img" [src]="app.logo || './assets/img/dilisap1.png'" width="80px;" alt=""></a>
                 <!-- Navbar Toggler -->
                 <!-- <div class="classy-navbar-toggler">
                     <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -97,7 +97,7 @@
                                 </ul>
                             </li>
                             <!-- <li><a routerLink="blog">Blog</a></li> -->
-                            <li><a routerLink="contact">Contact</a></li>
+                            <li><a [routerLink]="['/tienda/contact']">Contactenos</a></li>
                         </ul>
                     </div>
                     <!-- Nav End -->
@@ -138,7 +138,7 @@
                 <div class="col-12 col-md-6">
                     <div class="single_widget_area d-flex mb-30">
                         <div class="footer-logo mr-50">
-                            <a href="#"><img src="./assets/img/dilisap1.png" width="81px;" alt=""></a>
+                            <a href="#"><img [src]="app.foto || './assets/img/dilisap1.png'" width="81px;" alt=""></a>
                         </div>
                         <div class="footer_menu">
                             <ul>
@@ -181,11 +181,11 @@
                 <div class="col-12 col-md-6">
                     <div class="single_widget_area">
                         <div class="footer_social_area">
-                            <a href="https://www.facebook.com/Dilsaplive-104436717575886/?modal=admin_todo_tour"  target="_blank" data-toggle="tooltip" data-placement="top" title="Facebook"><img src="./assets/img/redsocial/facebook.png" width="16px" alt=""></a>
-                            <a href="https://www.instagram.com/dilisaplive/?hl=es-la" target="_blank" data-toggle="tooltip" data-placement="top" title="Instagram"><img class="text-white bg-dark"src="./assets/img/redsocial/instagram.png" width="16px" alt=""></a>
+                            <a href="{{ app.facebook || 'https://www.facebook.com/Dilsaplive-104436717575886/?modal=admin_todo_tour'}}"  target="_blank" data-toggle="tooltip" data-placement="top" title="Facebook"><img src="./assets/img/redsocial/facebook.png" width="16px" alt=""></a>
+                            <a href="{{ app.instagram || 'https://www.instagram.com/dilisaplive/?hl=es-la'}}" target="_blank" data-toggle="tooltip" data-placement="top" title="Instagram"><img class="text-white bg-dark"src="./assets/img/redsocial/instagram.png" width="16px" alt=""></a>
                             <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a> -->
                             <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a> -->
-                            <a class="mouse" data-toggle="tooltip" data-placement="top" title="Youtube"><img src="./assets/img/redsocial/youtube.png" width="16px" alt=""></a>
+                            <a href="{{ app.youtube || 'https://www.youtube.com.co/'}}" class="mouse" data-toggle="tooltip" data-placement="top" title="Youtube"><img src="./assets/img/redsocial/youtube.png" width="16px" alt=""></a>
                         </div>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
     <div class="row mt-5">
                 <div class="col-md-12 text-center">
                     <p>
-    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los Derechos Reservados a Dilisap
+    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Todos los Derechos Reservados a Dilisap S.A Software INf: +57 3228576900
                     </p>
                 </div>
             </div>

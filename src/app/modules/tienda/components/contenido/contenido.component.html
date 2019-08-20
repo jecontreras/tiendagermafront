@@ -1,7 +1,8 @@
 
 
 <!-- ##### Welcome Area Start ##### -->
-<section class="welcome_area bg-img background-overlay" style="background-image: url(./assets/img/productnew2.png);">
+<!-- style="background-image: url(./assets/img/productnew2.png);" -->
+<section class="welcome_area bg-img background-overlay" [style.backgroundImage]="'url('+ app.portada1 +')'">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
             <div class="col-12">
@@ -22,7 +23,8 @@
         <div class="row justify-content-center">
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/tecnologia.jpg);" [routerLink]="['/tienda/shop', 'tec']">
+              <!-- style="background-image: url(./assets/img/tecnologia.jpg);" -->
+                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" [style.backgroundImage]="'url('+ app.portada2 +')'" [routerLink]="['/tienda/shop', 'tec']">
                     <div class="catagory-content">
                         <a>Tecnologia</a>
                     </div>
@@ -30,7 +32,7 @@
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/computadores.png);" [routerLink]="['/tienda/shop', 'pc']">
+                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" [style.backgroundImage]="'url('+ app.portada3 +')'"  [routerLink]="['/tienda/shop', 'pc']">
                     <div class="catagory-content">
                         <a>Computadores</a>
                     </div>
@@ -38,7 +40,7 @@
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(./assets/img/gamer.jpg);" [routerLink]="['/tienda/shop', 'gamer']">
+                <div class="mouse single_catagory_area d-flex align-items-center justify-content-center bg-img" [style.backgroundImage]="'url('+ app.portada4 +')'" [routerLink]="['/tienda/shop', 'gamer']">
                     <div class="catagory-content">
                         <a>Video Juegos</a>
                     </div>
@@ -54,7 +56,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="welcome_area bg-img background-overlay rounded" style="background-image: url(./assets/img/descuentos.png);">
+                <div class="welcome_area bg-img background-overlay rounded" [style.backgroundImage]="'url('+ app.portada5 +')'">
                   <!-- <div class="container h-100">
                       <div class="row h-100 align-items-center">
                           <div class="col-12">
@@ -94,7 +96,10 @@
 
     <div class="container">
       <div class="column">
-        <div class="row">
+        <div class="d-flex justify-content-center" *ngIf="!disableindex">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <div class="row" *ngIf="disableindex">
           <div class="col-9 col-sm-4 col-lg-3" *ngFor="let pro of listproductpres">
               <div
                 class="single-product-wrapper"
@@ -129,27 +134,27 @@
 <div class="brands-area d-flex align-items-center justify-content-between">
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/apoyo/lenovo.png" alt="">
+        <img [src]="app.apoyo1 || './assets/img/apoyo/lenovo.png'" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/apoyo/intel.png" alt="">
+        <img [src]="app.apoyo2 || './assets/img/apoyo/intel.png'" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/apoyo/dell.png" alt="">
+        <img [src]="app.apoyo3 || './assets/img/apoyo/dell.png'" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/apoyo/hp.png" alt="">
+        <img [src]="app.apoyo4 || './assets/img/apoyo/hp.png'" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/apoyo/motorola.png" alt="">
+        <img [src]="app.apoyo5 || './assets/img/apoyo/motorola.png'" alt="">
     </div>
     <!-- Brand Logo -->
     <div class="single-brands-logo">
-        <img src="./assets/img/apoyo/samsung.png" alt="">
+        <img [src]="app.apoyo6 || './assets/img/apoyo/samsung.png'" alt="">
     </div>
 </div>
 <!-- ##### Brands Area End ##### -->

@@ -1,6 +1,9 @@
 
 <!-- ##### Single Product Details Area Start ##### -->
-<div class="row conten container breadcumb_area bg-img" style="background-image: url(./assets/img/bg-img/breadcumb.jpg);">
+<div class="d-flex justify-content-center" *ngIf="!disableinit">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div *ngIf="disableinit" class="row conten container breadcumb_area bg-img" style="background-image: url(./assets/img/bg-img/breadcumb.jpg);">
   <div class="p-3 col">
     <div class="container column">
       <div class="">
@@ -28,7 +31,7 @@
     </div>
   </div>
 </div>
-<div class="conten">
+<div *ngIf="disableinit" class="conten">
   <div class="row">
     <div class="col-sm">
       <div class="">

@@ -46,6 +46,7 @@ export class SingleproductdetailsComponent implements OnInit {
   sliderAutoSlide: Number = 1;
   sliderSlideImage: Number = 1;
   sliderAnimationSpeed: any = 1;
+  public disableinit: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,6 +90,7 @@ export class SingleproductdetailsComponent implements OnInit {
       .subscribe(
         (res: any)=>{
           // console.log(res);
+          this.disableinit = true;
           res = res.data[0];
           if(res){
             if(!res.listatallas){
