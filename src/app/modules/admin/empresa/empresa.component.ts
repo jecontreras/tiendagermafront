@@ -118,8 +118,8 @@ export class EmpresaComponent implements OnInit {
         pageSize: 10
       };
     }
-    this.query.limit = paginate.pageIndex;
-    this.query.skip = paginate.pageSize;
+    this.query.limit = paginate.pageSize;
+    this.query.skip = paginate.pageIndex;
 
     if(obj){
       this.query.where.id = obj;

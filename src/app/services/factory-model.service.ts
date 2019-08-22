@@ -20,7 +20,7 @@ export class FactoryModelService {
   public niveles: any;
   public global: any;
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-  public app: App[]=[];
+  public app: Object={};
   constructor(
     private _http: HttpClient,
     private router: Router,
@@ -29,30 +29,48 @@ export class FactoryModelService {
       this.url = GLOBAL.url;
       this.global = GLOBAL;
       this.handleError = handleError;
+      this.app = {
+        app: 'Venty',
+        logo: './assets/img/dilisap1.png',
+        descripcion: 'tienda onlain',
+        nit: '101232222121',
+        direccion: 'calle 1',
+        telefono: '312221211',
+        email: 'admin@gmail.com',
+        portada1: './assets/img/productnew2.png',
+        portada2: './assets/img/tecnologia.jpg',
+        portada3: './assets/img/computadores.png',
+        portada4: './assets/img/gamer.jpg',
+        portada5: './assets/img/descuentos.png',
+        politicas: 'si',
+        apoyo1: './assets/img/apoyo/dell.png',
+        apoyo2: './assets/img/apoyo/hp.png',
+        apoyo3: './assets/img/apoyo/intel.png',
+        apoyo4: './assets/img/apoyo/lenovo.png',
+        apoyo5: './assets/img/apoyo/motorola.png',
+        apoyo6: './assets/img/apoyo/samsung.png',
+      };
   }
-  public loadapp():any{
-    this.app = JSON.parse(localStorage.getItem('app'));
-    // console.log(this.app);
-    const studentsObservable = new Observable(observer => {
-      // console.log(observer);
-      return this.query('app', {
-        where:{
-          app: 'Venty'
+  loadapp(){
+    if(JSON.parse(localStorage.getItem('app'))){
+      this.app = JSON.parse(localStorage.getItem('app'));
+    }
+    return this.query('app', {
+      where:{
+        app: 'Venty'
+      }
+    })
+    .subscribe(
+      (res:any)=>{
+         //console.log(res);
+        res = res.data[0];
+        if(res){
+          localStorage.removeItem('app');
+          localStorage.setItem('app', JSON.stringify(res));
+          this.app = res;
         }
-      })
-      .subscribe(
-        (res:any)=>{
-          // console.log(res);
-          res = res.data[0];
-          if(res){
-            localStorage.removeItem('app');
-            localStorage.setItem('app', JSON.stringify(res));
-            this.app = res;
-          }
-        }
-      );
-    });
-    return studentsObservable;
+      }
+    );
   }
   loadUser() {
     this.user = JSON.parse(localStorage.getItem('user'));

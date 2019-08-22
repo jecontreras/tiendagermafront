@@ -215,8 +215,9 @@ export class FacturaComponent implements OnInit {
       )
     }else{
       // console.log(query, paginate);
-      this.query.limit = paginate.pageIndex;
-      this.query.skip = paginate.pageSize;
+      this.query.limit = paginate.pageSize;
+      this.query.skip = paginate.pageIndex;
+      //console.log(this.query);
       return this._cart.get(this.query)
       .subscribe(
         (res: any)=>{

@@ -78,12 +78,13 @@ export class MercadosComponent implements OnInit {
     this.getlist(paginate);
   }
   getlist(paginate: any){
-    this.query.limit = paginate.pageIndex;
-    this.query.skip = paginate.pageSize;
+    this.query.limit = paginate.pageSize;
+    this.query.skip = paginate.pageIndex;
+    console.log(this.query);
     this._mercados.get(this.query)
     .subscribe(
       (res: any)=>{
-        // console.log(res.data);
+        console.log(res.data);
         this.count = res.count;
         this.list = _.unionBy(this.list || [], res.data, 'id');
       }

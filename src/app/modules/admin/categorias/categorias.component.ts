@@ -35,29 +35,28 @@ export class CategoriasComponent implements OnInit {
   }
   ngOnInit() {
     this.user = this._model.user;
-    console.log(this.user);
+    //console.log(this.user);
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     this.getlist(paginate);
   }
   pageEvent(ev){
     // console.log(ev);
-    ev.pageIndex = 10;
-    ev.pageSize+= 1;
+    ev.pageSize = 10;
     this.getlist(ev);
   }
   getsearh(){
     const
       paginate: any = {
-        pageIndex: 10,
-        pageSize: 0
+        pageIndex: 0,
+        pageSize: 10
       }
     ;
     if(this.searcht.txt){
@@ -88,13 +87,14 @@ export class CategoriasComponent implements OnInit {
   getlist(paginate: any){
     this.query.where.categoriaDe = ["producto", "etiqueta"];
     this.query.where.empresa = this.user.empresa;
-    this.query.limit = paginate.pageIndex;
-    this.query.skip = paginate.pageSize;
+    this.query.limit = paginate.pageSize;
+    this.query.skip = paginate.pageIndex;
 
     if(this.user.rol.nombre ==="super admin"){
       this.query.where.categoriaDe.push("categoria");
       delete this.query.where.empresa;
     }
+    //console.log(this.query);
     this._categoria.get(this.query)
     .subscribe(
       (res: any)=>{

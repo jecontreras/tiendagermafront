@@ -66,8 +66,7 @@ export class AppRoutingModule{
   constructor(
     private _model:FactoryModelService
   ){
-    this._model.loadapp().subscribe((studentsData: App[]) => {
-      // console.log(studentsData);
-    });
+     /*console.log(this._model.loadapp());*/
+     this._model.loadapp();
   }
 }

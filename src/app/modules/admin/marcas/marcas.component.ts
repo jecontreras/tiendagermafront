@@ -87,8 +87,8 @@ export class MarcasComponent implements OnInit {
   getlist(paginate: any){
     this.query.where.categoriaDe = "marca";
     this.query.where.empresa = this.user.empresa;
-    this.query.limit = paginate.pageIndex;
-    this.query.skip = paginate.pageSize;
+    this.query.limit = paginate.pageSize;
+    this.query.skip = paginate.pageIndex;
     if(this.user.rol.nombre === "super admin"){
       delete this.query.where.empresa;
     }

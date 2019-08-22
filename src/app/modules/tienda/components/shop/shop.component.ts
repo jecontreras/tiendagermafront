@@ -61,12 +61,12 @@ export class ShopComponent implements OnInit {
          if(this.slug === 'new'){
            this.query.sort ='createdAt DESC';
            this.getProduct(null, null);
-         }else if(this.slug === 'tec'){
-           this.getmercados("tecnologia");
-         }else if(this.slug === 'pc'){
-           this.getmercados("computadores");
-         }else if(this.slug === 'gamer'){
-           this.getmercados("gamer");
+         }else if(this.slug === 'calzado'){
+           this.getmercados("calzado");
+         }else if(this.slug === 'ropa'){
+           this.getmercados("ropa");
+         }else if(this.slug === 'relojes'){
+           this.getmercados("relojes");
          }else if(this.slug === 'des'){
            this.query.sort ='costopromosion DESC';
            this.getProduct(null, null);
@@ -188,7 +188,7 @@ export class ShopComponent implements OnInit {
     // console.log(ev);
     // ev.pageIndex = 10;
     ev.pageSize = 10;
-    this.disableindex = !this.disableindex;
+    this.disableindex = false;
     // ev.pageSize= ev.pageSize*ev.pageIndex;
     this.getProduct(null, ev);
   }
@@ -239,7 +239,7 @@ export class ShopComponent implements OnInit {
         this.query.sort ='costoventa asc';
       }
     }
-    console.log(this.query, this.searcht);
+    //console.log(this.query, this.searcht);
     this.getProduct(null, null);
   }
   getProduct(obj: any, paginate: any){
@@ -254,6 +254,7 @@ export class ShopComponent implements OnInit {
       }
       this.query.limit = paginate.pageSize;
       this.query.skip = paginate.pageIndex;
+      this.query.sort ='createdAt DESC';
     }
     console.log(this.query);
     return this._Producto.get(this.query)
@@ -261,7 +262,7 @@ export class ShopComponent implements OnInit {
       (res: any)=>{
         console.log(res);
         this.count = res.count;
-        this.disableindex = !this.disableindex;
+        this.disableindex = true;
         res = res.data;
         for (var i = 0; i < res.length; i++) {
           res[i]
