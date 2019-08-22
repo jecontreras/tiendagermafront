@@ -30,7 +30,7 @@ export class ArchivoService {
             res = res.files;
             const
               // url:any = _.split(res[0].fd,"images", 10)
-              url: any = "https://publihazclick.s3.amazonaws.com/default/"+res.fd;
+              url: any = "https://publihazclick.s3.amazonaws.com/venty/"+res.fd;
             ;
             // console.log(url);
             if(data){
