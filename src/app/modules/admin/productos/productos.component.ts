@@ -54,6 +54,7 @@ export class ProductosComponent implements OnInit {
   };
   public query: any = {where:{}};
   public listmercados: any = [];
+  public disabledinit: any = false;
 
   config: AngularEditorConfig = {
     editable: true,
@@ -127,7 +128,7 @@ export class ProductosComponent implements OnInit {
       }else{
         const
           paginate: any = {
-            pageIndex: 1,
+            pageIndex: 0,
             pageSize: 10
           }
         ;
@@ -145,6 +146,10 @@ export class ProductosComponent implements OnInit {
       }
     ]
 
+  }
+  disableeye(){
+    // console.log(this.disabledinit);
+    this.disabledinit === 'true' ?this.disabledinit=true : this.disabledinit=false;
   }
   pageEvent(ev){
     // console.log(ev);
@@ -327,6 +332,19 @@ export class ProductosComponent implements OnInit {
           empresa: this.user.empresa,
           listacolores: [],
           listatallas: [],
+          tipoproduct: 'producto',
+          tipomercado: "5d62232e0f01230017379c9b",
+          categorias: "5d6221c20f01230017379c99",
+          marca: "5d6221ca0f01230017379c9a",
+          estado: 'nuevo',
+          opcion: 'activo',
+          cantidad: 1,
+          stock: 1,
+          peso: 1,
+          alto: 1,
+          largo: 1,
+          ancho: 1,
+          costocompra: 0,
           listapromosion: []
         }
         ;
@@ -380,7 +398,7 @@ export class ProductosComponent implements OnInit {
      })
      .subscribe(
        (res: any)=>{
-         // console.log(res);
+        //  console.log(res);
          this.listcategoria = res.data;
          this.marcas();
        }
@@ -407,7 +425,7 @@ export class ProductosComponent implements OnInit {
      })
      .subscribe(
        (res: any)=>{
-         // console.log(res);
+        //  console.log(res);
          this.listmarca = res.data;
          this.talla(null);
        }
@@ -485,7 +503,7 @@ export class ProductosComponent implements OnInit {
     }else{
       data = [data];
     }
-    _.forEach(data, function(item, idx){
+    _.forEach(data, (item, idx)=>{
       if(item.titulo && item.empresa && item.tipoproduct && item.marca && item.categorias
         && item.alto && item.largo && item.ancho){
         item.slug = _.kebabCase(item.titulo);
@@ -512,6 +530,7 @@ export class ProductosComponent implements OnInit {
               list.push(item);
               if(idx+1 >= data.length){
                 disable = false;
+                this.router.navigate(['admin/productos', item.id]);
                 swal("Completado!", "Agregado Correctamente!", "success");
               }
             }else{
