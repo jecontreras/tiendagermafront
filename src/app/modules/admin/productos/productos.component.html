@@ -36,6 +36,7 @@
             mat-mini-fab
             color="primary"
             placeholder="guardar"
+            matTooltip="Guardar Producto"
             *ngIf="disable && !data.id"
             (click)="saved()"
           >
@@ -55,7 +56,7 @@
             <button
               mat-mini-fab
               color="accent"
-              (click)="multiple = !multiple;"
+              (click)="multiple = !multiple; multiple === false ? listgroup= []:false;"
               class="btn btn-primary">
               <span *ngIf="!multiple"
                 matTooltip="varios formulario"
@@ -124,13 +125,16 @@
                             Producto
                         </th>
                         <th>
-                            Costo de Venta
+                            Costo del Producto
+                        </th>
+                        <th *ngIf="user.rol.nombre === 'super admin'">
+                          Costo de Venta
                         </th>
                         <!-- <th>
                             Costo de Compra
                         </th> -->
                         <th>
-                            Visualizaciones
+                            Vistas
                         </th>
                         <th>
                             Megusta
@@ -172,7 +176,13 @@
                                 {{ item.titulo }}
                             </td>
                             <td>
-                                {{ item.costoventa }}
+                              {{ item.costocompra }}
+                            </td>
+                            <td *ngIf="user.rol.nombre === 'super admin'">
+                                <input type="number"
+                                    (blur)="data.id=item.id; data.costoventa=item.costoventa; blur('costoventa', false)"
+                                    class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="item.costoventa"
+                                >
                             </td>
                             <td class="text-primary">
                                 {{ item.vistos}}
@@ -184,7 +194,18 @@
                                 {{ item.megusta }}
                             </td>
                             <td class="text-primary">
-                                {{ item.opcion }}
+                              <span *ngIf="user.rol.nombre !== 'super admin'">
+                                  {{ item.opcion }}
+                              </span>
+                              <span *ngIf="user.rol.nombre === 'super admin'">
+                                  <div class="form-group" >
+                                    <select class="custom-select" (blur)="data.id=item.id; data.opcion=item.opcion; blur('opcion', false)" [(ngModel)]="item.opcion">
+                                        <option value="activo">Activar</option>
+                                        <option value="revisando">Revisando</option>
+                                        <option value="rechazado">Rechazado</option>
+                                    </select>
+                                  </div>
+                              </span>
                             </td>
                         </tr>
                     </tbody>
@@ -243,14 +264,14 @@
                   <option value="servicio" *ngIf="user.empresas.ofrece === 'servicio' || user.empresas.ofrece === 'productoservicio'">Servicio</option>
                 </select>
               </div>
-              <div class="form-group" *ngIf="disabledinit">
+              <div class="form-group">
                 <label for="formGroupExampleInput">Tipo de Mercado</label>
                 <select class="custom-select" (blur)="blur('tipomercado', false)" [(ngModel)]="data.tipomercado" required>
                   <option value="{{ pro.id }}" *ngFor="let pro of listmercados">{{ pro.titulo }}</option>
                 </select>
               </div>
             </div>
-            <div class="form-row" *ngIf="disabledinit">
+            <div class="form-row">
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Categoria</label>
                 <select class="custom-select"  (blur)="blur('categorias', false)" [(ngModel)]="data.categorias" required>
@@ -279,14 +300,14 @@
                   (blur)="blur('cantidad', false)"
                   class="form-control" placeholder="Cantidad Total del Producto" [(ngModel)]="data.cantidad" required>
               </div>
-              <div class="form-group col-sm">
+              <div class="form-group col-sm" *ngIf="disabledinit">
                 <label for="formGroupExampleInput">Stock</label>
                 <input type="text"
                   (blur)="blur('stock', false)"
                   class="form-control" placeholder="Stock de Producto" [(ngModel)]="data.stock">
               </div>
             </div>
-            <div class="form-row" *ngIf="disabledinit">
+            <div class="form-row">
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Estado del Producto</label>
                 <select class="custom-select"  (blur)="blur('estado', false)" [(ngModel)]="data.estado" required>
@@ -294,14 +315,16 @@
                   <option value="usado">Usado</option>
                 </select>
               </div>
-              <div class="form-group col-sm">
+              <div class="form-group col-sm" *ngIf="disabledinit">
                 <label for="formGroupExampleInput">Opcion</label>
                 <select class="custom-select"  (blur)="blur('opcion', false)" [(ngModel)]="data.opcion" required>
-                  <option value="activo">Activo</option>
+                  <option value="activo" *ngIf="user.rol.nombre === 'super admin' || data.opcion==='activo'">Activo</option>
+                  <option value="revisando">Revisando</option>
                   <option value="inactivo">Inactivo</option>
+                  <option value="rechazado">Rechazado</option>
                 </select>
               </div>
-              <div class="form-group col-sm">
+              <div class="form-group col-sm" *ngIf="disabledinit">
                 <label for="formGroupExampleInput">Peso(kg)</label>
                 <input type="text"
                   (blur)="blur('peso', false)"
@@ -309,13 +332,13 @@
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group col-sm" *ngIf="disabledinit">
-                <label for="formGroupExampleInput">Costo de Compra</label>
+              <div class="form-group col-sm">
+                <label for="formGroupExampleInput">Costo del Producto</label>
                 <input type="number"
                   (blur)="blur('costocompra', false)"
-                  class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="data.costocompra" required>
+                  class="form-control" placeholder="Costo del Producto" [(ngModel)]="data.costocompra" required>
               </div>
-              <div class="form-group col-sm">
+              <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
                 <label for="formGroupExampleInput">Costo de Venta</label>
                 <input type="number"
                   (blur)="blur('costoventa', false)"
@@ -334,7 +357,7 @@
                   class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="data.costopromosion">
               </div>
             </div>
-            <div class="form-row" *ngIf="disabledinit">
+            <div class="form-row">
               <div class="form-group col-sm">
                 <label for="formGroupExampleInput">Talla del Producto</label>
                 <select class="custom-select"  (blur)="blur('talla')" [(ngModel)]="data.talla">
@@ -361,7 +384,7 @@
                     </option>
                 </select>
               </div>
-              <div class="form-group col-sm">
+              <div class="form-group col-sm" *ngIf="disabledinit">
                 <label for="formGroupExampleInput">Fecha de Vencimiento</label>
                 <input type="date"  placeholder="Fecha de Vencimiento" [(ngModel)]="data.fechavencimiento"
                 (blur)="edit('fechavencimiento')">
@@ -637,6 +660,7 @@
                 </span>
                 <div class="row" *ngIf="listgaleria.length <=5">
                   <div class="row p-1">
+                      <!-- multiple="true" -->
                     <input
                       type="file"
                       [(ngModel)]="img"
@@ -770,7 +794,7 @@
                     (blur)="clickmultiple()"
                     class="form-control" placeholder="Nombre" [(ngModel)]="item.titulo">
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="disabledinit">
                   <label for="formGroupExampleInput">Tipo de producto</label>
                   <select class="custom-select" [(ngModel)]="item.tipoproduct" required>
                     <option value="producto" *ngIf="user.empresas.ofrece === 'producto' || user.empresas.ofrece === 'productoservicio'">Producto</option>
@@ -779,8 +803,11 @@
                 </div>
                 <div class="form-group">
                   <label for="formGroupExampleInput">Tipo de Mercado</label>
-                  <select class="custom-select" *ngFor="let pro of listmercados" [(ngModel)]="item.tipomercado" required>
-                    <option value="{{ pro.id }}">{{ pro.titulo }}</option>
+                  <select class="custom-select" [(ngModel)]="item.tipomercado" required>
+                    <option 
+                          *ngFor="let pro of listmercados"
+                          value="{{ pro.id }}"
+                    >{{ pro.titulo }}</option>
                   </select>
                 </div>
               </div>
@@ -812,7 +839,7 @@
                   <input type="number"
                     class="form-control" placeholder="Cantidad de Producto" [(ngModel)]="item.cantidad">
                 </div>
-                <div class="form-group col-sm">
+                <div class="form-group col-sm" *ngIf="disabledinit">
                   <label for="formGroupExampleInput">Stock</label>
                   <input type="text"
                     class="form-control" placeholder="Stock de Producto" [(ngModel)]="item.stock">
@@ -826,19 +853,20 @@
                     <option value="usado">Usado</option>
                   </select>
                 </div>
-                <div class="form-group col-sm">
+                <div class="form-group col-sm" *ngIf="disabledinit">
                   <label for="formGroupExampleInput">Opcion</label>
-                  <select class="custom-select" [(ngModel)]="item.opcion">
+                  <select class="custom-select" *ngIf="user.rol.nombre === 'super admin' || data.opcion==='activo'" [(ngModel)]="item.opcion">
+                    <option value="revisando">Revisando</option>
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                   </select>
                 </div>
                 <div class="form-group col-sm">
-                  <label for="formGroupExampleInput">Costo de la Compra</label>
+                  <label for="formGroupExampleInput">Costo del Producto</label>
                   <input type="number"
-                    class="form-control" placeholder="Costo de la Compra del Producto" [(ngModel)]="item.costocompra">
+                    class="form-control" placeholder="Costo del Producto" [(ngModel)]="item.costocompra">
                 </div>
-                <div class="form-group col-sm">
+                <div class="form-group col-sm" *ngIf="user.rol.nombre === 'super admin'">
                   <label for="formGroupExampleInput">Costo de la Venta</label>
                   <input type="number"
                     class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="item.costoventa">
@@ -876,12 +904,12 @@
                       </option>
                   </select>
                 </div>
-                <div class="form-group col-sm">
+                <div class="form-group col-sm" *ngIf="disabledinit">
                   <label for="formGroupExampleInput">Fecha de Vencimiento</label>
                   <input type="date"  placeholder="Fecha de Vencimiento" [(ngModel)]="item.fechavencimiento">
                 </div>
               </div>
-              <div class="form-column">
+              <div class="form-column" *ngIf="disabledinit">
                 <div class="d-flex justify-content-center">
                   <h5>Tamaño del producto</h5>
                 </div>
@@ -1025,15 +1053,24 @@
                       close
                     </i>
                   </button>
-                </div>
+                </div>  
               </div>
           </div>
-          <div class="form-column" *ngIf="disabledexcel">
-            <div class="d-flex align-items-center">
-              <input type="file" (change)="onFileChange($event)" multiple="false" />
-            </div>
           </div>
-        </div>
+          <div class="form-column" *ngIf="disabledexcel">
+              <div class="d-flex align-items-center">
+                <input type="file" (change)="onFileChange($event)" multiple="false" />
+              </div>
+            </div>
+          <div
+            class="d-flex justify-content-end"
+          >
+            <button placeholder="guardar"
+                    *ngIf="disable && !data.id"
+                    (click)="saved()"
+                    matTooltip="Guardar Producto" type="button" class="btn btn-success">Guardar Producto
+            </button>
+          </div>
       </div>
       <!-- <table class="sjs-table">
         <tr *ngFor="let row of excel">

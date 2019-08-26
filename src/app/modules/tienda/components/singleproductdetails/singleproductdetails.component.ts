@@ -182,8 +182,8 @@ export class SingleproductdetailsComponent implements OnInit {
       dato: any = this.dato
     ;
     dato.costoenvio = dato.costoenvio || 8000;
-    dato.fechaentrega = moment().add(20, 'days').format("DD/MM/YYYY");
-    dato.fechamaxima = moment().add(40, 'days').format("DD/MM/YYYY");
+    dato.fechaentrega = moment().add(5, 'days').format("DD/MM/YYYY");
+    dato.fechamaxima = moment().add(10, 'days').format("DD/MM/YYYY");
     dato.ciudad = dato.ciudad || "Cúcuta";
 
   }

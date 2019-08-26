@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-3">
         <img
-          src="{{ data.logo || './assets/img/angular2-logo-red.png'}}" alt="Not Found"
+          src="{{ data.foto || './assets/img/dilisap1.png'}}" alt="Not Found"
           width="188px"
           class="rounded"
           height="189px"
@@ -13,15 +13,15 @@
         <div class="">
           <div class="row">
             <label>Tienda:</label>
-            <span>{{ data.empresa }}</span>
+            <span>{{ data.codigo }}</span>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <label>Direccion:</label>
             <span>{{ data.direccion || 'calle 1e centro'}}</span>
-          </div>
+          </div> -->
           <div class="row">
             <label>Contacto:</label>
-            <span>{{ data.numero || '3228576900'}}</span>
+            <span>{{'+57 3133637978'}}</span>
           </div>
           <div class="row">
             <label>Fundada:</label>
@@ -34,7 +34,7 @@
       </div>
       <div class="col">
         <img
-          src="{{ data.fondo || './assets/img/cover.jpeg'}}" alt="Not Found"
+          src="{{ data.foto2 || './assets/img/cover.jpeg'}}" alt="Not Found"
           class="rounded imgperfil"
         >
       </div>
@@ -80,7 +80,7 @@
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="page-title text-center">
-                    <h2>{{ 'Tienda '+data.empresa }}</h2>
+                    <h2>{{ 'Tienda '+data.codigo }}</h2>
                 </div>
             </div>
         </div>

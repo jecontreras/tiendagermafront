@@ -177,6 +177,7 @@ export class ShopComponent implements OnInit {
         if(this.slug !== 'des' || this.slug !== 'new'){
           this.query={where:{},sort: this.query.sort, limit:10,skip:0};
         }else{
+          this.searcht.txt= '';
           this.query={where:{},limit:10,skip:0};
         }
       }

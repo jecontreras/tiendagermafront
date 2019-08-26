@@ -21,11 +21,11 @@ export class ArchivoService {
       form = new FormData()
     ;
     if (obj) {
-      form.append('file', obj[0]);
+      form.append('file', obj);
       return this._model.create('galeria/file', form)
       .pipe(
         map((res: any)=>{
-          // console.log(res);
+          console.log(res);
           if(res.status === 200){
             res = res.files;
             const

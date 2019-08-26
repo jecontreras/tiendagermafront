@@ -169,6 +169,7 @@ export class RegistryComponent implements OnInit {
     // console.log(this.registerForm.value, this.disabledemail, this.disabledusername);
     if (this.disabledemail && this.disabledusername && this.registerForm.value.departamento && this.registerForm.value.pais
       && this.registerForm.value.ciudad && this.registerForm.value.password === this.registerForm.value.confirpassword) {
+        this.logead = !this.logead;
       this.userService.register(this.registerForm.value).subscribe(
         (response: any) => {
           // console.log(response);

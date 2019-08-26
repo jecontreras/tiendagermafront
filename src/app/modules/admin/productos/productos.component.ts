@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 import swal from 'sweetalert';
 import { GLOBAL } from './../../../services/global';
 import * as XLSX from 'xlsx';
+import { async } from '@angular/core/testing';
 type AOA = any[][];
 
 @Component({
@@ -129,7 +130,7 @@ export class ProductosComponent implements OnInit {
         const
           paginate: any = {
             pageIndex: 0,
-            pageSize: 10
+            pageSize: 30
           }
         ;
         this.getlist(null, paginate);
@@ -138,11 +139,25 @@ export class ProductosComponent implements OnInit {
     this.listgroup = [
       {
         codigo: this.codigo(),
-        tallas: {},
+        tallas:{},
         colores: {},
-        listatallas:[],
+        empresa: this.user.empresa,
         listacolores: [],
-        empresa: this.user.empresa
+        listatallas: [],
+        tipoproduct: 'producto',
+        tipomercado: "5d62232e0f01230017379c9b",
+        categorias: "5d6221c20f01230017379c99",
+        marca: "5d6221ca0f01230017379c9a",
+        estado: 'nuevo',
+        opcion: 'revisando',
+        cantidad: 1,
+        stock: 1,
+        peso: 1,
+        alto: 1,
+        largo: 1,
+        ancho: 1,
+        costocompra: 0,
+        listapromosion: []
       }
     ]
 
@@ -161,7 +176,7 @@ export class ProductosComponent implements OnInit {
     const
       paginate: any = {
         pageIndex: 0,
-        pageSize: 10
+        pageSize: 30
       }
     ;
     if(this.searcht.txt){
@@ -208,7 +223,7 @@ export class ProductosComponent implements OnInit {
     if(!paginate){
       paginate = {
         pageIndex: 0,
-        pageSize: 10
+        pageSize: 30
       };
     }
     this.query.where.empresa = this.user.empresa;
@@ -337,7 +352,7 @@ export class ProductosComponent implements OnInit {
           categorias: "5d6221c20f01230017379c99",
           marca: "5d6221ca0f01230017379c9a",
           estado: 'nuevo',
-          opcion: 'activo',
+          opcion: 'revisando',
           cantidad: 1,
           stock: 1,
           peso: 1,
@@ -348,7 +363,7 @@ export class ProductosComponent implements OnInit {
           listapromosion: []
         }
         ;
-        this.router.navigate(['admin/productos']);
+        //this.router.navigate(['admin/productos']);
       }
       this.categorias();
   }
@@ -531,7 +546,7 @@ export class ProductosComponent implements OnInit {
               if(idx+1 >= data.length){
                 disable = false;
                 this.router.navigate(['admin/productos', item.id]);
-                swal("Completado!", "Agregado Correctamente!", "success");
+                swal("Completado!", "Agregado Correctamente Producto en estado de Verificacion!", "success");
               }
             }else{
               swal("Fallo!", "Error al Agregar!", "error");
@@ -578,7 +593,9 @@ export class ProductosComponent implements OnInit {
       data[obj]=this.data[obj];
       // console.log(data);
       if(obj === "costopromosion" || obj === "costoventa"){
-        data.porcentajedes = this.data.costopromosion * 100 / this.data.costoventa;
+        if(this.data.costopromosion){
+          data.porcentajedes = this.data.costopromosion * 100 / this.data.costoventa;
+        }
       }
       // console.log(data);
       this._producto.edit(data)
@@ -598,11 +615,25 @@ export class ProductosComponent implements OnInit {
     this.listgroup.push(
       {
         codigo: this.codigo(),
-        tallas: {},
+        tallas:{},
         colores: {},
         empresa: this.user.empresa,
         listacolores: [],
-        listatallas:[],
+        listatallas: [],
+        tipoproduct: 'producto',
+        tipomercado: "5d62232e0f01230017379c9b",
+        categorias: "5d6221c20f01230017379c99",
+        marca: "5d6221ca0f01230017379c9a",
+        estado: 'nuevo',
+        opcion: 'revisando',
+        cantidad: 1,
+        stock: 1,
+        peso: 1,
+        alto: 1,
+        largo: 1,
+        ancho: 1,
+        costocompra: 0,
+        listapromosion: []
       }
     );
     // console.log(this.listgroup);
@@ -643,10 +674,11 @@ export class ProductosComponent implements OnInit {
     // if(this.img){
     const
       file = this.datafile
-      ;
+    ;
     // console.log(file);
     this.carga = false;
-    this._archivos.pushfile(file, data, "articulo")
+    _.forEach(file,async (item:any)=>{
+      await this._archivos.pushfile(item, data, "articulo")
       .subscribe(
         (res: any) => {
           // console.log('POST Request is successful ', res, data);
@@ -682,6 +714,7 @@ export class ProductosComponent implements OnInit {
           swal('Error!', 'Error al subir la imagen', 'error');
         }
       );
+    })
   }
   stopConter(interval: any) {
     clearInterval(interval);

@@ -19,7 +19,7 @@
         </div>
         <div class="p-2">
           <a [routerLink]="['/tienda/shop', data.empresa.url]">
-            {{ "Empresa: " + data.empresa.empresa }}
+            {{ "Empresa: " + data.empresa.codigo }}
           </a>
         </div>
         <div class="p-2">
@@ -35,7 +35,7 @@
   <div class="row">
     <div class="col-sm">
       <div class="">
-        <span><br><br><br><br><br><br></span>
+        <span><br><br><br><br></span>
         <ng-image-slider
           [images]="imageObject"
           [infinite]="sliderInfinite"
@@ -163,13 +163,13 @@
           </div>
           <div class="col-sm">
             <div class="d-flex justify-content-center">
-              <small>Enviado y Vendido por: <br>{{ data.empresa.empresa }}</small>
+              <small>Enviado y Vendido por: <br>{{ data.empresa.codigo }}</small>
             </div>
           </div>
           <div class="col-sm">
             <div class="d-flex justify-content-center">
               <small>PROTECCIÓN AL COMPRADOR
-                ASESORÍA TELEFÓNICA: 3228576900</small>
+                ASESORÍA TELEFÓNICA: +57 3133637978</small>
             </div>
           </div>
       </div>
