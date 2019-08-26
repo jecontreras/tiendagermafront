@@ -56,6 +56,7 @@ export class ProductosComponent implements OnInit {
   public query: any = {where:{}};
   public listmercados: any = [];
   public disabledinit: any = false;
+  public disablesaved: boolean = true;
 
   config: AngularEditorConfig = {
     editable: true,
@@ -363,7 +364,7 @@ export class ProductosComponent implements OnInit {
           listapromosion: []
         }
         ;
-        //this.router.navigate(['admin/productos']);
+        this.router.navigate(['admin/productos']);
       }
       this.categorias();
   }
@@ -518,6 +519,7 @@ export class ProductosComponent implements OnInit {
     }else{
       data = [data];
     }
+    this.disablesaved = false;
     _.forEach(data, (item, idx)=>{
       if(item.titulo && item.empresa && item.tipoproduct && item.marca && item.categorias
         && item.alto && item.largo && item.ancho){
@@ -545,6 +547,7 @@ export class ProductosComponent implements OnInit {
               list.push(item);
               if(idx+1 >= data.length){
                 disable = false;
+                this.disablesaved = true;
                 this.router.navigate(['admin/productos', item.id]);
                 swal("Completado!", "Agregado Correctamente Producto en estado de Verificacion!", "success");
               }

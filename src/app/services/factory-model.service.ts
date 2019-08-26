@@ -87,6 +87,10 @@ export class FactoryModelService {
             response = response.data[0];
             if (response) {
               // localStorage.clear();
+              if(response.empresa){
+                response.objempresa = response.empresa;
+                response.empresa = response.empresa.id;
+              }
               localStorage.removeItem('user');
               localStorage.setItem('user', JSON.stringify(response));
               this.user = JSON.parse(localStorage.getItem('user'));

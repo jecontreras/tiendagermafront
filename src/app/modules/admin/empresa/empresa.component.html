@@ -1,4 +1,4 @@
-<div class="main-content">
+  <div class="main-content">
   <div class="container-fluid">
       <div class="row">
           <div class="col-md-12">
@@ -154,7 +154,7 @@
                       <div class="form-row">
                         <div class="form-group">
                           <label for="formGroupExampleInput">Codigo</label>
-                          <input type="text"
+                          <input type="text" [disabled]="this._model.user.rol !== 'super admin'"
                             (blur)="blur('codigo')"
                             class="form-control" placeholder="Codigo de la Empresa" [(ngModel)]="data.codigo">
                         </div>
@@ -166,7 +166,7 @@
                         </div>
                         <div class="form-group col">
                           <label for="formGroupExampleInput">Ofrece</label>
-                          <select class="custom-select"  (blur)="blur('ofrece')" [(ngModel)]="data.ofrece">
+                          <select [disabled]="this.user.rol.nombre === 'super admin'" class="custom-select"  (blur)="blur('ofrece')" [(ngModel)]="data.ofrece">
                             <option value="producto">Producto</option>
                             <option value="servicio">Servicio</option>
                             <option value="productoservicio">Producto y Servicio</option>
@@ -182,8 +182,9 @@
                         </div>
                         <div class="form-group col">
                           <label for="formGroupExampleInput">Estado</label>
-                          <select class="custom-select"  (blur)="blur('estado')" [(ngModel)]="data.estado">
+                          <select class="custom-select" [disabled]="this.user.rol.nombre === 'super admin'"  (blur)="blur('estado')" [(ngModel)]="data.estado">
                             <option value="activo">Activo</option>
+                            <option value="revisando">Revision</option>
                             <option value="inactivo">Inactivo</option>
                           </select>
                         </div>
@@ -203,8 +204,8 @@
                           >
                               <div class="single-product-wrapper">
                                   <div class="product-img">
-                                      <img src="{{ pro.foto || '/assets/img/product-img/product-4.jpg'}}" alt="none">
-                                      <img class="hover-img" src="{{ pro.foto || '/assets/img/product-img/product-5.jpg'}}" alt="none">
+                                      <img src="{{ '/assets/img/descarga.png'}}" alt="none">
+                                      <img class="hover-img" src="{{ '/assets/img/descarga.png'}}" alt="none">
                                   </div>
                                   <div class="product-description">
                                       <a class="mouse">
@@ -237,7 +238,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="form-column" *ngIf="data.id">
+                      <div class="form-column" *ngIf="data.id && this.user.rol.nombre === 'super admin'">
                         <div
                           class="page-title text-center"
                         >

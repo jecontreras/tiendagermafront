@@ -136,6 +136,10 @@ export class LoginComponent implements OnInit {
         (response: any) => {
           if (response.success) {
             // console.log(response);
+            if(response.data.empresa){
+              response.data.objempresa = response.data.empresa;
+              response.data.empresa = response.data.empresa.id;
+            }
             localStorage.setItem('user', JSON.stringify(response.data));
             this.router.navigate(['admin/dashboard']);
           } else {

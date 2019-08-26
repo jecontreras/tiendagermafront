@@ -52,7 +52,7 @@ export class ShopComponent implements OnInit {
   }
   initial(){
     this.data = {
-      empresa: ''
+      codigo: ''
     }
     this.route.params.subscribe(params => {
        if(params['id']!=null){
@@ -130,25 +130,33 @@ export class ShopComponent implements OnInit {
         id: data.color
       };
     }
-    // console.log(data);
-    return this._color.get({
-      where: {
-        color: {'!': 'varias'}
-      },
-      limit: -1
-     })
-     .subscribe(
-       (res: any)=>{
-         // console.log(res);
-         this.disablecolor=true;
-         if(!data){
-           this.listcolor = res.data;
-         }else{
-           data.color = res.data[0];
+    const color: any = JSON.parse(localStorage.getItem('color')) || [];
+    // console.log(color, Object.keys(color).length);
+    if(Object.keys(color).length === 0){
+      return this._color.get({
+        where: {
+          color: {'!': 'varias'}
+        },
+        limit: -1
+       })
+       .subscribe(
+         (res: any)=>{
+          //  console.log(res);
+           this.disablecolor=true;
+           if(!data){
+            localStorage.removeItem('color');
+            localStorage.setItem('color', JSON.stringify(res.data));
+             this.listcolor = res.data;
+           }else{
+             data.color = res.data[0];
+           }
          }
-       }
-     )
-     ;
+       )
+       ;
+    }else{
+      this.disablecolor=true;
+      this.listcolor = color;
+    }
   }
   getTienda(){
     // console.log(this.slug, this.query);

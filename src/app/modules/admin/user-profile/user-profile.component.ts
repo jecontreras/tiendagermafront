@@ -43,7 +43,7 @@ export class UserProfileComponent implements OnInit {
       ;
     // console.log(file);
     this.carga = false;
-    this._archivos.pushfile(file, false, "user")
+    this._archivos.pushfile(file[0], false, "user")
       .subscribe(
         (data: any) => {
           // console.log('POST Request is successful ', data);

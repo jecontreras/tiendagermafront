@@ -175,10 +175,20 @@ export class RegistryComponent implements OnInit {
           // console.log(response);
           if (response.status === 200) {
             this.verificacion = true;
-            swal('Ok!',
+            if(this.registerForm.value.tipocuenta){
+              swal('Ok!',
+              'Registro! Estas En Modo de Aprobacion esta Funciona Tardara Maximo 2 Dias En Activar Tu Cuenta: '
+              + this.registerForm.value.nameempresa, 'success');
+            }else{
+              swal('Ok!',
               // 'Registro completo! Falta Que Actives Tu Cuenta En Gmail Te Enviamos Un Correo de Verificacion a Tu Email: '
               'Registrado '
               + this.registerForm.value.email, 'success');
+            }
+            if(response.data.empresa){
+              response.data.objempresa = response.data.empresa;
+              response.data.empresa = response.data.empresa.id;
+            }
             localStorage.setItem('user', JSON.stringify(response.data));
             this.router.navigate(['admin']);
           } else {

@@ -26,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/admin/color', title: 'Color',  icon:'invert_colors', rol: "superadmin", class: '' },
     { path: '/admin/tallas', title: 'Tallas',  icon:'pregnant_woman', rol: "superadmin", class: '' },
     { path: '/admin/factura', title: 'Factura',  icon:'local_grocery_store', rol: "varios", class: '' },
-    { path: '/admin/empresa', title: 'Empresa',  icon:'store', rol: "superadmin", class: '' },
+    { path: '/admin/empresa', title: 'Empresa',  icon:'store', rol: "admin", class: '' },
     { path: '/admin/mercados', title: 'Mercados',  icon:'pageview', rol: "superadmin", class: '' },
     { path: '/admin/configuracion', title: 'Configuracion',  icon:'confirmation_number', rol: "superadmin", class: '' },
     // { path: '/admin/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
@@ -55,30 +55,34 @@ export class SidebarComponent implements OnInit {
     ;
     this._model.loadUser();
     var menuItems: any = [];
-    console.log(user);
+    // console.log(user);
     if(user){
-     if(user.rol){
-       if(user.rol.nombre !== "super admin"){
-         _.forEach(this.menus, function(item: any, idx: any){
-           // console.log(item);
-           if(item){
-             if(user.rol.nombre === 'admin'){
-               if(item.rol !== "superadmin"){
-                 menuItems.push(item);
-               }
-             }
-             if(user.rol.nombre === 'usuario'){
-               if(item.rol !== "superadmin" && item.rol !== 'admin'){
-                 menuItems.push(item);
-               }
-             }
-           }
-         })
-         ;
-       }else{
-         menuItems = this.menus;
-       }
-     }
+      if(user.objempresa){
+        if(user.objempresa.estado === 'activo'){
+          if(user.rol){
+            if(user.rol.nombre !== "super admin"){
+              _.forEach(this.menus, function(item: any, idx: any){
+                // console.log(item);
+                if(item){
+                  if(user.rol.nombre === 'admin'){
+                    if(item.rol !== "superadmin"){
+                      menuItems.push(item);
+                    }
+                  }
+                  if(user.rol.nombre === 'usuario'){
+                    if(item.rol !== "superadmin" && item.rol !== 'admin'){
+                      menuItems.push(item);
+                    }
+                  }
+                }
+              })
+              ;
+            }else{
+              menuItems = this.menus;
+            }
+          }
+        }
+      }
     }
     this.menuItems = menuItems;
     // console.log(this.menuItems);

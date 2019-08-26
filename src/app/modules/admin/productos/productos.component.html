@@ -38,6 +38,7 @@
             placeholder="guardar"
             matTooltip="Guardar Producto"
             *ngIf="disable && !data.id"
+            [disabled]="!disablesaved"
             (click)="saved()"
           >
             <i class="material-icons">save</i>
@@ -1067,6 +1068,7 @@
           >
             <button placeholder="guardar"
                     *ngIf="disable && !data.id"
+                    [disabled]="!disablesaved"
                     (click)="saved()"
                     matTooltip="Guardar Producto" type="button" class="btn btn-success">Guardar Producto
             </button>

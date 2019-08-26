@@ -23,7 +23,6 @@ export class EmpresaComponent implements OnInit {
   public list: any = [];
   public clone: any = [];
   public listmercados: any = [];
-  public user: any = {};
   public img: any = [];
   public datafile: any;
   public carga: boolean= true;
@@ -32,6 +31,7 @@ export class EmpresaComponent implements OnInit {
     txt: ''
   };
   public query: any = {where:{}};
+  public user: any = Object();
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +46,9 @@ export class EmpresaComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this._model.user);
-    if(this._model.user.rol.nombre !== "super admin"){
+    this.user = this._model.user;
+    console.log(this.user);
+    if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
     }
     this.route.params.subscribe(params => {
@@ -54,13 +56,18 @@ export class EmpresaComponent implements OnInit {
        if(params['id']!=null){
         this.getlist(params['id'], null);
       }else{
-        const
-          paginate: any = {
-            pageIndex: 0,
-            pageSize: 10
-          }
-        ;
-        this.getlist(null, paginate);
+        if(this._model.user.rol.nombre === "admin"){
+          console.log(this._model.user.empresa);
+          this.getlist(this._model.user.empresa, null);
+        }else{
+          const
+            paginate: any = {
+              pageIndex: 0,
+              pageSize: 10
+            }
+          ;
+          this.getlist(null, paginate);
+        }
       }
     });
   }
@@ -152,7 +159,11 @@ export class EmpresaComponent implements OnInit {
       this.data = {
         codigo: this.codigo()
       };
-      this.router.navigate(['admin/empresa']);
+      if(this._model.user.rol.nombre !== "super admin"){
+        this.router.navigate(['admin/dashboard']);
+      }else{
+        this.router.navigate(['admin/empresa']);
+      }
     }
   }
   datafiles(ev: any) {
@@ -166,7 +177,7 @@ export class EmpresaComponent implements OnInit {
       ;
     // console.log(file);
     this.carga = false;
-    this._archivos.pushfile(file, false, "empresa")
+    this._archivos.pushfile(file[0], false, "empresa")
       .subscribe(
         (data: any) => {
           // console.log('POST Request is successful ', data);

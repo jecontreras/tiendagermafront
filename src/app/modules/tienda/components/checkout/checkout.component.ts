@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { paises } from './../../../../Json/paises'
 import { Router, ActivatedRoute } from '@angular/router';
 import { CartService } from './../../../../services/cart.service';
+import { GLOBAL } from './../../../../services/global';
 import { UsuariosService } from './../../../../services/usuarios.service';
 import { FactoryModelService } from './../../../../services/factory-model.service';
 import { departamento } from '../../../../Json/departamentos';
@@ -172,6 +173,7 @@ export class CheckoutComponent implements OnInit {
       && data.provivencia && data.ciudad && data.direccion1 && data.codigopostal
       && data.telefono){
       data.pais = data.gentilico || "colombiana";
+      // console.log(data);
       return this._cart.validarart(data)
       .subscribe(
         (res: any)=>{
@@ -186,12 +188,18 @@ export class CheckoutComponent implements OnInit {
                   // this.router.navigate(['login', res.user]);
                   this.submitepayco();
                   if(!this._model.user){
+                    localStorage.removeItem('articulos');
+                    localStorage.removeItem('shop');
                     swal("Correcto!", "Estimado Usuario Verificar tu Correo Electronico!", "success");
                   }
+                }else{
+                  swal("Fallo!", "Error Al Generar la Factura!", "error");
                 }
               }
             )
             ;
+          }else{
+            swal("Fallo!", "Erro de Validación!", "error");
           }
         }
       );
@@ -220,7 +228,7 @@ export class CheckoutComponent implements OnInit {
       tax_base: "0",
       tax: "0",
       country: "co",
-      lang: "en",
+      lang: "es",
 
       //Onpage="false" - Standard="true"
       external: "true",
@@ -228,8 +236,8 @@ export class CheckoutComponent implements OnInit {
       extra1: "extra1",
       extra2: "extra2",
       extra3: "extra3",
-      confirmation: "http://secure2.payco.co/prueba_curl.php",
-      response: "http://secure2.payco.co/prueba_curl.php",
+      confirmation: "https://backdilisaplive.herokuapp.com/cart/eventopayco",
+      response: "https://dilisaplive.herokuapp.com",
 
       //Atributos cliente
       name_billing: this.data.nombre,
@@ -246,8 +254,8 @@ export class CheckoutComponent implements OnInit {
     // data.x_signature = sha(data.x_cust_id_cliente+data.x_key+data.x_ref_payco+data.x_transaction_id+data.x_amount+data.x_currency_code);
     // console.log(data);
     const handler: any = ePayco.checkout.configure({
-      key: "90506d3b72d22b822f53b54dcf22dc3a",
-      test: true
+      key: GLOBAL.epayconum || "90506d3b72d22b822f53b54dcf22dc3a",
+      test: GLOBAL.epayco || false
     });
     handler.open(data);
   }
