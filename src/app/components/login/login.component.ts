@@ -143,15 +143,18 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(response.data));
             this.router.navigate(['admin/dashboard']);
           } else {
+            this.logead = false;
             swal( 'Oops' ,  'El usuario o la contraseña son incorrectos!' ,  'error' );
           }
         },
         error => {
+          this.logead = false;
           swal( 'Error' ,  'Problema con el servidor!' ,  'error' );
           // console.log(<any>error);
         }
       );
     }else{
+      this.logead = false;
       swal( 'Oops' ,  'Por Favor Check de No Soy un Robot!' ,  'error' );
     }
   }

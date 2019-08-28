@@ -57,6 +57,7 @@ export class ProductosComponent implements OnInit {
   public listmercados: any = [];
   public disabledinit: any = false;
   public disablesaved: boolean = true;
+  public listempresa: any = []
 
   config: AngularEditorConfig = {
     editable: true,
@@ -97,7 +98,7 @@ export class ProductosComponent implements OnInit {
     uploadUrl: 'v1/image',
     sanitize: true,
     toolbarPosition: 'top',
-};
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -115,10 +116,10 @@ export class ProductosComponent implements OnInit {
     this.user = this._model.user;
     this.user.empresas = {};
     // console.log(this.user);
+    this.getEmpresas();
     this.getEmpresa();
     this.getmercados();
   }
-
   ngOnInit() {
     if(this._model.user.rol.nombre !== "super admin" && this._model.user.rol.nombre !== "admin"){
       this.router.navigate(['admin/dashboard']);
@@ -174,6 +175,7 @@ export class ProductosComponent implements OnInit {
     this.getlist(null, ev);
   }
   getsearh(){
+    // console.log(this.query);
     const
       paginate: any = {
         pageIndex: 0,
@@ -215,6 +217,7 @@ export class ProductosComponent implements OnInit {
       ];
     }else{
       delete this.query.where.or;
+      if(this._model.user.rol.nombre === "super admin")if(this.query.where.empresa === 'none')delete this.query.where.empresa;
     }
     this.list = [];
     // console.log(this.query);
@@ -227,23 +230,24 @@ export class ProductosComponent implements OnInit {
         pageSize: 30
       };
     }
-    this.query.where.empresa = this.user.empresa;
     this.query.sort ='createdAt DESC';
     this.query.limit = paginate.pageSize;
     this.query.skip = paginate.pageIndex;
-
-    if(this.user.rol.nombre === "super admin"){
-      delete this.query.where.empresa;
+    if(!this.query.where.empresa){
+      this.query.where.empresa = this.user.empresa;
+      if(this.user.rol.nombre === "super admin"){
+        delete this.query.where.empresa;
+      }
     }
     if(obj){
       this.query.where.id = obj;
       this.query.limit = 1;
     }
-    console.log(this.query);
+    // console.log(this.query);
     this._producto.get(this.query)
     .subscribe(
       (res: any) =>{
-        console.log(res.data);
+        // console.log(res.data);
         if(obj){
           this.add(res.data[0]);
         }else{
@@ -252,6 +256,20 @@ export class ProductosComponent implements OnInit {
         }
       }
     );
+  }
+  getEmpresas(){
+    return this._model.query("empresa",{
+      where:{},
+      limit: -1
+    })
+    .subscribe(
+      (res: any)=>{
+        // console.log(res);
+        res = res.data;
+        this.listempresa = res; 
+      }
+    )
+    ;
   }
   getEmpresa(){
     return this._model.query("empresa",{
@@ -586,7 +604,7 @@ export class ProductosComponent implements OnInit {
         this.data.listacolores = [];
       }
     }
-
+    // console.log(this.clone)
     if(this.data.id && this.data[obj] !== this.clone[obj] || opt){
       var
         data: any = {

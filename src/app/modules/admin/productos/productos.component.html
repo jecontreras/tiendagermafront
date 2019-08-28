@@ -6,6 +6,7 @@
         <div class="col row">
           <span
             class="p"
+            *ngIf="disable"
           >
               Productos
           </span>
@@ -13,7 +14,7 @@
             <input type="text"
               style="color: white;"
               matTooltip="Buscador"
-              class="form-control" placeholder="Buscar Articulo" [(ngModel)]="searcht.txt" (blur)="getsearh()">
+              class="form-control" placeholder="Buscar Productos" [(ngModel)]="searcht.txt" (blur)="getsearh()">
           </div>
           <div class="" *ngIf="!disable">
             <button
@@ -109,7 +110,25 @@
         <div
           class="card-body"
           *ngIf="!disable"
-        >
+        > 
+          <div class="row">
+            <div class="form-group col">
+                <select class="custom-select" [(ngModel)]="query.where.empresa">
+                    <label for="">Empresas</label>
+                      <option [value]="none">
+                        Limpiar
+                      </option>
+                      <option 
+                        *ngFor="let em of listempresa"
+                        [value]="em.id">
+                          {{ em.empresa }}
+                      </option>
+                  </select>
+            </div>
+            <div class="p-1">
+                <button type="button" (click)="getsearh()" class="btn btn-success">Buscar</button>
+            </div>
+          </div>
             <div class="table-responsive">
                 <table class="table">
                     <thead class=" text-primary">
@@ -180,7 +199,7 @@
                               {{ item.costocompra }}
                             </td>
                             <td *ngIf="user.rol.nombre === 'super admin'">
-                                <input type="number"
+                                <input type="text"
                                     (blur)="data.id=item.id; data.costoventa=item.costoventa; blur('costoventa', false)"
                                     class="form-control" placeholder="Costo de la Venta del Producto" [(ngModel)]="item.costoventa"
                                 >

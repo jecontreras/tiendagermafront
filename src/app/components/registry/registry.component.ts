@@ -192,14 +192,17 @@ export class RegistryComponent implements OnInit {
             localStorage.setItem('user', JSON.stringify(response.data));
             this.router.navigate(['admin']);
           } else {
+            this.logead = false;
             swal('Error!', 'No se pudo registrar  revisa los datos ingresados o prueba un nombre de usuario diferente!', 'error');
           }
         },
         error => {
+          this.logead = false;
           swal('Error!', 'Los datos son incorrectos o el usuario ya existe!', 'error');
         }
       );
     } else {
+      this.logead = false;
       swal('Error!', 'Por Favor Mirar Los Errores que Salen en El Formulario y Llenarlos Todos Para Continuar Gracias!', 'error');
     }
   }
