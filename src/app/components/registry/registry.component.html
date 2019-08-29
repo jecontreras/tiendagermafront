@@ -1,7 +1,7 @@
 <div class="py-5 text-center text-white h-100 align-items-center d-flex"
     *ngIf="!logead"
     style="background-image: linear-gradient(to bottom, rgba(190, 190, 190, 0.75), rgba(0, 0, 0, .75)),
-url(./assets/img/imgaes7.jpg);
+url(./assets/img/imgaes6.jpg);
  background-position: center center, center center;  background-size: cover, cover;  background-repeat: repeat, repeat;">
     <div class="container">
       <div class="row">
@@ -211,7 +211,7 @@ url(./assets/img/imgaes7.jpg);
                      <label for="formGroupExampleInput">Ofrece</label>
                      <select class="custom-select" formControlName="ofreceempresa" style="color: black;">
                        <option value="producto">Producto</option>
-                       <option value="servicio">Servicio</option>
+                       <!-- <option value="servicio">Servicio</option> -->
                      </select>
                    </div>
                    <div class="md-form col">
@@ -251,10 +251,10 @@ url(./assets/img/imgaes7.jpg);
                     <div class="row justify-content-md-center ">
                       <div class="row">
                         <p></p>
-                        <button class="btn btn-primary" type="button" routerLink="/tienda">
+                        <!-- <button class="btn btn-primary" type="button" routerLink="/tienda">
                             <i class="material-icons">store</i>
                             Tienda
-                        </button>
+                        </button> -->
                         <button [disabled]="loading" (click)="onSubmit()" type="button" class="btn btn-success"><i class="material-icons">how_to_reg</i>Registrar</button>
                       </div>
                     </div>
