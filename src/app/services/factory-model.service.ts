@@ -31,7 +31,7 @@ export class FactoryModelService {
       this.handleError = handleError;
       this.app = {
         app: 'Venty',
-        logo: './assets/img/dilisap1.png',
+        logo: 'https://publihazclick.s3.amazonaws.com/venty/dba933cc-1b94-464e-8317-8fdd32bcef0d.png',
         descripcion: 'tienda onlain',
         nit: '101232222121',
         direccion: 'calle 1',

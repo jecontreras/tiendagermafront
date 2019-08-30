@@ -265,6 +265,7 @@ export class ShopComponent implements OnInit {
       this.query.skip = paginate.pageIndex;
       this.query.sort ='createdAt DESC';
     }
+    this.query.where.opcion = 'activo';
     console.log(this.query);
     return this._Producto.get(this.query)
     .subscribe(

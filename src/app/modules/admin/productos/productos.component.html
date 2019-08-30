@@ -165,7 +165,7 @@
                     </thead>
                     <tbody>
                         <tr
-                          *ngFor="let item of list"
+                          *ngFor="let item of list; let idx = index;"
                         >
                         <td>
                           <button
@@ -177,6 +177,18 @@
                               class="material-icons"
                             >
                               remove_red_eye
+                            </i>
+                          </button>
+                          <button
+                            mat-mini-fab
+                            color="warn"
+                            placeholder="eliminar"
+                            (click)="dropProduct(item, idx)"
+                          >
+                            <i
+                              class="material-icons"
+                            >
+                             delete_forever
                             </i>
                           </button>
                         </td>
@@ -243,7 +255,7 @@
                 <img *ngIf="data.id" [src]="data.foto" alt="none" width="200px" class="rounded"
                   height="180px">
               </div>
-              <!--<div class="row justify-content-md-center p-1">
+              <div class="row justify-content-md-center p-1">
                 <input type="file" [(ngModel)]="img" (blur)="datafiles($event)" accept="image/png, image/jpeg">
               </div>
               <div class="row justify-content-md-center">
@@ -260,7 +272,6 @@
                 <strong>Loading...</strong>
                 <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
               </div>
-              -->
             </div>
             <div class="form-row">
               <div class="form-group">
@@ -732,10 +743,10 @@
                     </div>
                     <div class="row d-flex justify-content-center">
                       <div class="d-flex justify-content-center">
-                        <button type="button" (click)="data.foto = pro.foto; blur('foto')" class="btn btn-success">Principal</button>
+                        <button type="button" (click)="data.foto = pro.foto; blur('foto')" class="btn btn-success">Foto Principal</button>
                       </div>
                       <div class="d-flex justify-conte">
-                        <button type="button" (click)="data.foto2 = pro.foto; blur('foto2')" class="btn btn-success">Segunda p</button>
+                        <button type="button" (click)="data.foto2 = pro.foto; blur('foto2')" class="btn btn-success">Segunda Foto</button>
                       </div>
                       <div class="d-flex justify-content-center">
                         <button type="button" (click)="deletefile(pro)" class="btn btn-danger">Eliminar</button>

@@ -61,11 +61,28 @@
                                   <input matInput placeholder="Codigo Postal" type="text" [(ngModel)]="data.codigopostal" (blur)="edit('codigopostal')">
                                 </mat-form-field>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-sm-12">
                                 <mat-form-field class="example-full-width">
                                   <input matInput placeholder="Direccion" type="text" [(ngModel)]="data.direcion" (blur)="edit('direcion')">
                                 </mat-form-field>
                               </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Contraseña Anterior" type="password" [(ngModel)]="data.passwordAfter">
+                                  </mat-form-field>
+                                </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Contraseña" type="password" [(ngModel)]="data.contrasena">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Verificar Constrañe" type="password" [(ngModel)]="data.verifidcontrasena" (blur)="edit('verifidcontrasena')">
+                                  </mat-form-field>
+                                </div>
                           </div>
                           <button mat-raised-button type="submit" class="btn btn-danger pull-right">Actualizar</button>
                           <div class="clearfix"></div>

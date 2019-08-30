@@ -22,6 +22,9 @@ export class ProductoService {
   edit(query:any){
     return this._model.update('articulo', query.id, query);
   }
+  delete(query:any){
+    return this._model.delete('articulo', query.id, query);
+  }
   getGaleria(query: any){
     return this._model.query('galeria', query);
   }

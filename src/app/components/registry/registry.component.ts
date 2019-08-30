@@ -74,11 +74,11 @@ export class RegistryComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirpassword: ['', [Validators.required, Validators.minLength(6)]],
       pais: ['Colombia'],
-      empresa: ['5d19916d2a7f6f334499d396'],
+      empresa: ['5d5e16504202ad2ac858017c'],
       departamento: [''],
       ciudad: [''],
       direccion: [''],
-      ofreceempresa: [''],
+      ofreceempresa: ['producto'],
       aceptarpoliticas: ['h', [Validators.required]]
     });
     this.viewpais();

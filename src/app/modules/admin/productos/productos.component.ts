@@ -896,5 +896,21 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  dropProduct(obj, idx){
+    return this._producto.delete({
+      id: obj.id
+    })
+    .subscribe(
+      (res: any)=>{
+        if(res){
+          this.list.splice(idx, 1);
+          this._tools.openSnack('Eliminado', '', false);
+        }
+      }
+    )
+  }
+
+
+
 
 }

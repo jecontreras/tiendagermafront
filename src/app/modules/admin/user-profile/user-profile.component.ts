@@ -99,6 +99,10 @@ export class UserProfileComponent implements OnInit {
         }
       ;
       data[obj] = this.data[obj];
+      if(obj === 'verifidcontrasena'){
+        data.contrasena     = this.data.contrasena;
+        data.passwordAfter  = this.data.passwordAfter;
+      }
       return this._usuarios.edit(data)
       .subscribe(
         (res: any)=>{
