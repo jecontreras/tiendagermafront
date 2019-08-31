@@ -170,7 +170,8 @@ export class FacturaComponent implements OnInit {
       return this._cart.get({
         where:{
           id: obj
-        }
+        },
+        sort: 'createdAt DESC'
       })
       .subscribe(
         (car: any)=>{
@@ -218,6 +219,7 @@ export class FacturaComponent implements OnInit {
       this.query.limit = paginate.pageSize;
       this.query.skip = paginate.pageIndex;
       //console.log(this.query);
+      this.query.sort ='createdAt DESC';
       return this._cart.get(this.query)
       .subscribe(
         (res: any)=>{

@@ -426,6 +426,7 @@ export class ProductosComponent implements OnInit {
     return this._categoria.get({
       where:{
         categoriaDe: ['etiqueta', 'producto'],
+        estado: 'activo'
         // empresa:
       },
       limit: -1
@@ -770,7 +771,8 @@ export class ProductosComponent implements OnInit {
       data: any = this.search,
       query: any = {
         where:{
-          categoriaDe: "producto"
+          categoriaDe: "producto",
+          estado:'activo'
         },
         limit: 20
       }

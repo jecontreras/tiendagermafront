@@ -91,6 +91,18 @@
                                             remove_red_eye
                                           </i>
                                         </button>
+                                        <button
+                                          mat-mini-fab
+                                          color="warn"
+                                          placeholder="eliminar"
+                                          (click)="delete(item, indice)"
+                                        >
+                                          <i
+                                            class="material-icons"
+                                          >
+                                          delete_forever
+                                          </i>
+                                        </button>
                                       </td>
                                       <td>
                                         {{ item.id }}

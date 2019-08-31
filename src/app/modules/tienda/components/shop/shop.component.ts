@@ -163,7 +163,7 @@ export class ShopComponent implements OnInit {
     if(this.slug !== 'new' && this.slug !== 'tec' && this.slug !== 'pc' && this.slug !== 'des' && this.slug){
       return this._Tienda.get({
         where:{
-          url: this.slug || ''
+          codigo: this.slug || ''
         },
         limit: 1
       })
@@ -174,6 +174,8 @@ export class ShopComponent implements OnInit {
           if(res){
             this.data = res;
             this.getProduct(res, null);
+          }else{
+            this.disableindex = true;
           }
         }
       )

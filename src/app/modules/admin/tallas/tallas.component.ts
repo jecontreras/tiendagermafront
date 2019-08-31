@@ -77,6 +77,8 @@ export class TallasComponent implements OnInit {
   getlist(paginate: any){
     this.query.limit = paginate.pageIndex;
     this.query.skip = paginate.skip;
+    this.query.where.estado = 'activo';
+    this.query.sort ='createdAt DESC';
     this._talla.get(this.query)
     .subscribe(
       (res: any)=>{

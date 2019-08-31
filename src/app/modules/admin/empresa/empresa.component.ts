@@ -132,6 +132,8 @@ export class EmpresaComponent implements OnInit {
       this.query.where.id = obj;
       this.query.limit = 1;
     }
+    // this.query.where.estado = 'activo';
+    this.query.sort ='createdAt DESC';
     this._tiendas.get(this.query)
     .subscribe(
       (res: any)=>{

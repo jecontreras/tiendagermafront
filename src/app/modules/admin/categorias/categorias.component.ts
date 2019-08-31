@@ -95,6 +95,8 @@ export class CategoriasComponent implements OnInit {
       delete this.query.where.empresa;
     }
     //console.log(this.query);
+    this.query.where.estado = 'activo';
+    this.query.sort ='createdAt DESC';
     this._categoria.get(this.query)
     .subscribe(
       (res: any)=>{
@@ -164,6 +166,24 @@ export class CategoriasComponent implements OnInit {
           )
           ;
         }
+    }
+  }
+  delete(obj:any, idx){
+    // console.log(obj, idx);
+    if(obj){
+      return this._categoria.edit({
+        id: obj.id,
+        estado: "inactivo"
+      })
+      .subscribe(
+        (res: any)=>{
+          if(res){
+            this.list.splice(idx, 1);
+            swal("Completado!", "Eliminado Correctamente!", "success");
+          }
+        }
+      )
+      ;
     }
   }
 

@@ -92,6 +92,8 @@ export class MarcasComponent implements OnInit {
     if(this.user.rol.nombre === "super admin"){
       delete this.query.where.empresa;
     }
+    // this.query.where.estado = 'activo';
+    this.query.sort ='createdAt DESC';
     this._categoria.get(this.query)
     .subscribe(
       (res: any)=>{

@@ -125,20 +125,20 @@ export class ClienteComponent implements OnInit {
     }
     this.query.where.empresa = this.user.empresa;
     this.query.where.estado = "activo";
-    this.query.limit = paginate.pageIndex;
-    this.query.skip = paginate.pageSize;
-
     if(this.user.rol.nombre === "super admin"){
       delete this.query.where.empresa;
     }
     if(obj){
       this.query.where.id = obj;
       this.query.limit = 1;
+    }else{
+      this.query.limit = paginate.pageIndex;
+      this.query.skip = paginate.pageSize;
     }
+    this.query.sort ='createdAt DESC';
     this._usuarios.get(this.query)
     .subscribe(
       (res: any)=>{
-        // console.log(res);
         this.count = res.count;
         if(obj){
           this.open(res.data[0]);

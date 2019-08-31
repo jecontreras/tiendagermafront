@@ -81,6 +81,8 @@ export class MercadosComponent implements OnInit {
     this.query.limit = paginate.pageSize;
     this.query.skip = paginate.pageIndex;
     console.log(this.query);
+    this.query.where.estado = 'activo';
+    this.query.sort ='createdAt DESC';
     this._mercados.get(this.query)
     .subscribe(
       (res: any)=>{
