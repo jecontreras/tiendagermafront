@@ -524,6 +524,7 @@ export class ProductosComponent implements OnInit {
   public uploadData(event: any) : void {
     // get data from file upload
       let filesData = event.target.files;
+      // this.
       console.log(filesData[0]);
   }
   saved(){
@@ -565,6 +566,10 @@ export class ProductosComponent implements OnInit {
               item.id = res.id;
               list.push(item);
               if(idx+1 >= data.length){
+                if(!this.multiple){
+                  this.data.id = res.id;
+                  this.blur('foto', false);
+                }
                 disable = false;
                 this.disablesaved = true;
                 this.router.navigate(['admin/productos', item.id]);
@@ -687,10 +692,12 @@ export class ProductosComponent implements OnInit {
   }
 
   datafiles(ev: any) {
+    // console.log(ev);
     if(ev){
       this.datafile = ev.target.files;
+      // console.log(this.datafile);
+      this.file(false);
     }
-    // console.log(this.datafile);
   }
   file(data: any) {
     // if(this.img){
@@ -699,8 +706,8 @@ export class ProductosComponent implements OnInit {
     ;
     // console.log(file);
     this.carga = false;
-    _.forEach(file,async (item:any)=>{
-      await this._archivos.pushfile(item, data, "articulo")
+    _.forEach(file, (item:any)=>{
+      this._archivos.pushfile(item, data, "articulo")
       .subscribe(
         (res: any) => {
           // console.log('POST Request is successful ', res, data);

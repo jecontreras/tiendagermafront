@@ -107,7 +107,6 @@ export class CategoriasComponent implements OnInit {
     )
     ;
   }
-
   add(data: any){
     this.disable = !this.disable;
     if(data){

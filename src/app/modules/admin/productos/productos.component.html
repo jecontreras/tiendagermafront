@@ -251,15 +251,15 @@
         </div>
         <div class="card-body" *ngIf="disable">
           <div class="form-column" *ngIf="!multiple && !disabledexcel">
-            <div class="column" *ngIf="data.id">
+            <div class="column">
               <div class="row justify-content-md-center">
-                <img *ngIf="data.id" [src]="data.foto" alt="none" width="200px" class="rounded"
+                <img  [src]="data.foto" alt="none" width="200px" class="rounded"
                   height="180px">
               </div>
               <div class="row justify-content-md-center p-1">
                 <input type="file" [(ngModel)]="img" (blur)="datafiles($event)" accept="image/png, image/jpeg">
               </div>
-              <div class="row justify-content-md-center">
+              <!-- <div class="row justify-content-md-center" *ngIf="data.id">
                 <button
                   (click)="file(false)"
                   *ngIf="carga"
@@ -272,7 +272,7 @@
               <div  *ngIf="!carga" class="d-flex align-items-center">
                 <strong>Loading...</strong>
                 <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-              </div>
+              </div> -->
             </div>
             <div class="form-row">
               <div class="form-group">
@@ -327,10 +327,10 @@
                 </select>
               </div>
               <div class="form-group col-sm">
-                <label for="formGroupExampleInput">Cantidad Total</label>
+                <label for="formGroupExampleInput">Unidad Disponible</label>
                 <input type="number"
                   (blur)="blur('cantidad', false)"
-                  class="form-control" placeholder="Cantidad Total del Producto" [(ngModel)]="data.cantidad" required>
+                  class="form-control" placeholder="Unidades Disponible del Producto" [(ngModel)]="data.cantidad" required>
               </div>
               <div class="form-group col-sm" *ngIf="disabledinit">
                 <label for="formGroupExampleInput">Stock</label>
@@ -391,7 +391,7 @@
             </div>
             <div class="form-row">
               <div class="form-group col-sm">
-                <label for="formGroupExampleInput">Talla del Producto</label>
+                <label for="formGroupExampleInput">Talla disponibles</label>
                 <select class="custom-select"  (blur)="blur('talla')" [(ngModel)]="data.talla">
                   <option>None</option>
                     <option
