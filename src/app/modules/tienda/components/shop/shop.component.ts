@@ -93,7 +93,9 @@ export class ShopComponent implements OnInit {
   getmercados(obj: any){
     const
       query: any = {
-        where:{},
+        where:{
+          estado: 'activo'
+        },
         limit: -1
       }
     ;
@@ -101,7 +103,7 @@ export class ShopComponent implements OnInit {
       query.where.titulo = obj;
     }
     return this._mercados.get(query)
-    .subscribe(
+    .subscribe( 
       (res: any)=>{
         // console.log(res);
         res = res.data;
