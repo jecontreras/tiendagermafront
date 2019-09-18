@@ -257,7 +257,7 @@
                   height="180px">
               </div>
               <div class="row justify-content-md-center p-1">
-                <input type="file" [(ngModel)]="img" (blur)="datafiles($event)" accept="image/png, image/jpeg">
+                <input type="file" [(ngModel)]="img" (blur)="datafiles($event, true)" accept="image/png, image/jpeg">
               </div>
               <!-- <div class="row justify-content-md-center" *ngIf="data.id">
                 <button

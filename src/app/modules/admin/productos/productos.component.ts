@@ -691,12 +691,14 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  datafiles(ev: any) {
+  datafiles(ev: any, opt:any) {
     // console.log(ev);
     if(ev){
       this.datafile = ev.target.files;
       // console.log(this.datafile);
-      this.file(false);
+      if(opt){
+        this.file(false);
+      }
     }
   }
   file(data: any) {
